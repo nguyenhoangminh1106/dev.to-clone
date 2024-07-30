@@ -10,9 +10,10 @@ const NavBar = () => {
 
   const router = useRouter();
 
-  const handleSignOut = async () => {
-    await signOut();
-    router.push("/");
+  const handleSignOut = () => {
+    signOut({ callbackUrl: "/" })
+      .then(() => router.push("/"))
+      .catch((error) => console.error("Error signing out:", error));
   };
 
   return (
