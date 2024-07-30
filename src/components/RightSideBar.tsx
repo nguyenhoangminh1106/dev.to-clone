@@ -14,8 +14,8 @@ const RightSideBar = () => {
           className="mx-auto h-24 w-24 rounded-full"
         />
         <p className="mt-4 text-gray-700">
-          Hi, I'm Minh! I'm passionate about SWE, Cloud, Cyber Security. I love
-          working on projects that involve new technologies.
+          {`Hi, I'm Minh! I'm passionate about SWE, Cloud, Cyber Security. I love
+          working on projects that involve new technologies.`}
         </p>
         <p className="mt-2 text-gray-700">
           In my free time, I enjoy playing chess and watching films. Feel free

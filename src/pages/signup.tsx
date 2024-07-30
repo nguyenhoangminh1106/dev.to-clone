@@ -1,4 +1,5 @@
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 const SignUp = () => {
   const handleSignUpGitHub = async () => {
@@ -33,9 +34,9 @@ const SignUp = () => {
       </div>
       <p className="mt-4">
         Already have an account?{" "}
-        <a href="/signin" className="text-indigo-700">
+        <Link href="/signin" className="text-indigo-700">
           Log in.
-        </a>
+        </Link>
       </p>
     </div>
   );
