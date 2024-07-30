@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.button-primary {
+  border-width: 2px;
+  border-color: rgb(67 56 202);
+  padding: 0.5rem 1rem;
+  margin: 0 0.25em;
+  color: rgb(67 56 202);
+  transition: 0.3s ease;
+  border-radius: 5%;
+}
+
+.button-primary:hover {
+  background-color: rgb(67 56 202);
+  color: white;
+  text-decoration: underline;
+}
+
+.button-primary:hover {
+  background-color: rgb(67 56 202);
+  color: white;
+  text-decoration: underline;
+}
+
+.text-link-primary {
+  color: rgb(67 56 202);
+  transition: 0.3s ease;
+}
+
+.text-link-primary:hover {
+  text-decoration: underline;
+}
+
+.button-secondary {
+  margin: 0 0.25em;
+  padding: 0.5rem 1rem;
+  color: rgb(75 85 99);
+  transition: 0.3s ease;
+  border-radius: 5%;
+}
+
+.button-secondary:hover {
+  background-color: rgb(224 231 255);
+  color: rgb(67 56 202);
+  text-decoration: underline;
+}
