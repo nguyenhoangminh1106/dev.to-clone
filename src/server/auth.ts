@@ -47,8 +47,8 @@ export const authOptions: NextAuthOptions = {
       },
     }),
 
-    async redirect({ url, baseUrl }) {
-      return baseUrl;
+    async redirect() {
+      return "/";
     },
   },
   adapter: PrismaAdapter(db) as Adapter,

@@ -1,17 +1,6 @@
-import { useSession, signIn } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { signIn } from "next-auth/react";
 
 const SignUp = () => {
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (session) {
-      void router.push("/");
-    }
-  }, [session, router]);
-
   const handleSignUp = async () => {
     await signIn("github");
   };

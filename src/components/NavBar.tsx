@@ -1,27 +1,20 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import Image from "next/image";
 
 const NavBar = () => {
   const { data: session } = useSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const router = useRouter();
-
-  const handleSignOut = () => {
-    signOut({ callbackUrl: "/" })
-      .then(() => router.push("/"))
-      .catch((error) => console.error("Error signing out:", error));
-  };
-
   return (
     <nav className="sticky top-0 flex items-center justify-between bg-white px-2 py-2 shadow sm:px-5 md:px-12">
       <div className="flex grow items-center">
         <Link href="/">
-          <img
+          <Image
             src="/images/image.png"
+            width={500}
+            height={500}
             alt="Logo"
             className="h-10 w-10 cursor-pointer"
           />
@@ -56,9 +49,11 @@ const NavBar = () => {
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <img
+              <Image
                 src={session.user.image ?? "/default-avatar.png"}
                 alt="User Avatar"
+                width={500}
+                height={500}
                 className="h-10 w-10 cursor-pointer rounded-full"
               />
               {isDropdownOpen && (
@@ -76,7 +71,7 @@ const NavBar = () => {
                     Create Post
                   </Link>
                   <button
-                    onClick={handleSignOut}
+                    onClick={() => signOut()}
                     className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
                   >
                     Sign Out
