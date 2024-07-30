@@ -8,7 +8,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (session) {
-      router.push("/");
+      void router.push("/");
     }
   }, [session, router]);
 

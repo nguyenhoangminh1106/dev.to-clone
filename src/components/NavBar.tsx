@@ -57,7 +57,7 @@ const NavBar = () => {
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
               <img
-                src={session.user.image || "/default-avatar.png"}
+                src={session.user.image ?? "/default-avatar.png"}
                 alt="User Avatar"
                 className="h-10 w-10 cursor-pointer rounded-full"
               />
