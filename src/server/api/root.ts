@@ -1,5 +1,10 @@
 import { postRouter } from "~/server/api/routers/post";
-import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
+import {
+  createCallerFactory,
+  publicProcedure,
+  createTRPCRouter,
+} from "~/server/api/trpc";
+import { db } from "~/server/db";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +13,12 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   post: postRouter,
+  getStats: publicProcedure.query(async () => {
+    const totalUsers = await db.user.count();
+    const totalPosts = await db.post.count();
+    const totalComments = await db.comment.count();
+    return { totalUsers, totalPosts, totalComments };
+  }),
 });
 
 // export type definition of API

@@ -1,6 +1,6 @@
 import { signIn } from "next-auth/react";
 
-const SignUp = () => {
+const SignIn = () => {
   const handleSignUpGitHub = async () => {
     await signIn("github");
   };
@@ -21,24 +21,24 @@ const SignUp = () => {
           className="flex w-full items-center justify-center rounded-lg bg-black px-4 py-2 text-white"
         >
           <i className="fab fa-github mr-2"></i>
-          Sign up with GitHub
+          Sign in with GitHub
         </button>
         <button
           onClick={handleSignUpGoogle}
           className="flex w-full items-center justify-center rounded-lg bg-red-500 px-4 py-2 text-white"
         >
           <i className="fab fa-google mr-2"></i>
-          Sign up with Google
+          Sign in with Google
         </button>
       </div>
       <p className="mt-4">
-        Already have an account?{" "}
-        <a href="/signin" className="text-indigo-700">
-          Log in.
+        Haven't had an account?{" "}
+        <a href="/signup" className="text-indigo-700">
+          Sign up.
         </a>
       </p>
     </div>
   );
 };
 
-export default SignUp;
+export default SignIn;

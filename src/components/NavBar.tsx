@@ -12,7 +12,7 @@ const NavBar = () => {
       <div className="flex grow items-center">
         <Link href="/">
           <Image
-            src="/images/image.png"
+            src="/images/dev.png"
             width={500}
             height={500}
             alt="Logo"
@@ -83,7 +83,9 @@ const NavBar = () => {
         </div>
       ) : (
         <div className="flex">
-          <button className="button-secondary">Log in</button>
+          <Link href="/signin">
+            <button className="button-secondary">Log in</button>
+          </Link>
           <Link href="/signup">
             <button className="button-primary">Create account</button>
           </Link>

@@ -7,6 +7,7 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 
 import { env } from "~/env";
 import { db } from "~/server/db";
@@ -50,12 +51,42 @@ export const authOptions: NextAuthOptions = {
     async redirect() {
       return "/";
     },
+    async signIn({ user, account }) {
+      if (!user.email) {
+        throw new Error("Email not provided");
+      }
+
+      if (!account) {
+        throw new Error("Account information is missing");
+      }
+
+      const existingUser = await db.user.findUnique({
+        where: { email: user.email },
+        include: { accounts: true },
+      });
+
+      if (existingUser) {
+        const isSameProvider = existingUser.accounts.some(
+          (acc) => acc.provider === account.provider,
+        );
+
+        if (!isSameProvider) {
+          return "/auth/error?error=AccountExists";
+        }
+      }
+
+      return true;
+    },
   },
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
     GitHubProvider({
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
+    }),
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
     /**
      * ...add more providers here.

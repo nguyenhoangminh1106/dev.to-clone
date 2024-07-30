@@ -3,6 +3,7 @@ import Head from "next/head";
 import Header from "~/components/NavBar";
 import MainContent from "~/components/MainContent";
 import LeftSideBar from "~/components/LeftSideBar";
+import RightSideBar from "~/components/RightSideBar";
 
 // import { api } from "~/utils/api";
 
@@ -29,7 +30,7 @@ export default function Home() {
           </div>
 
           <div className="basis-3/12 max-md:hidden">
-            <LeftSideBar />
+            <RightSideBar />
           </div>
         </div>
       </div>

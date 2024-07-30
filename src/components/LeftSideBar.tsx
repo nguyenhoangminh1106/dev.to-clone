@@ -3,10 +3,16 @@ import Link from "next/link";
 import { FcHome, FcReading, FcIdea } from "react-icons/fc";
 import { FaTags, FaDev } from "react-icons/fa";
 import { GrContact } from "react-icons/gr";
+import { api } from "~/utils/api";
+import { db } from "~/server/db";
 
 const LeftSideBar = () => {
   const { data: session } = useSession();
-  const currentUserId = session?.user?.id;
+
+  const { data, isLoading, isError } = api.getStats.useQuery();
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading statistics!</p>;
 
   return (
     <div className="mt-5 rounded-lg p-2">
@@ -16,9 +22,13 @@ const LeftSideBar = () => {
           We&apos;re a place where coders share, stay up-to-date, and grow their
           careers.
         </p>
-        <div className="mt-4 space-y-2">
-          <button className="button-primary w-full">Create account</button>
-          <button className="button-secondary w-full">Log in</button>
+        <div className="button-secondary decoration-none shadow-lg">
+          <h2 className="mb-4 text-lg font-bold">Right Now !!!</h2>
+          <div>
+            <p>Total Users: {data?.totalUsers}</p>
+            <p>Total Posts: {data?.totalPosts}</p>
+            <p>Total Comments: {data?.totalComments}</p>
+          </div>
         </div>
       </div>
       <nav>
@@ -30,18 +40,6 @@ const LeftSideBar = () => {
               </span>
             </Link>
           </li>
-          {currentUserId && (
-            <li>
-              <Link
-                href={`/users/${currentUserId}/readinglist`}
-                className="button-secondary flex items-center"
-              >
-                <span className="mr-2">
-                  <FcReading /> Reading List
-                </span>
-              </Link>
-            </li>
-          )}
           <li>
             <Link href="/tags" className="button-secondary flex items-center">
               <span className="flex">
