@@ -19,13 +19,13 @@ const MainContent = () => {
             ?.slice(0)
             .reverse()
             .map((post) => (
-              <Link href="/post_body" className="">
-                <div key={post.id} className="my-4">
+              <Link key={post.id} href="/post_body" className="">
+                <div className="my-4">
                   <div className="rounded-lg bg-white p-4 shadow">
                     <div className="mb-4 flex items-center">
                       <Image
                         src={
-                          post.createdBy.profileImage || default_profile_image
+                          post.createdBy.profileImage ?? default_profile_image
                         }
                         alt="Profile Image"
                         width={40}
@@ -33,9 +33,7 @@ const MainContent = () => {
                         className="rounded-full"
                       />
                       <div className="ml-3">
-                        <p className="font-semibold">
-                          {post.createdBy.profileImage}
-                        </p>
+                        <p className="font-semibold">{post.createdBy.name}</p>
                         <p className="text-sm text-gray-500">
                           {new Date(post.createdAt).toLocaleDateString("en-GB")}
                         </p>

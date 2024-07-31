@@ -11,51 +11,64 @@ const CreatePost = () => {
   const [body, setBody] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
 
-  const [successMessage, setSuccessMessage] = useState("");
   const router = useRouter();
 
   const createPostMutation = api.post.createPost.useMutation();
   const getPresignedUrlMutation = api.s3.getPresignedUrl.useMutation();
 
+  const [error, setError] = useState("");
+
   const handleCoverImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setCoverImage(e.target.files[0]);
-    }
+    setCoverImage(e.target.files?.[0] ?? null);
   };
 
   const handlePublish = async () => {
-    if (!session || !coverImage) {
-      console.error("User not authenticated or no image selected");
+    if (!session) {
+      console.error("User not authenticated");
+      setError("User not authenticated");
       return;
     }
+    setError("");
 
     try {
-      // Get presigned URL
-      const { url } = await getPresignedUrlMutation.mutateAsync({
-        filename: coverImage.name,
-        filetype: coverImage.type,
-      });
+      let coverImageUrl = "";
 
-      // Upload image to S3
-      await fetch(url, {
-        method: "PUT",
-        headers: { "Content-Type": coverImage.type },
-        body: coverImage,
-      });
+      if (coverImage) {
+        // Get presigned URL
+        const { url } = await getPresignedUrlMutation.mutateAsync({
+          filename: coverImage.name,
+          filetype: coverImage.type,
+        });
+
+        try {
+          // Upload image to S3
+          await fetch(url, {
+            method: "PUT",
+            headers: { "Content-Type": coverImage.type },
+            body: coverImage,
+          });
+
+          // Store the URL without the query string
+          coverImageUrl = url.split("?")[0] ?? "";
+        } catch (error) {
+          console.error("Error setting cover image:", error);
+          setError("Error uploading cover image.");
+        }
+      }
 
       // Continue with post creation
       const response = await createPostMutation.mutateAsync({
         title,
         description,
         body,
-        coverImage: url.split("?")[0] || "", // Store the URL without the query string
+        coverImage: coverImageUrl, // Store the URL without the query string
         createdById: session.user.id,
       });
 
       console.log("Post created successfully:", response);
-      setSuccessMessage("Post created successfully!");
       router.push("/"); // Redirect to the home page
     } catch (error) {
+      setError("Error creating post.");
       console.error("Error uploading image or creating post:", error);
     }
   };
@@ -63,6 +76,7 @@ const CreatePost = () => {
   return (
     <div>
       <NavBar />
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <div className="m-12 rounded-lg bg-white p-12 shadow-2xl transition duration-300 hover:bg-slate-50">
         <div className="mb-4">
           <input
