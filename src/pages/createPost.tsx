@@ -57,21 +57,21 @@ const CreatePost = () => {
       }
 
       // Continue with post creation
-      const response = await createPostMutation.mutateAsync({
-        title,
-        description,
-        body,
-        coverImage: coverImageUrl, // Store the URL without the query string
-        createdById: session.user.id,
-      });
+      try {
+        const response = await createPostMutation.mutateAsync({
+          title,
+          description,
+          body,
+          coverImage: coverImageUrl, // Store the URL without the query string
+          createdById: session.user.id,
+        });
+      } catch (error) {
+        setError("Adding the post.");
+        console.error("Error adding the post:", error);
+      }
 
       console.log("Post created successfully:", response);
-      try {
-        router.push("/"); // Redirect to the home page
-      } catch (error) {
-        setError("Error redirect to the home page");
-        console.error("Error Error redirect to the home page:", error);
-      }
+      router.push("/"); // Redirect to the home page
     } catch (error) {
       setError("Error creating post.");
       console.error("Error uploading image or creating post:", error);
