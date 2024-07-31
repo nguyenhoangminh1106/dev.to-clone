@@ -28,53 +28,48 @@ const CreatePost = () => {
       setError("User not authenticated");
       return;
     }
+
     setError("");
+    let coverImageUrl = "";
+
+    if (coverImage) {
+      // Get presigned URL
+      const { url } = await getPresignedUrlMutation.mutateAsync({
+        filename: coverImage.name,
+        filetype: coverImage.type,
+      });
+
+      try {
+        // Upload image to S3
+        await fetch(url, {
+          method: "PUT",
+          headers: { "Content-Type": coverImage.type },
+          body: coverImage,
+        });
+
+        // Store the URL without the query string
+        coverImageUrl = url.split("?")[0] ?? "";
+      } catch (error) {
+        console.error("Error setting cover image:", error);
+        setError("Error uploading cover image.");
+      }
+    }
 
     try {
-      let coverImageUrl = "";
-
-      if (coverImage) {
-        // Get presigned URL
-        const { url } = await getPresignedUrlMutation.mutateAsync({
-          filename: coverImage.name,
-          filetype: coverImage.type,
-        });
-
-        try {
-          // Upload image to S3
-          await fetch(url, {
-            method: "PUT",
-            headers: { "Content-Type": coverImage.type },
-            body: coverImage,
-          });
-
-          // Store the URL without the query string
-          coverImageUrl = url.split("?")[0] ?? "";
-        } catch (error) {
-          console.error("Error setting cover image:", error);
-          setError("Error uploading cover image.");
-        }
-      }
-
       // Continue with post creation
-      try {
-        const response = await createPostMutation.mutateAsync({
-          title,
-          description,
-          body,
-          coverImage: coverImageUrl, // Store the URL without the query string
-          createdById: session.user.id,
-        });
-      } catch (error) {
-        setError("Adding the post.");
-        console.error("Error adding the post:", error);
-      }
+      const response = await createPostMutation.mutateAsync({
+        title,
+        description,
+        body,
+        coverImage: coverImageUrl, // Store the URL without the query string
+        createdById: session.user.id,
+      });
 
       console.log("Post created successfully:", response);
-      router.push("/"); // Redirect to the home page
+      await router.push("/"); // Redirect to the home page
     } catch (error) {
       setError("Error creating post.");
-      console.error("Error uploading image or creating post:", error);
+      console.error("Error creating post:", error);
     }
   };
 
