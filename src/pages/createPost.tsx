@@ -66,7 +66,12 @@ const CreatePost = () => {
       });
 
       console.log("Post created successfully:", response);
-      router.push("/"); // Redirect to the home page
+      try {
+        router.push("/"); // Redirect to the home page
+      } catch (error) {
+        setError("Error redirect to the home page");
+        console.error("Error Error redirect to the home page:", error);
+      }
     } catch (error) {
       setError("Error creating post.");
       console.error("Error uploading image or creating post:", error);
