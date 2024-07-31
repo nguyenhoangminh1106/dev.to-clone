@@ -1,4 +1,6 @@
 import { postRouter } from "~/server/api/routers/post";
+import { s3Router } from "~/server/api/routers/s3";
+import { utilsRouter } from "./routers/utils";
 import {
   createCallerFactory,
   publicProcedure,
@@ -13,12 +15,8 @@ import { db } from "~/server/db";
  */
 export const appRouter = createTRPCRouter({
   post: postRouter,
-  getStats: publicProcedure.query(async () => {
-    const totalUsers = await db.user.count();
-    const totalPosts = await db.post.count();
-    const totalComments = await db.comment.count();
-    return { totalUsers, totalPosts, totalComments };
-  }),
+  s3: s3Router,
+  utils: utilsRouter,
 });
 
 // export type definition of API

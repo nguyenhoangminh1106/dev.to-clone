@@ -15,8 +15,11 @@ datasource db {
 }
 
 model Post {
-    id   Int    @id @default(autoincrement())
-    name String
+    id          Int     @id @default(autoincrement())
+    title       String
+    description String
+    body        String
+    coverImage  String?
 
     published Boolean @default(false)
 
@@ -27,7 +30,7 @@ model Post {
     createdById String
     Comment     Comment[]
 
-    @@index([name])
+    @@index([title])
 }
 
 // Necessary for Next auth
@@ -68,6 +71,7 @@ model User {
     sessions      Session[]
     posts         Post[]
     Comment       Comment[]
+    profileImage  String?
 }
 
 model Comment {

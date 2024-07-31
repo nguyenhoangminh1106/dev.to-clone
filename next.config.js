@@ -21,7 +21,11 @@ const config = {
 
   // Add this images configuration
   images: {
-    domains: ["avatars.githubusercontent.com", "lh3.googleusercontent.com"],
+    domains: [
+      "avatars.githubusercontent.com",
+      "lh3.googleusercontent.com",
+      "lyra-trial-1106.s3.ap-southeast-2.amazonaws.com",
+    ],
   },
 };
 

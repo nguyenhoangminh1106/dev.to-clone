@@ -1,41 +1,42 @@
-import { z } from "zod";
-
 import {
   createTRPCRouter,
-  protectedProcedure,
   publicProcedure,
+  protectedProcedure,
 } from "~/server/api/trpc";
+import { z } from "zod";
+import { db } from "~/server/db";
 
 export const postRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-
-  create: protectedProcedure
-    .input(z.object({ name: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
-      return ctx.db.post.create({
+  createPost: protectedProcedure
+    .input(
+      z.object({
+        title: z.string().min(1, "Title is required"),
+        description: z.string(),
+        body: z.string().min(1, "Body is required"),
+        coverImage: z.string(),
+        createdById: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { title, description, body, coverImage, createdById } = input;
+      const newPost = await ctx.db.post.create({
         data: {
-          name: input.name,
-          createdBy: { connect: { id: ctx.session.user.id } },
+          title,
+          description,
+          body,
+          coverImage,
+          createdById,
         },
       });
+      return newPost;
     }),
 
-  getLatest: protectedProcedure.query(async ({ ctx }) => {
-    const post = await ctx.db.post.findFirst({
-      orderBy: { createdAt: "desc" },
-      where: { createdBy: { id: ctx.session.user.id } },
+  getPosts: publicProcedure.query(async () => {
+    const post = await db.post.findMany({
+      include: {
+        createdBy: true,
+      },
     });
-
-    return post ?? null;
-  }),
-
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
+    return post;
   }),
 });

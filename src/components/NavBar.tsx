@@ -33,15 +33,15 @@ const NavBar = () => {
               />
             </svg>
           </span>
-          <span className="ml-2 text-sm text-gray-500">Powered by Algolia</span>
+          <span className="ml-2 text-sm text-gray-500">
+            Not powered by Algolia
+          </span>
         </div>
       </div>
       {session ? (
         <div className="flex items-center space-x-4">
-          <Link href="/create-post">
-            <button className="rounded-lg border border-indigo-700 px-4 py-2 text-indigo-700">
-              Create Post
-            </button>
+          <Link href="/createPost">
+            <button className="button-primary">Create Post</button>
           </Link>
           <div>
             <div

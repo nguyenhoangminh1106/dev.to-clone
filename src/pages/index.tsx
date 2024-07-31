@@ -5,11 +5,7 @@ import MainContent from "~/components/MainContent";
 import LeftSideBar from "~/components/LeftSideBar";
 import RightSideBar from "~/components/RightSideBar";
 
-// import { api } from "~/utils/api";
-
 export default function Home() {
-  // const hello = api.post.hello.useQuery({ text: "from tRPC" });
-
   return (
     <>
       <Head>

@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { FcHome, FcIdea } from "react-icons/fc";
 import { FaTags, FaDev } from "react-icons/fa";
@@ -6,7 +5,7 @@ import { GrContact } from "react-icons/gr";
 import { api } from "~/utils/api";
 
 const LeftSideBar = () => {
-  const { data, isLoading, isError } = api.getStats.useQuery();
+  const { data, isLoading, isError } = api.utils.getStats.useQuery();
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading statistics!</p>;
