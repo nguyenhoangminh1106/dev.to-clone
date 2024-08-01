@@ -24,7 +24,18 @@ const MainContent = () => {
                 new Date(b.createdAt).getTime() -
                 new Date(a.createdAt).getTime(),
             )
-            .map((post) => <Post key={post.id} post={post} />)}
+            .map((post) => (
+              <Post
+                key={post.id}
+                post={{
+                  ...post,
+                  createdBy: {
+                    ...post.createdBy,
+                    profileImage: post.createdBy.image,
+                  },
+                }}
+              />
+            ))}
         </div>
       </div>
     </main>
