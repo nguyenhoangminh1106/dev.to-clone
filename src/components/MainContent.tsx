@@ -1,14 +1,47 @@
-import Link from "next/link";
 import { api } from "~/utils/api";
-import Image from "next/image";
+import { useRouter } from "next/router";
+import Post from "./Post";
 
 const MainContent = () => {
-  const { data: posts, isLoading, isError } = api.post.getPosts.useQuery();
-  const default_profile_image =
-    "https://lyra-trial-1106.s3.ap-southeast-2.amazonaws.com/profileImage/6yvpkj.jpg";
+  const router = useRouter();
+
+  const deletePost = api.post.deletePost.useMutation();
+  const hidePost = api.post.hidePost.useMutation();
+  const {
+    data: posts,
+    isLoading,
+    isError,
+  } = api.post.getPublishedPosts.useQuery();
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading posts</p>;
+
+  const handleEdit = (postId: number) => {
+    router.push(`/editPost/${postId}`);
+  };
+
+  const handleDelete = async (postId: number) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this post?",
+    );
+    if (!confirmed) return;
+
+    try {
+      await deletePost.mutateAsync({ postId });
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
+
+  const handleHide = async (postId: number) => {
+    try {
+      await hidePost.mutateAsync({ postId });
+      window.location.reload();
+    } catch (error) {
+      console.error("Error hiding post:", error);
+    }
+  };
 
   return (
     <main className="mt-5 flex-grow p-2">
@@ -19,46 +52,13 @@ const MainContent = () => {
             ?.slice(0)
             .reverse()
             .map((post) => (
-              <Link key={post.id} href="/post_body" className="">
-                <div className="my-4">
-                  <div className="rounded-lg bg-white p-4 shadow">
-                    <div className="mb-4 flex items-center">
-                      <Image
-                        src={
-                          post.createdBy.profileImage ?? default_profile_image
-                        }
-                        alt="Profile Image"
-                        width={40}
-                        height={40}
-                        className="rounded-full"
-                      />
-                      <div className="ml-3">
-                        <p className="font-semibold">{post.createdBy.name}</p>
-                        <p className="text-sm text-gray-500">
-                          {new Date(post.createdAt).toLocaleDateString("en-GB")}
-                        </p>
-                      </div>
-                    </div>
-
-                    <h1 className="mx-6 mt-2 text-3xl font-bold">
-                      {post.title}
-                    </h1>
-                    <p className="mx-6 mt-2 text-gray-700">
-                      {post.description}
-                    </p>
-
-                    {post.coverImage && (
-                      <Image
-                        src={post.coverImage}
-                        alt="Cover"
-                        width={500}
-                        height={300}
-                        className="mx-auto my-6 rounded-lg object-cover"
-                      />
-                    )}
-                  </div>
-                </div>
-              </Link>
+              <Post
+                key={post.id}
+                post={post}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onHide={handleHide}
+              />
             ))}
         </div>
       </div>

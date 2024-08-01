@@ -1,24 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { api } from "~/utils/api";
 import NavBar from "~/components/NavBar";
 import Image from "next/image";
+import { ParsedUrlQuery } from "querystring";
 
-const CreatePost = () => {
+const EditPost = () => {
   const { data: session } = useSession();
+  const router = useRouter();
+  const { postId } = router.query as ParsedUrlQuery & { postId: number };
+  const [editError, setEditError] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [body, setBody] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [oldCoverImage, setOldCoverImage] = useState("");
   const [tempCoverImageUrl, setTempCoverImageUrl] = useState<string | null>(
     null,
   );
-  const [error, setError] = useState("");
-  const router = useRouter();
 
-  const createPostMutation = api.post.createPost.useMutation();
+  const updatePostMutation = api.post.updatePost.useMutation();
   const getPresignedUrlMutation = api.s3.getPresignedUrl.useMutation();
+
+  // Parse postId from query
+  const numericPostId = typeof postId === "string" ? parseInt(postId, 10) : NaN;
+
+  // Fetch post data using useQuery, only if numericPostId is valid
+  const { data, error, isLoading } = api.post.getPostById.useQuery(
+    { postId: numericPostId },
+    { enabled: !isNaN(numericPostId) },
+  );
+
+  useEffect(() => {
+    if (data) {
+      setTitle(data.title);
+      setDescription(data.description);
+      setBody(data.body);
+      let oldCoverImage = data.coverImage;
+      if (oldCoverImage) {
+        setOldCoverImage(oldCoverImage);
+        setTempCoverImageUrl(oldCoverImage);
+      }
+    } else if (error) {
+      console.error("Error fetching post:", error);
+      setEditError(`Error fetching post.`);
+    }
+  }, [data, error]);
 
   const handleCoverImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const image = e.target.files?.[0] ?? null;
@@ -30,25 +58,24 @@ const CreatePost = () => {
     }
   };
 
-  const handlePublish = async () => {
+  const handleUpdate = async () => {
     if (!session) {
       console.error("User not authenticated");
-      setError("User not authenticated");
+      setEditError(`User not authenticated`);
       return;
     }
 
-    setError("");
-    let coverImageUrl = "";
+    let coverImageUrl = oldCoverImage;
 
     if (coverImage) {
-      // Get presigned URL
-      const { url } = await getPresignedUrlMutation.mutateAsync({
-        filename: coverImage.name,
-        filetype: coverImage.type,
-      });
-
       try {
-        // Upload image to S3
+        // Get presigned URL for new image
+        const { url } = await getPresignedUrlMutation.mutateAsync({
+          filename: coverImage.name,
+          filetype: coverImage.type,
+        });
+
+        // Upload new image to S3
         await fetch(url, {
           method: "PUT",
           headers: { "Content-Type": coverImage.type },
@@ -56,27 +83,27 @@ const CreatePost = () => {
         });
 
         // Store the URL without the query string
-        coverImageUrl = url.split("?")[0] ?? "";
+        coverImageUrl = url.split("?")[0] || "";
       } catch (error) {
-        console.error("Error setting cover image:", error);
-        setError("Error uploading cover image.");
+        console.error("Error handling cover image:", error);
+        setEditError(`Error handling cover image.`);
       }
     }
 
     try {
       // Continue with post creation
-      const response = await createPostMutation.mutateAsync({
+      const response = await updatePostMutation.mutateAsync({
+        postId: numericPostId,
         title,
         description,
         body,
         coverImage: coverImageUrl, // Store the URL without the query string
-        createdById: session.user.id,
       });
 
-      console.log("Post created successfully:", response);
+      console.log("Post updated successfully:", response);
       await router.push("/"); // Redirect to the home page
     } catch (error) {
-      setError("Error creating post.");
+      setEditError(`Error creating post.`);
       console.error("Error creating post:", error);
     }
   };
@@ -84,7 +111,7 @@ const CreatePost = () => {
   return (
     <div>
       <NavBar />
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {editError && <p style={{ color: "red" }}>{editError}</p>}
       <div className="m-12 rounded-lg bg-white p-12 shadow-2xl transition duration-300 hover:bg-slate-50">
         <div className="mb-4">
           <input
@@ -98,8 +125,9 @@ const CreatePost = () => {
             htmlFor="cover-image-upload"
             className="button-secondary cursor-pointer"
           >
-            Add a cover image
+            Change cover image
           </label>
+
           {tempCoverImageUrl && (
             <Image
               src={tempCoverImageUrl}
@@ -113,7 +141,7 @@ const CreatePost = () => {
         <div className="mb-4">
           <input
             type="text"
-            placeholder="New post title here..."
+            placeholder="Post title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="w-full border-b p-2 text-2xl font-bold focus:outline-none"
@@ -121,7 +149,7 @@ const CreatePost = () => {
         </div>
         <div className="mb-4">
           <textarea
-            placeholder="Write your post description here..."
+            placeholder="Post description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="w-full border-b p-2 focus:outline-none"
@@ -129,15 +157,15 @@ const CreatePost = () => {
         </div>
         <div className="mb-4">
           <textarea
-            placeholder="Write your post content here..."
+            placeholder="Post content"
             value={body}
             onChange={(e) => setBody(e.target.value)}
             className="h-40 w-full rounded-lg border p-2 focus:outline-none"
           />
         </div>
         <div className="flex justify-between">
-          <button onClick={handlePublish} className="button-primary">
-            Publish
+          <button onClick={handleUpdate} className="button-primary">
+            Update Post
           </button>
         </div>
       </div>
@@ -145,4 +173,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default EditPost;
