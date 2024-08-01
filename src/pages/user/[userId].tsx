@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import Image from "next/image";
-import { ParsedUrlQuery } from "querystring";
+import type { ParsedUrlQuery } from "querystring";
 import Header from "~/components/Header";
 import NavBar from "~/components/NavBar";
 import PostList from "~/components/PostList";
@@ -73,8 +73,8 @@ const UserProfile = () => {
     // Update user profile
     await updateUserMutation.mutateAsync({
       userId,
-      bio: newBio || user?.bio || "",
-      image: profilePictureUrl || defaultProfileImage,
+      bio: newBio ?? user?.bio ?? "",
+      image: profilePictureUrl ?? defaultProfileImage,
     });
 
     window.location.reload();
@@ -95,7 +95,7 @@ const UserProfile = () => {
         <div className="relative h-48 w-full bg-gray-800">
           <div className="absolute left-1/2 mt-6 -translate-x-1/2 transform">
             <Image
-              src={user?.image || defaultProfileImage}
+              src={user?.image ?? defaultProfileImage}
               alt="Profile Picture"
               width={150}
               height={150}
@@ -106,7 +106,7 @@ const UserProfile = () => {
 
         <div className="text-center">
           <h1 className="text-2xl font-bold">{user?.name}</h1>
-          <p className="text-gray-500">{user?.bio || "404 bio not found"}</p>
+          <p className="text-gray-500">{user?.bio ?? "404 bio not found"}</p>
         </div>
 
         {session?.user?.id === user?.id && (
@@ -162,7 +162,7 @@ const UserProfile = () => {
                 name: user?.name,
                 profileImage: user?.image,
               },
-            })) || []
+            })) ?? []
           }
         />
       </div>

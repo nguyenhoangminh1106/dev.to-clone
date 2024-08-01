@@ -1,5 +1,4 @@
 import { api } from "~/utils/api";
-import { useRouter } from "next/router";
 import Post from "./Post";
 
 const MainContent = () => {

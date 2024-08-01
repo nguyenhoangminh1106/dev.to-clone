@@ -9,7 +9,7 @@ export type PostType = {
     name: string | null;
     profileImage: string | null;
   };
-  published: Boolean;
+  published: boolean;
   createdAt: Date;
   updatedAt: Date;
   createdById: string;

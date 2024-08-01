@@ -1,7 +1,7 @@
 // PostList.tsx
 import React from "react";
 import Post from "~/components/Post";
-import { PostType } from "~/types"; // Import your PostType definition
+import type { PostType } from "~/types"; // Import your PostType definition
 
 interface PostListProps {
   posts: PostType[];
