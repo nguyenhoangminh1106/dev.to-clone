@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import NavBar from "~/components/NavBar";
 import Image from "next/image";
-import { ParsedUrlQuery } from "querystring";
+import type { ParsedUrlQuery } from "querystring";
 
 const EditPost = () => {
   const { data: session } = useSession();
@@ -27,7 +27,7 @@ const EditPost = () => {
   const numericPostId = typeof postId === "string" ? parseInt(postId, 10) : NaN;
 
   // Fetch post data using useQuery, only if numericPostId is valid
-  const { data, error, isLoading } = api.post.getPostById.useQuery(
+  const { data, error } = api.post.getPostById.useQuery(
     { postId: numericPostId },
     { enabled: !isNaN(numericPostId) },
   );
@@ -37,7 +37,8 @@ const EditPost = () => {
       setTitle(data.title);
       setDescription(data.description);
       setBody(data.body);
-      let oldCoverImage = data.coverImage;
+      const oldCoverImage = data.coverImage;
+
       if (oldCoverImage) {
         setOldCoverImage(oldCoverImage);
         setTempCoverImageUrl(oldCoverImage);
@@ -83,7 +84,7 @@ const EditPost = () => {
         });
 
         // Store the URL without the query string
-        coverImageUrl = url.split("?")[0] || "";
+        coverImageUrl = url.split("?")[0] ?? "";
       } catch (error) {
         console.error("Error handling cover image:", error);
         setEditError(`Error handling cover image.`);

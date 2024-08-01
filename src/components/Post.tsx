@@ -2,13 +2,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { PostType } from "~/types";
+
+import type { PostType } from "~/types";
 
 const Post = ({
   post,
-  onEdit = () => {},
-  onDelete = () => {},
-  onHide = () => {},
+  onEdit = () => {
+    /* intentionally left empty */
+  },
+  onDelete = () => {
+    /* intentionally left empty */
+  },
+  onHide = () => {
+    /* intentionally left empty */
+  },
 }: {
   post: PostType;
   onEdit: (postId: number) => void;

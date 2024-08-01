@@ -17,7 +17,14 @@ const MainContent = () => {
   if (isError) return <p>Error loading posts</p>;
 
   const handleEdit = (postId: number) => {
-    router.push(`/editPost/${postId}`);
+    router
+      .push(`/editPost/${postId}`)
+      .then(() => {
+        console.log("Navigation successful");
+      })
+      .catch((error) => {
+        console.error("Error navigating to edit post:", error);
+      });
   };
 
   const handleDelete = async (postId: number) => {
