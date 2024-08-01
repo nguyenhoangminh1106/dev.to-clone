@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import Header from "~/components/Header";
 import NavBar from "~/components/NavBar";
 import Image from "next/image";
 
@@ -41,9 +42,11 @@ const CreatePost = () => {
     let coverImageUrl = "";
 
     if (coverImage) {
+      setError("Loading image...");
       // Get presigned URL
       const { url } = await getPresignedUrlMutation.mutateAsync({
         filename: coverImage.name,
+        filefolder: "coverImage",
         filetype: coverImage.type,
       });
 
@@ -64,6 +67,7 @@ const CreatePost = () => {
     }
 
     try {
+      setError("Uploading post...");
       // Continue with post creation
       const response = await createPostMutation.mutateAsync({
         title,
@@ -83,8 +87,9 @@ const CreatePost = () => {
 
   return (
     <div>
+      <Header />
       <NavBar />
-      {error && <p style={{ color: "red" }}>{error}</p>}
+
       <div className="m-12 rounded-lg bg-white p-12 shadow-2xl transition duration-300 hover:bg-slate-50">
         <div className="mb-4">
           <input
@@ -139,6 +144,7 @@ const CreatePost = () => {
           <button onClick={handlePublish} className="button-primary">
             Publish
           </button>
+          <span>{error && <p style={{ color: "red" }}>{error}</p>}</span>
         </div>
       </div>
     </div>

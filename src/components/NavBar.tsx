@@ -6,6 +6,8 @@ import Image from "next/image";
 const NavBar = () => {
   const { data: session } = useSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const defaultProfileImage =
+    "https://lyra-trial-1106.s3.ap-southeast-2.amazonaws.com/profileImage/6yvpkj.jpg";
 
   return (
     <nav className="sticky top-0 flex items-center justify-between bg-white px-2 py-2 shadow sm:px-5 md:px-12">
@@ -50,7 +52,7 @@ const NavBar = () => {
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
               <Image
-                src={session.user.image ?? "/default-avatar.png"}
+                src={session.user.image ?? defaultProfileImage}
                 alt="User Avatar"
                 width={500}
                 height={500}
@@ -59,16 +61,10 @@ const NavBar = () => {
               {isDropdownOpen && (
                 <div className="absolute right-0 w-48 rounded-lg bg-white p-4 shadow-md transition duration-200 ease-in-out">
                   <Link
-                    href="/profile"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    href={`/user/${session.user.id}`}
+                    className="block truncate px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
-                    Account Details
-                  </Link>
-                  <Link
-                    href="/create-post"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  >
-                    Create Post
+                    {session.user.name}
                   </Link>
                   <button
                     onClick={() => signOut()}

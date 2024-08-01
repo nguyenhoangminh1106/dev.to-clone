@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
+import Header from "~/components/Header";
 import NavBar from "~/components/NavBar";
 import Image from "next/image";
 import type { ParsedUrlQuery } from "querystring";
@@ -65,7 +66,7 @@ const EditPost = () => {
       setEditError(`User not authenticated`);
       return;
     }
-
+    setEditError("Loading image...");
     let coverImageUrl = oldCoverImage;
 
     if (coverImage) {
@@ -73,6 +74,7 @@ const EditPost = () => {
         // Get presigned URL for new image
         const { url } = await getPresignedUrlMutation.mutateAsync({
           filename: coverImage.name,
+          filefolder: "coverImage",
           filetype: coverImage.type,
         });
 
@@ -92,6 +94,7 @@ const EditPost = () => {
     }
 
     try {
+      setEditError("Updating post...");
       // Continue with post creation
       const response = await updatePostMutation.mutateAsync({
         postId: numericPostId,
@@ -111,8 +114,8 @@ const EditPost = () => {
 
   return (
     <div>
+      <Header />
       <NavBar />
-      {editError && <p style={{ color: "red" }}>{editError}</p>}
       <div className="m-12 rounded-lg bg-white p-12 shadow-2xl transition duration-300 hover:bg-slate-50">
         <div className="mb-4">
           <input
@@ -168,6 +171,10 @@ const EditPost = () => {
           <button onClick={handleUpdate} className="button-primary">
             Update Post
           </button>
+
+          <span>
+            {editError && <p style={{ color: "red" }}>{editError}</p>}
+          </span>
         </div>
       </div>
     </div>

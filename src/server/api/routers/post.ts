@@ -85,12 +85,16 @@ export const postRouter = createTRPCRouter({
       return { success: true };
     }),
 
-  hidePost: publicProcedure
+  togglePublish: publicProcedure
     .input(z.object({ postId: z.number() }))
     .mutation(async ({ input }) => {
+      const post = await db.post.findUnique({ where: { id: input.postId } });
+      if (!post) {
+        throw new Error("Post not found");
+      }
       await db.post.update({
         where: { id: input.postId },
-        data: { published: false },
+        data: { published: !post.published },
       });
       return { success: true };
     }),

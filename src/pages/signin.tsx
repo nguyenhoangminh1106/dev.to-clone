@@ -1,5 +1,6 @@
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import Header from "~/components/Header";
 
 const SignIn = () => {
   const handleSignUpGitHub = async () => {
@@ -12,6 +13,7 @@ const SignIn = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
+      <Header />
       <h1 className="text-3xl font-bold">Join the DEV Community</h1>
       <p className="mb-4 text-gray-700">
         DEV Community is a community of amazing developers

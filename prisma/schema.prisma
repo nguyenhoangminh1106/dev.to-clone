@@ -71,7 +71,7 @@ model User {
     sessions      Session[]
     posts         Post[]
     Comment       Comment[]
-    profileImage  String?
+    bio           String?
 }
 
 model Comment {

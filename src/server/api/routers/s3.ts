@@ -40,14 +40,15 @@ export const s3Router = createTRPCRouter({
     .input(
       z.object({
         filename: z.string(),
+        filefolder: z.string(),
         filetype: z.string(),
       }),
     )
     .mutation(async ({ input }) => {
-      const { filename, filetype } = input;
+      const { filename, filefolder, filetype } = input;
       const s3Params = {
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key: `coverImage/${filename}`,
+        Key: `${filefolder}/${filename}`,
         Expires: 60, // URL expiration time in seconds
         ContentType: filetype,
       };
