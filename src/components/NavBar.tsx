@@ -16,7 +16,11 @@ const NavBar = () => {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/?query=${encodeURIComponent(searchQuery)}`);
+      try {
+        router.push(`/?query=${encodeURIComponent(searchQuery)}`);
+      } catch (error) {
+        console.log("Error navigating to the target page: ", error);
+      }
     }
   };
 

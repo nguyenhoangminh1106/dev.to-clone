@@ -4,14 +4,15 @@ const SharingUrl = ({ url }: { url: string }) => {
   const [isCopied, setIsCopied] = useState(false);
 
   const copyToClipboard = () => {
-    try {
-      navigator.clipboard.writeText(url).then(() => {
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
         setIsCopied(true);
         setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
+      })
+      .catch((error) => {
+        console.log("Error copying to clipboard: ", error);
       });
-    } catch (error) {
-      console.log("Error copying to clipboard: ", error);
-    }
   };
 
   return (

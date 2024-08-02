@@ -20,7 +20,11 @@ const Comments = ({ postId }: { postId: number }) => {
     try {
       await addCommentMutation.mutateAsync({ postId, content: comment });
       setComment("");
-      refetch(); // Refresh the comments list
+      try {
+        await refetch();
+      } catch (error) {
+        console.log("Refetch unsuccessfully: ", error);
+      }
     } catch (error) {
       console.log("Error adding comment: ", error);
     }
