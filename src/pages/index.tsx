@@ -1,4 +1,3 @@
-import Header from "~/components/Header";
 import NavBar from "~/components/NavBar";
 import MainContent from "~/components/MainContent";
 import LeftSideBar from "~/components/LeftSideBar";
@@ -8,7 +7,6 @@ import Footer from "~/components/Footer";
 export default function Home() {
   return (
     <>
-      <Header />
       <div className="bg-gray-100">
         <NavBar />
         <div className="mx-2 flex min-h-screen flex-row bg-gray-100 sm:mx-2 md:mx-12">

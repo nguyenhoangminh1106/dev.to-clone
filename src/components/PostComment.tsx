@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
+import Comments from "./Comments";
 
 import type { ParsedUrlQuery } from "querystring";
 import PostList from "./PostList";
@@ -17,7 +18,7 @@ const PostComment = () => {
   const numericPostId = typeof postId === "string" ? parseInt(postId, 10) : NaN;
 
   // Fetch post data using useQuery, only if numericPostId is valid
-  const { data, error } = api.post.getPostById.useQuery(
+  const { data, error, refetch } = api.post.getPostById.useQuery(
     { postId: numericPostId },
     { enabled: !isNaN(numericPostId) },
   );
@@ -45,7 +46,7 @@ const PostComment = () => {
             alt="Author Avatar"
             width={50}
             height={50}
-            className="rounded-full"
+            className="h-10 w-10 rounded-full"
           />
           <div className="ml-4">
             <h2 className="font-bold">{user?.name}</h2>
@@ -60,24 +61,12 @@ const PostComment = () => {
       {/* More Posts */}
       <div className="mb-4 rounded-lg bg-white p-4 shadow-md">
         <h3 className="mb-4 text-lg font-semibold">More from {user?.name}</h3>
-        <PostList
-          posts={
-            user?.posts.map((post) => ({
-              ...post,
-              createdBy: {
-                id: post.createdById,
-                name: user?.name,
-                profileImage: user?.image,
-              },
-            })) ?? []
-          }
-        />
+        <PostList posts={user?.posts ?? []} refetch={refetch} />
       </div>
 
       {/* Comments Section */}
       <div className="rounded-lg bg-white p-4 shadow-md">
-        <h3 className="mb-4 text-lg font-semibold">Comments</h3>
-        {/* Comments content here */}
+        <Comments postId={numericPostId} />
       </div>
     </div>
   );

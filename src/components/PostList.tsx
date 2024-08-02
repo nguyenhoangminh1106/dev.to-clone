@@ -1,13 +1,14 @@
 // PostList.tsx
 import React from "react";
 import Post from "~/components/Post";
-import type { PostType } from "~/types"; // Import your PostType definition
+import type { Post as PostType } from "@prisma/client";
 
 interface PostListProps {
   posts: PostType[];
+  refetch: () => void;
 }
 
-const PostList: React.FC<PostListProps> = ({ posts }) => {
+const PostList: React.FC<PostListProps> = ({ posts, refetch }) => {
   const sortedPosts = posts
     .slice()
     .sort(
@@ -19,7 +20,9 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
     <div className="mt-6 w-full max-w-3xl">
       <h2 className="text-xl font-bold">Posts</h2>
       {sortedPosts.length > 0 ? (
-        sortedPosts.map((post) => <Post key={post.id} post={post} />)
+        sortedPosts.map((post) => (
+          <Post key={post.id} post={post} refetch={refetch} />
+        ))
       ) : (
         <p>No posts available</p>
       )}

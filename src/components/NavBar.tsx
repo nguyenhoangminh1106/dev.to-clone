@@ -2,12 +2,23 @@ import Link from "next/link";
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const NavBar = () => {
   const { data: session } = useSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const defaultProfileImage =
     "https://lyra-trial-1106.s3.ap-southeast-2.amazonaws.com/profileImage/6yvpkj.jpg";
+
+  const router = useRouter();
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 flex items-center justify-between bg-white px-2 py-2 shadow sm:px-5 md:px-12">
@@ -22,10 +33,12 @@ const NavBar = () => {
           />
         </Link>
 
-        <div className="relative ml-4 grow">
+        <form onSubmit={handleSearch} className="relative ml-4 grow">
           <input
             type="text"
             placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-1/2 rounded-lg border p-2 pl-10 transition duration-200 hover:outline-none hover:ring-2 hover:ring-indigo-700"
           />
           <span className="absolute left-3 top-2.5 text-gray-500">
@@ -36,7 +49,7 @@ const NavBar = () => {
               />
             </svg>
           </span>
-        </div>
+        </form>
       </div>
       {session ? (
         <div className="flex items-center space-x-4">

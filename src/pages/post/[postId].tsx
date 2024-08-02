@@ -1,6 +1,5 @@
 import BackButton from "~/components/BackButton";
 import Footer from "~/components/Footer";
-import Header from "~/components/Header";
 import NavBar from "~/components/NavBar";
 import PostComment from "~/components/PostComment";
 import PostContent from "~/components/PostContent";
@@ -8,7 +7,6 @@ import PostContent from "~/components/PostContent";
 const Post = () => {
   return (
     <>
-      <Header />
       <NavBar />
       <BackButton />
       <div className="flex flex-wrap">

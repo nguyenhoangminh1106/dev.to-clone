@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import Image from "next/image";
 import type { ParsedUrlQuery } from "querystring";
-import Header from "~/components/Header";
 import NavBar from "~/components/NavBar";
 import PostList from "~/components/PostList";
 import BackButton from "~/components/BackButton";
@@ -32,6 +31,7 @@ const UserProfile = () => {
     data: user,
     isLoading,
     isError,
+    refetch,
   } = api.user.getUserById.useQuery({ userId });
 
   // Handle profile picture change
@@ -79,8 +79,8 @@ const UserProfile = () => {
       image: profilePictureUrl ?? defaultProfileImage,
     });
 
-    window.location.reload();
-
+    refetch();
+    setNewProfilePictureName("");
     setEditing(false);
   };
 
@@ -89,8 +89,6 @@ const UserProfile = () => {
 
   return (
     <div>
-      <Header />
-
       <NavBar />
       <BackButton />
       <div className="mt-12 flex flex-col items-center space-y-4 bg-gray-50 p-4">
@@ -99,9 +97,9 @@ const UserProfile = () => {
             <Image
               src={user?.image ?? defaultProfileImage}
               alt="Profile Picture"
-              width={150}
-              height={150}
-              className="rounded-full border-4 border-white shadow-lg"
+              width={500}
+              height={500}
+              className="h-44 w-44 rounded-full border-2 border-white shadow-lg"
             />
           </div>
         </div>
@@ -155,18 +153,7 @@ const UserProfile = () => {
           </button>
         </div>
 
-        <PostList
-          posts={
-            user?.posts.map((post) => ({
-              ...post,
-              createdBy: {
-                id: post.createdById,
-                name: user?.name,
-                profileImage: user?.image,
-              },
-            })) ?? []
-          }
-        />
+        <PostList posts={user?.posts ?? []} refetch={refetch} />
       </div>
 
       <Footer />

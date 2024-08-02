@@ -15,12 +15,15 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <Head>
-        <title>Dev.to Clone</title>
+        <title>Dev</title>
+
         <meta
           name="description"
-          content="A blogging platform similar to dev.to"
+          content="A blogging platform similar to dev.to using create-t3-app"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="" />
+
+        <link rel="icon" href="/dev.ico" />
       </Head>
       <div className={GeistSans.className}>
         <Component {...pageProps} />

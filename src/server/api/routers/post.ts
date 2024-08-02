@@ -28,15 +28,25 @@ export const postRouter = createTRPCRouter({
       return newPost;
     }),
 
-  getPublishedPosts: publicProcedure.query(async () => {
-    const post = await db.post.findMany({
-      where: { published: true },
-      include: {
-        createdBy: true,
-      },
-    });
-    return post;
-  }),
+  getPublishedPosts: publicProcedure
+    .input(z.object({ query: z.string().optional() }))
+    .query(async ({ input }) => {
+      const { query } = input;
+
+      const posts = await db.post.findMany({
+        where: {
+          AND: [
+            { published: true },
+            query ? { title: { contains: query, mode: "insensitive" } } : {},
+          ],
+        },
+        include: {
+          createdBy: true,
+        },
+      });
+
+      return posts;
+    }),
 
   getPostById: publicProcedure
     .input(z.object({ postId: z.number() }))

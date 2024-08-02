@@ -2,7 +2,6 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import BackButton from "~/components/BackButton";
 import Footer from "~/components/Footer";
-import Header from "~/components/Header";
 
 const SignUp = () => {
   const handleSignUpGitHub = async () => {
@@ -15,7 +14,6 @@ const SignUp = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      <Header />
       <BackButton />
       <h1 className="text-3xl font-bold">Join the DEV Community</h1>
       <p className="mb-4 text-gray-700">
