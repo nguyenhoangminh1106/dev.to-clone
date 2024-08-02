@@ -41,13 +41,15 @@ const PostComment = () => {
       {/* Author Info */}
       <div className="mb-4 rounded-lg bg-white p-4 shadow-md">
         <div className="flex items-center">
-          <Image
-            src={user?.image ?? defaultProfileImage}
-            alt="Author Avatar"
-            width={50}
-            height={50}
-            className="h-10 w-10 rounded-full"
-          />
+          <Link href={`/user/${user?.id}`}>
+            <Image
+              src={user?.image ?? defaultProfileImage}
+              alt="Author Avatar"
+              width={50}
+              height={50}
+              className="h-10 w-10 rounded-full"
+            />
+          </Link>
           <div className="ml-4">
             <h2 className="font-bold">{user?.name}</h2>
             <p className="text-gray-500">{user?.bio}</p>

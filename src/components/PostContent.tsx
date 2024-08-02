@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { api } from "~/utils/api";
 import SharingUrl from "./SharingUrl";
+import Link from "next/link";
 
 import type { ParsedUrlQuery } from "querystring";
 import type { User } from "@prisma/client";
@@ -71,13 +72,15 @@ const PostContent = () => {
         )}
         <div className="relative mb-4 flex items-center justify-between">
           <div className="flex items-center">
-            <Image
-              src={createdBy?.image ?? defaultProfileImage}
-              alt="Author's Profile Image"
-              width={40}
-              height={40}
-              className="h-10 w-10 rounded-full"
-            />
+            <Link href={`/user/${createdBy?.id}`}>
+              <Image
+                src={createdBy?.image ?? defaultProfileImage}
+                alt="Author's Profile Image"
+                width={40}
+                height={40}
+                className="h-10 w-10 rounded-full"
+              />
+            </Link>
             <div className="ml-3">
               <p className="font-semibold">{createdBy?.name}</p>
               <p className="text-sm text-gray-500">

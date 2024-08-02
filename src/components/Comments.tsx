@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { api } from "~/utils/api";
 import Image from "next/image";
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 
 const Comments = ({ postId }: { postId: number }) => {
@@ -37,13 +38,15 @@ const Comments = ({ postId }: { postId: number }) => {
       </div>
 
       <div className="add-comment my-4 flex items-center">
-        <Image
-          src={session?.user.image ?? defaultProfileImage}
-          alt="User Avatar"
-          width={40}
-          height={40}
-          className="h-10 w-10 rounded-full"
-        />
+        <Link href={`/user/${session?.user.id}`}>
+          <Image
+            src={session?.user.image ?? defaultProfileImage}
+            alt="User Avatar"
+            width={40}
+            height={40}
+            className="h-10 w-10 rounded-full"
+          />
+        </Link>
         <textarea
           value={comment}
           onChange={(e) => setComment(e.target.value)}
@@ -59,13 +62,15 @@ const Comments = ({ postId }: { postId: number }) => {
         {comments?.map((comment) => (
           <div key={comment.id} className="comment-item mt-4 border-t pt-4">
             <div className="flex items-center">
-              <Image
-                src={comment.author.image ?? "/default-avatar.png"}
-                alt="Avatar"
-                width={40}
-                height={40}
-                className="h-10 w-10 rounded-full"
-              />
+              <Link href={`/user/${comment.author.id}`}>
+                <Image
+                  src={comment.author.image ?? "/default-avatar.png"}
+                  alt="Avatar"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-full"
+                />
+              </Link>
               <div className="ml-3">
                 <p className="font-semibold">{comment.author.name}</p>
                 <p className="text-sm text-gray-500">

@@ -85,13 +85,15 @@ const Post = ({ post, refetch }: { post: PostType; refetch: () => void }) => {
     <div className="relative my-4">
       <div className="rounded-lg bg-white p-4 shadow">
         <div className="mb-4 flex items-center">
-          <Image
-            src={user?.image ?? defaultProfileImage}
-            alt="Profile Image"
-            width={40}
-            height={40}
-            className="h-10 w-10 rounded-full"
-          />
+          <Link href={`/user/${user?.id}`}>
+            <Image
+              src={user?.image ?? defaultProfileImage}
+              alt="Profile Image"
+              width={40}
+              height={40}
+              className="h-10 w-10 rounded-full"
+            />
+          </Link>
           <div className="ml-3">
             <p className="font-semibold">{user?.name ?? "Unknown"}</p>
             <p className="text-sm text-gray-500">
