@@ -59,28 +59,34 @@ const Comments = ({ postId }: { postId: number }) => {
       </div>
 
       <div className="comments-list mt-4">
-        {comments?.map((comment) => (
-          <div key={comment.id} className="comment-item mt-4 border-t pt-4">
-            <div className="flex items-center">
-              <Link href={`/user/${comment.author.id}`}>
-                <Image
-                  src={comment.author.image ?? "/default-avatar.png"}
-                  alt="Avatar"
-                  width={40}
-                  height={40}
-                  className="h-10 w-10 rounded-full"
-                />
-              </Link>
-              <div className="ml-3">
-                <p className="font-semibold">{comment.author.name}</p>
-                <p className="text-sm text-gray-500">
-                  {new Date(comment.createdAt).toLocaleDateString("en-GB")}
-                </p>
+        {comments
+          ?.slice()
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          )
+          .map((comment) => (
+            <div key={comment.id} className="comment-item mt-4 border-t pt-4">
+              <div className="flex items-center">
+                <Link href={`/user/${comment.author.id}`}>
+                  <Image
+                    src={comment.author.image ?? "/default-avatar.png"}
+                    alt="Avatar"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 rounded-full"
+                  />
+                </Link>
+                <div className="ml-3">
+                  <p className="font-semibold">{comment.author.name}</p>
+                  <p className="text-sm text-gray-500">
+                    {new Date(comment.createdAt).toLocaleDateString("en-GB")}
+                  </p>
+                </div>
               </div>
+              <p className="mt-2">{comment.content}</p>
             </div>
-            <p className="mt-2">{comment.content}</p>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
