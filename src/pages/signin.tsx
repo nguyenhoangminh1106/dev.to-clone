@@ -41,8 +41,6 @@ const SignIn = () => {
           Sign up.
         </Link>
       </p>
-
-      <Footer />
     </div>
   );
 };
