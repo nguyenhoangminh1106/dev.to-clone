@@ -79,7 +79,11 @@ const UserProfile = () => {
       image: profilePictureUrl ?? defaultProfileImage,
     });
 
-    refetch();
+    try {
+      refetch();
+    } catch (error) {
+      console.log("Refetch unsuccessfully: ", error);
+    }
     setNewProfilePictureName("");
     setEditing(false);
   };

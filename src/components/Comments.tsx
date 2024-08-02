@@ -17,20 +17,24 @@ const Comments = ({ postId }: { postId: number }) => {
   const addCommentMutation = api.comment.add.useMutation();
 
   const handleAddComment = async () => {
-    await addCommentMutation.mutateAsync({ postId, content: comment });
-    setComment("");
-    refetch(); // Refresh the comments list
+    try {
+      await addCommentMutation.mutateAsync({ postId, content: comment });
+      setComment("");
+      refetch(); // Refresh the comments list
+    } catch (error) {
+      console.log("Error adding comment: ", error);
+    }
   };
 
   return (
     <div className="comments-section">
       <div className="top-bar flex justify-between">
-        <h1>Top comments ({comments?.length || 0})</h1>
+        <h1>Top comments ({comments?.length ?? 0})</h1>
       </div>
 
       <div className="add-comment my-4 flex items-center">
         <Image
-          src={session?.user.image || defaultProfileImage}
+          src={session?.user.image ?? defaultProfileImage}
           alt="User Avatar"
           width={40}
           height={40}
@@ -52,7 +56,7 @@ const Comments = ({ postId }: { postId: number }) => {
           <div key={comment.id} className="comment-item mt-4 border-t pt-4">
             <div className="flex items-center">
               <Image
-                src={comment.author.image || "/default-avatar.png"}
+                src={comment.author.image ?? "/default-avatar.png"}
                 alt="Avatar"
                 width={40}
                 height={40}
