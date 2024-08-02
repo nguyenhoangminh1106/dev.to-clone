@@ -1,18 +1,14 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { useEffect } from "react";
 import { api } from "~/utils/api";
 
 import type { ParsedUrlQuery } from "querystring";
-import { User } from "@prisma/client";
 import PostList from "./PostList";
 import Link from "next/link";
 
 const PostComment = () => {
   const router = useRouter();
   const { postId } = router.query as ParsedUrlQuery & { postId: number };
-  const [editError, setEditError] = useState("");
 
   const defaultProfileImage =
     "https://lyra-trial-1106.s3.ap-southeast-2.amazonaws.com/profileImage/6yvpkj.jpg";
@@ -41,12 +37,11 @@ const PostComment = () => {
 
   return (
     <div className="w-full">
-      <span>{editError && <p style={{ color: "red" }}>{editError}</p>}</span>
       {/* Author Info */}
       <div className="mb-4 rounded-lg bg-white p-4 shadow-md">
         <div className="flex items-center">
           <Image
-            src={user?.image || defaultProfileImage}
+            src={user?.image ?? defaultProfileImage}
             alt="Author Avatar"
             width={50}
             height={50}

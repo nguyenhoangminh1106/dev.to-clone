@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FcHome, FcIdea } from "react-icons/fc";
-import { FaTags, FaDev } from "react-icons/fa";
+import { FaDev } from "react-icons/fa";
 import { GrContact } from "react-icons/gr";
 import { api } from "~/utils/api";
 

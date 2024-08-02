@@ -2,7 +2,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
-import BackButton from "./BackButton";
 
 const NavBar = () => {
   const { data: session } = useSession();

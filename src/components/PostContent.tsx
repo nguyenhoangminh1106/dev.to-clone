@@ -5,8 +5,8 @@ import { useEffect } from "react";
 import { api } from "~/utils/api";
 
 import type { ParsedUrlQuery } from "querystring";
-import { User } from "@prisma/client";
-import { DateTime } from "aws-sdk/clients/devicefarm";
+import type { User } from "@prisma/client";
+import type { DateTime } from "aws-sdk/clients/devicefarm";
 
 const PostContent = () => {
   const router = useRouter();
@@ -63,7 +63,7 @@ const PostContent = () => {
         )}
         <div className="mb-4 flex items-center">
           <Image
-            src={createdBy?.image || defaultProfileImage}
+            src={createdBy?.image ?? defaultProfileImage}
             alt="Author's Profile Image"
             width={40}
             height={40}

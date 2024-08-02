@@ -1,69 +1,74 @@
 import React from "react";
+import Link from "next/link";
 
 const Footer = () => {
   return (
     <footer className="w-full border-t border-gray-300 bg-gray-100 p-4 text-center">
       <p>
         Thank you <i>Nam Dao</i> and the{" "}
-        <a
+        <Link
           href="https://www.lyratechnologies.com.au/"
           className="text-blue-600"
           target="_blank"
         >
           Lyra Technologies
-        </a>{" "}
+        </Link>{" "}
         team. This website was built for the Lyra Trial.
       </p>
       <div className="text-sm text-gray-600">
-        <a href="/" className="mx-2">
+        <Link href="/" className="mx-2">
           Home
-        </a>{" "}
+        </Link>{" "}
         •
-        <a href="#" className="mx-2">
+        <Link href="#" className="mx-2">
           Tags
-        </a>{" "}
+        </Link>{" "}
         •
-        <a href="#" className="mx-2">
+        <Link href="#" className="mx-2">
           About
-        </a>{" "}
+        </Link>{" "}
         •
-        <a href="#" className="mx-2">
+        <Link href="#" className="mx-2">
           Contact
-        </a>{" "}
+        </Link>{" "}
       </div>
       <p className="mt-2 text-xs text-gray-500">
         Built using{" "}
-        <a
+        <Link
           href="https://github.com/t3-oss/create-t3-app"
           className="text-blue-600"
           target="_blank"
         >
           T3 Stack
-        </a>{" "}
+        </Link>{" "}
         — a CLI built by seasoned T3 Stack devs to streamline the setup of a
         modular T3 Stack app.
       </p>
       <p className="text-xs text-gray-500">
         Deployed using{" "}
-        <a
+        <Link
           href="https://railway.app/"
           target="_blank"
           className="text-blue-600"
         >
           Railway
-        </a>
+        </Link>
         ,{" "}
-        <a
+        <Link
           href="https://aws.amazon.com/"
           target="_blank"
           className="text-blue-600"
         >
           AWS
-        </a>
+        </Link>
         , and{" "}
-        <a href="https://vercel.com/" target="_blank" className="text-blue-600">
+        <Link
+          href="https://vercel.com/"
+          target="_blank"
+          className="text-blue-600"
+        >
           Vercel
-        </a>
+        </Link>
         . Minh Nguyen © 2024.
       </p>
     </footer>
