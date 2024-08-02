@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import Header from "~/components/Header";
 import NavBar from "~/components/NavBar";
 import Image from "next/image";
+import BackButton from "~/components/BackButton";
+import Footer from "~/components/Footer";
 
 const CreatePost = () => {
   const { data: session } = useSession();
@@ -89,7 +91,7 @@ const CreatePost = () => {
     <div>
       <Header />
       <NavBar />
-
+      <BackButton />
       <div className="m-12 rounded-lg bg-white p-12 shadow-2xl transition duration-300 hover:bg-slate-50">
         <div className="mb-4">
           <input
@@ -147,6 +149,8 @@ const CreatePost = () => {
           <span>{error && <p style={{ color: "red" }}>{error}</p>}</span>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };

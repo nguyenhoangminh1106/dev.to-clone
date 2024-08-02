@@ -37,13 +37,6 @@ const LeftSideBar = () => {
             </Link>
           </li>
           <li>
-            <Link href="/tags" className="button-secondary flex items-center">
-              <span className="flex">
-                <FaTags /> <span className="mx-1"></span>Tags
-              </span>
-            </Link>
-          </li>
-          <li>
             <Link href="/FAQ" className="button-secondary flex items-center">
               <span className="flex">
                 <FcIdea /> <span className="mx-1"></span>FAQ

@@ -8,6 +8,8 @@ import type { ParsedUrlQuery } from "querystring";
 import Header from "~/components/Header";
 import NavBar from "~/components/NavBar";
 import PostList from "~/components/PostList";
+import BackButton from "~/components/BackButton";
+import Footer from "~/components/Footer";
 
 const UserProfile = () => {
   const { data: session } = useSession();
@@ -88,12 +90,12 @@ const UserProfile = () => {
   return (
     <div>
       <Header />
-      <div className="fixed left-0 top-0 z-50 w-full bg-white shadow-lg">
-        <NavBar />
-      </div>
+
+      <NavBar />
+      <BackButton />
       <div className="mt-12 flex flex-col items-center space-y-4 bg-gray-50 p-4">
         <div className="relative h-48 w-full bg-gray-800">
-          <div className="absolute left-1/2 mt-6 -translate-x-1/2 transform">
+          <div className="absolute left-1/2 mt-6 -translate-x-1/2 -translate-y-2/3 transform">
             <Image
               src={user?.image ?? defaultProfileImage}
               alt="Profile Picture"
@@ -166,6 +168,8 @@ const UserProfile = () => {
           }
         />
       </div>
+
+      <Footer />
     </div>
   );
 };

@@ -5,7 +5,9 @@ import { api } from "~/utils/api";
 import Header from "~/components/Header";
 import NavBar from "~/components/NavBar";
 import Image from "next/image";
+import BackButton from "~/components/BackButton";
 import type { ParsedUrlQuery } from "querystring";
+import Footer from "~/components/Footer";
 
 const EditPost = () => {
   const { data: session } = useSession();
@@ -116,6 +118,7 @@ const EditPost = () => {
     <div>
       <Header />
       <NavBar />
+      <BackButton />
       <div className="m-12 rounded-lg bg-white p-12 shadow-2xl transition duration-300 hover:bg-slate-50">
         <div className="mb-4">
           <input
@@ -167,7 +170,7 @@ const EditPost = () => {
             className="h-40 w-full rounded-lg border p-2 focus:outline-none"
           />
         </div>
-        <div className="flex justify-between">
+        <div className="flex">
           <button onClick={handleUpdate} className="button-primary">
             Update Post
           </button>
@@ -177,6 +180,7 @@ const EditPost = () => {
           </span>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

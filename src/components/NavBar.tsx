@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
+import BackButton from "./BackButton";
 
 const NavBar = () => {
   const { data: session } = useSession();
@@ -10,7 +11,7 @@ const NavBar = () => {
     "https://lyra-trial-1106.s3.ap-southeast-2.amazonaws.com/profileImage/6yvpkj.jpg";
 
   return (
-    <nav className="sticky top-0 flex items-center justify-between bg-white px-2 py-2 shadow sm:px-5 md:px-12">
+    <nav className="sticky top-0 z-50 flex items-center justify-between bg-white px-2 py-2 shadow sm:px-5 md:px-12">
       <div className="flex grow items-center">
         <Link href="/">
           <Image
@@ -21,6 +22,7 @@ const NavBar = () => {
             className="h-10 w-10 cursor-pointer"
           />
         </Link>
+
         <div className="relative ml-4 grow">
           <input
             type="text"
@@ -35,15 +37,14 @@ const NavBar = () => {
               />
             </svg>
           </span>
-          <span className="ml-2 text-sm text-gray-500">
-            Not powered by Algolia
-          </span>
         </div>
       </div>
       {session ? (
         <div className="flex items-center space-x-4">
           <Link href="/createPost">
-            <button className="button-primary">Create Post</button>
+            <button className="button-primary hidden md:block">
+              Create Post
+            </button>
           </Link>
           <div>
             <div
@@ -65,6 +66,12 @@ const NavBar = () => {
                     className="block truncate px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     {session.user.name}
+                  </Link>
+                  <Link
+                    href="/createPost"
+                    className="block truncate px-4 py-2 text-gray-700 hover:bg-gray-100 md:hidden"
+                  >
+                    Create Post
                   </Link>
                   <button
                     onClick={() => signOut()}

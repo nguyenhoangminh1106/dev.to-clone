@@ -54,7 +54,9 @@ export const postRouter = createTRPCRouter({
       const description = post.description;
       const body = post.body;
       const coverImage = post.coverImage;
-      return { title, description, body, coverImage };
+      const createdBy = post.createdBy;
+      const createdAt = post.createdAt;
+      return { title, description, body, coverImage, createdBy, createdAt };
     }),
 
   deletePost: publicProcedure

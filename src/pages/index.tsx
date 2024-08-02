@@ -3,6 +3,7 @@ import NavBar from "~/components/NavBar";
 import MainContent from "~/components/MainContent";
 import LeftSideBar from "~/components/LeftSideBar";
 import RightSideBar from "~/components/RightSideBar";
+import Footer from "~/components/Footer";
 
 export default function Home() {
   return (
@@ -24,6 +25,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 }

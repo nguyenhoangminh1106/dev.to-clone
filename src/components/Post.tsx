@@ -128,7 +128,7 @@ const Post = ({ post }: { post: PostType }) => {
               alt="Cover"
               width={500}
               height={300}
-              className="mx-auto my-6 rounded-lg object-cover"
+              className="mx-auto my-6 h-auto w-full rounded-lg object-cover"
             />
           )}
         </Link>
