@@ -39,7 +39,7 @@ const MainContent = () => {
 
             <div className="mx-1 rounded-lg bg-white p-6 shadow-md sm:mx-0 sm:mx-2 md:mx-5">
               <p className="mb-4">👋 DEV Challenges</p>
-              <div className="mx-10">
+              <div className="mx-1 sm:mx-10">
                 <h1 className="mb-2 text-2xl font-semibold">
                   DEV Challenge are Live 🚀
                 </h1>

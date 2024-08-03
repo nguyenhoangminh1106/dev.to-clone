@@ -5,6 +5,11 @@ import { api } from "~/utils/api";
 import NavBar from "~/components/NavBar";
 import Image from "next/image";
 import type { ParsedUrlQuery } from "querystring";
+import MdEditor from "react-markdown-editor-lite";
+import MarkdownIt from "markdown-it";
+import "react-markdown-editor-lite/lib/index.css";
+
+const mdParser = new MarkdownIt();
 
 const EditPost = () => {
   const { data: session } = useSession();
@@ -31,6 +36,10 @@ const EditPost = () => {
     { postId: numericPostId },
     { enabled: !isNaN(numericPostId) },
   );
+
+  const handleEditorChange = ({ text }: { text: string }) => {
+    setBody(text);
+  };
 
   useEffect(() => {
     if (data) {
@@ -159,10 +168,11 @@ const EditPost = () => {
             />
           </div>
           <div className="mb-4">
-            <textarea
+            <MdEditor
               placeholder="Post content"
               value={body}
-              onChange={(e) => setBody(e.target.value)}
+              renderHTML={(text) => mdParser.render(text)}
+              onChange={handleEditorChange}
               className="h-40 w-full rounded-lg border p-2 focus:outline-none"
             />
           </div>

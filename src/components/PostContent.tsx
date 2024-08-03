@@ -6,6 +6,7 @@ import { api } from "~/utils/api";
 import SharingUrl from "./SharingUrl";
 import Link from "next/link";
 import Comments from "./Comments";
+import ReactMarkdown from "react-markdown";
 
 import type { ParsedUrlQuery } from "querystring";
 import type { User } from "@prisma/client";
@@ -108,7 +109,7 @@ const PostContent = () => {
           <div className="flex space-x-2 text-gray-500">{description}</div>
         </div>
         <div className="prose my-12 max-w-full">
-          <p>{body}</p>
+          <ReactMarkdown>{body}</ReactMarkdown>
         </div>
       </div>
 

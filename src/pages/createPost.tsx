@@ -4,6 +4,11 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import NavBar from "~/components/NavBar";
 import Image from "next/image";
+import MdEditor from "react-markdown-editor-lite";
+import MarkdownIt from "markdown-it";
+import "react-markdown-editor-lite/lib/index.css";
+
+const mdParser = new MarkdownIt();
 
 const CreatePost = () => {
   const { data: session } = useSession();
@@ -28,6 +33,10 @@ const CreatePost = () => {
     } else {
       setTempCoverImageUrl(null);
     }
+  };
+
+  const handleEditorChange = ({ text }: { text: string }) => {
+    setBody(text);
   };
 
   const handlePublish = async () => {
@@ -120,7 +129,7 @@ const CreatePost = () => {
               placeholder="New post title here..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full border-b p-2 text-4xl font-bold focus:outline-none"
+              className="w-full border-b p-2 text-2xl font-bold focus:outline-none"
             />
           </div>
           <div className="mb-4">
@@ -132,10 +141,11 @@ const CreatePost = () => {
             />
           </div>
           <div className="mb-4">
-            <textarea
-              placeholder="Write your post content here..."
+            <MdEditor
+              placeholder="Post content"
               value={body}
-              onChange={(e) => setBody(e.target.value)}
+              renderHTML={(text) => mdParser.render(text)}
+              onChange={handleEditorChange}
               className="h-80 w-full rounded-lg border p-2 focus:outline-none"
             />
           </div>

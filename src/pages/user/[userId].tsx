@@ -32,12 +32,12 @@ const UserProfile = () => {
   return (
     <div>
       <NavBar />
-      <div className="flex flex-col items-center space-y-28 bg-gray-50 p-4">
+      <div className="flex flex-col items-center space-y-28 bg-gray-50">
         <div className="relative w-full">
           <div className="h-36 bg-gray-500"></div>
-          <div className="absolute left-1/2 top-10 w-full -translate-x-1/2 transform px-4 md:w-3/4">
+          <div className="absolute left-1/2 top-10 w-full -translate-x-1/2 transform md:w-3/4">
             <div className="relative mt-10 rounded-lg bg-white p-6 pb-28 shadow-lg">
-              <div className="absolute left-1/2 top-0 -translate-x-52 translate-y-2 transform sm:-translate-x-1/2 sm:-translate-y-1/2">
+              <div className="absolute left-6 top-0 transform sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2">
                 <Image
                   src={user?.image ?? defaultProfileImage}
                   alt="Profile Picture"
@@ -64,7 +64,7 @@ const UserProfile = () => {
           </div>
         </div>
 
-        <div className="w-full px-4 pt-32 md:w-3/4">
+        <div className="w-full pt-32 md:w-3/4">
           {" "}
           {/* New container to match the white rectangle width */}
           <div className="sm:flex sm:space-x-4">
