@@ -56,7 +56,11 @@ const Settings = () => {
       image: profileImageUrl ?? defaultProfileImage,
     });
 
-    refetch();
+    try {
+      refetch();
+    } catch (error) {
+      console.log("Refetch unsuccessfully: ", error);
+    }
     setStatus("Updating Successfully");
   };
 
