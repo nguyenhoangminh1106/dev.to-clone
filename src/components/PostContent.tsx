@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { api } from "~/utils/api";
 import SharingUrl from "./SharingUrl";
 import Link from "next/link";
+import Comments from "./Comments";
 
 import type { ParsedUrlQuery } from "querystring";
 import type { User } from "@prisma/client";
@@ -109,6 +110,14 @@ const PostContent = () => {
         <div className="prose my-12 max-w-full">
           <p>{body}</p>
         </div>
+      </div>
+
+      {/* Comments Section */}
+      <div
+        id="comment"
+        className="mt-1 w-full rounded-lg bg-white p-4 shadow-md"
+      >
+        <Comments postId={numericPostId} />
       </div>
     </div>
   );

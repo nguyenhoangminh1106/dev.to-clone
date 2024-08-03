@@ -1,9 +1,11 @@
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import BackButton from "~/components/BackButton";
-import Footer from "~/components/Footer";
+import Image from "next/image";
 
 const SignUp = () => {
+  const websiteLogo =
+    "https://lyra-trial-1106.s3.ap-southeast-2.amazonaws.com/default/OIP.jfif";
+
   const handleSignUpGitHub = async () => {
     await signIn("github");
   };
@@ -14,7 +16,13 @@ const SignUp = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      <BackButton />
+      <Image
+        src={websiteLogo}
+        alt="DEV"
+        width={500}
+        height={500}
+        className="mb-5 mr-3 h-12 w-16"
+      />
       <h1 className="text-3xl font-bold">Join the DEV Community</h1>
       <p className="mb-4 text-gray-700">
         DEV Community is a community of amazing developers

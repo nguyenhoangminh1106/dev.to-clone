@@ -116,69 +116,87 @@ const EditPost = () => {
   return (
     <div>
       <NavBar />
-      <BackButton />
-      <div className="m-12 rounded-lg bg-white p-12 shadow-2xl transition duration-300 hover:bg-slate-50">
-        <div className="mb-4">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleCoverImageChange}
-            className="hidden"
-            id="cover-image-upload"
-          />
-          <label
-            htmlFor="cover-image-upload"
-            className="button-secondary cursor-pointer"
-          >
-            Change cover image
-          </label>
-
-          {tempCoverImageUrl && (
-            <Image
-              src={tempCoverImageUrl}
-              alt="New cover"
-              width={500}
-              height={300}
-              className="mx-auto my-6 rounded-lg object-cover"
+      <div className="mx-1 flex lg:ml-32 lg:mr-24">
+        <div className="my-12 w-full bg-white p-8 shadow-2xl transition duration-300 hover:bg-slate-50 sm:w-8/12">
+          <div className="mb-4">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleCoverImageChange}
+              className="hidden"
+              id="cover-image-upload"
             />
-          )}
-        </div>
-        <div className="mb-4">
-          <input
-            type="text"
-            placeholder="Post title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full border-b p-2 text-2xl font-bold focus:outline-none"
-          />
-        </div>
-        <div className="mb-4">
-          <textarea
-            placeholder="Post description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full border-b p-2 focus:outline-none"
-          />
-        </div>
-        <div className="mb-4">
-          <textarea
-            placeholder="Post content"
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            className="h-40 w-full rounded-lg border p-2 focus:outline-none"
-          />
-        </div>
-        <div className="flex">
-          <button onClick={handleUpdate} className="button-primary">
-            Update Post
-          </button>
+            <label
+              htmlFor="cover-image-upload"
+              className="button-secondary cursor-pointer"
+            >
+              Change cover image
+            </label>
 
-          <span>
-            {editError && <p style={{ color: "red" }}>{editError}</p>}
-          </span>
+            {tempCoverImageUrl && (
+              <Image
+                src={tempCoverImageUrl}
+                alt="New cover"
+                width={500}
+                height={300}
+                className="mx-auto my-6 rounded-lg object-cover"
+              />
+            )}
+          </div>
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Post title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full border-b p-2 text-2xl font-bold focus:outline-none"
+            />
+          </div>
+          <div className="mb-4">
+            <textarea
+              placeholder="Post description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full border-b p-2 focus:outline-none"
+            />
+          </div>
+          <div className="mb-4">
+            <textarea
+              placeholder="Post content"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              className="h-40 w-full rounded-lg border p-2 focus:outline-none"
+            />
+          </div>
+          <div className="flex">
+            <button onClick={handleUpdate} className="button-primary">
+              Update Post
+            </button>
+
+            <span>
+              {editError && <p style={{ color: "red" }}>{editError}</p>}
+            </span>
+          </div>
+        </div>
+        <div className="hidden w-4/12 px-1 py-36 sm:block">
+          <div className="rounded-lg p-6">
+            <h2 className="mb-4 text-lg font-bold">
+              Writing a Great Post Title
+            </h2>
+            <ul className="list-inside list-disc text-gray-500">
+              <li>
+                Think of your post title as a super short (but compelling!)
+                description — like an overview of the actual post in one short
+                sentence.
+              </li>
+              <li>
+                Use keywords where appropriate to help ensure people can find
+                your post by search.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

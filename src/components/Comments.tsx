@@ -3,6 +3,7 @@ import { api } from "~/utils/api";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import Comment from "./Comment";
 
 const Comments = ({ postId }: { postId: number }) => {
   const [comment, setComment] = useState("");
@@ -33,7 +34,7 @@ const Comments = ({ postId }: { postId: number }) => {
 
   return (
     <div className="comments-section">
-      <div className="top-bar flex justify-between">
+      <div className="top-bar flex justify-between text-2xl font-bold">
         <h1>Top comments ({comments?.length ?? 0})</h1>
       </div>
 
@@ -65,28 +66,7 @@ const Comments = ({ postId }: { postId: number }) => {
             (a, b) =>
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
           )
-          .map((comment) => (
-            <div key={comment.id} className="comment-item mt-4 border-t pt-4">
-              <div className="flex items-center">
-                <Link href={`/user/${comment.author.id}`}>
-                  <Image
-                    src={comment.author.image ?? "/default-avatar.png"}
-                    alt="Avatar"
-                    width={40}
-                    height={40}
-                    className="h-10 w-10 rounded-full"
-                  />
-                </Link>
-                <div className="ml-3">
-                  <p className="font-semibold">{comment.author.name}</p>
-                  <p className="text-sm text-gray-500">
-                    {new Date(comment.createdAt).toLocaleDateString("en-GB")}
-                  </p>
-                </div>
-              </div>
-              <p className="mt-2">{comment.content}</p>
-            </div>
-          ))}
+          .map((comment) => <Comment key={comment.id} comment={comment} />)}
       </div>
     </div>
   );

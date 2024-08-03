@@ -1,22 +1,18 @@
-import BackButton from "~/components/BackButton";
 import Footer from "~/components/Footer";
 import NavBar from "~/components/NavBar";
-import PostComment from "~/components/PostComment";
+import PostSideBar from "~/components/PostSideBar";
 import PostContent from "~/components/PostContent";
 
 const Post = () => {
   return (
     <>
       <NavBar />
-      <BackButton />
-      <div className="flex flex-wrap">
-        <div className="w-full p-4 md:w-2/3">
+      <div className="flex flex-wrap bg-gray-100">
+        <div className="w-full px-2 pt-4 lg:w-2/3 lg:pl-20">
           <PostContent />
         </div>
-        <div className="w-fullp-4 md:w-1/3">
-          <div className="rounded-lg bg-white p-4 shadow">
-            <PostComment />
-          </div>
+        <div className="w-full px-2 pt-12 lg:w-1/3 lg:pr-20 lg:pt-4">
+          <PostSideBar />
         </div>
       </div>
       <Footer />

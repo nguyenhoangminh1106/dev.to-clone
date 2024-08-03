@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <div className="bg-gray-100">
         <NavBar />
-        <div className="mx-2 flex min-h-screen flex-row bg-gray-100 sm:mx-2 md:mx-12">
+        <div className="mx-0 flex min-h-screen flex-row bg-gray-100 md:mx-16">
           <div className="basis-2/12 max-sm:hidden">
             <LeftSideBar />
           </div>

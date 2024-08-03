@@ -3,12 +3,15 @@ import React from "react";
 import Post from "~/components/Post";
 import type { Post as PostType } from "@prisma/client";
 
-interface PostListProps {
+const PostList = ({
+  posts,
+  refetch,
+  showCommentLists,
+}: {
   posts: PostType[];
   refetch: () => void;
-}
-
-const PostList: React.FC<PostListProps> = ({ posts, refetch }) => {
+  showCommentLists: boolean;
+}) => {
   const sortedPosts = posts
     .slice()
     .sort(
@@ -17,11 +20,15 @@ const PostList: React.FC<PostListProps> = ({ posts, refetch }) => {
     );
 
   return (
-    <div className="mt-6 w-full max-w-3xl">
-      <h2 className="text-xl font-bold">Posts</h2>
+    <div className="w-full max-w-3xl">
       {sortedPosts.length > 0 ? (
         sortedPosts.map((post) => (
-          <Post key={post.id} post={post} refetch={refetch} />
+          <Post
+            key={post.id}
+            post={post}
+            refetch={refetch}
+            showComments={showCommentLists}
+          />
         ))
       ) : (
         <p>No posts available</p>

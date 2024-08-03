@@ -12,7 +12,7 @@ export const userRouter = createTRPCRouter({
     .query(async ({ input, ctx }) => {
       const user = await ctx.db.user.findUnique({
         where: { id: input.userId },
-        include: { posts: true },
+        include: { posts: true, Comment: true },
       });
       if (!user) throw new Error("User not found");
       return user;

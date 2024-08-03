@@ -1,20 +1,30 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 
 import type { Post as PostType } from "@prisma/client";
 import SharingUrl from "./SharingUrl";
+import Comment from "./Comment";
+import { FaRegComment, FaFire } from "react-icons/fa";
 
-const Post = ({ post, refetch }: { post: PostType; refetch: () => void }) => {
+const Post = ({
+  post,
+  refetch,
+  showComments,
+}: {
+  post: PostType;
+  refetch: () => void;
+  showComments: boolean;
+}) => {
   const { data: session } = useSession();
   const [activePostMenu, setActivePostMenu] = useState<number | null>(null);
   const [isPublished, setIsPublished] = useState(post.published);
   const [isSharing, setisSharing] = useState(false);
   const [status, setStatus] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const deletePost = api.post.deletePost.useMutation();
 
@@ -35,6 +45,11 @@ const Post = ({ post, refetch }: { post: PostType; refetch: () => void }) => {
     userId: post.createdById,
   });
 
+  const postId: number = post.id;
+  const { data: comments } = api.comment.getByPostId.useQuery({
+    postId,
+  });
+
   const onTogglePublish = async () => {
     try {
       setStatus("Changing...");
@@ -47,6 +62,22 @@ const Post = ({ post, refetch }: { post: PostType; refetch: () => void }) => {
       setStatus("Error toggling publish status.");
     }
   };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setActivePostMenu(null);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const onDelete = async () => {
     const confirmed = window.confirm(
@@ -82,7 +113,7 @@ const Post = ({ post, refetch }: { post: PostType; refetch: () => void }) => {
   };
 
   return (
-    <div className="relative my-4">
+    <div className="relative mx-1 my-2 sm:mx-0">
       <div className="rounded-lg bg-white p-4 shadow">
         <div className="mb-4 flex items-center">
           <Link href={`/user/${user?.id}`}>
@@ -108,10 +139,12 @@ const Post = ({ post, refetch }: { post: PostType; refetch: () => void }) => {
             className="text-gray-600 hover:text-gray-800"
           >
             <span className="inline-block text-xl">•••</span>
-            <span>{status && <p style={{ color: "red" }}>{status}</p>}</span>
           </button>
           {activePostMenu === post.id && (
-            <div className="absolute right-0 z-10 mt-2 w-48 rounded-md border border-gray-300 bg-white shadow-lg">
+            <div
+              ref={dropdownRef}
+              className="absolute right-0 z-10 mt-2 w-48 rounded-md border border-gray-300 bg-white shadow-lg"
+            >
               {session?.user?.id === post.createdById && (
                 <>
                   <button
@@ -144,10 +177,13 @@ const Post = ({ post, refetch }: { post: PostType; refetch: () => void }) => {
             </div>
           )}
         </div>
-        <Link href={`/post/${post.id}`}>
-          <h1 className="mx-6 mt-2 text-3xl font-bold">{post.title}</h1>
-          <p className="mx-6 mt-2 text-gray-700">{post.description}</p>
-          {post.coverImage && (
+
+        <h1 className="mx-6 mt-2 text-3xl font-bold hover:text-indigo-700">
+          <Link href={`/post/${post.id}`}>{post.title}</Link>
+        </h1>
+
+        <p className="mx-6 mt-2 text-gray-700">{post.description}</p>
+        {/* {post.coverImage && (
             <Image
               src={post.coverImage}
               alt="Cover"
@@ -155,8 +191,38 @@ const Post = ({ post, refetch }: { post: PostType; refetch: () => void }) => {
               height={300}
               className="mx-auto my-6 h-auto w-full rounded-lg object-cover"
             />
-          )}
-        </Link>
+          )} */}
+
+        {showComments && (
+          <div className="comments-list mt-4">
+            <div className="flex items-center space-x-1">
+              <p className="mx-6 flex items-center space-x-1 text-gray-500">
+                <FaFire></FaFire>
+                <span>13 reactions</span>
+              </p>
+              <p className="mx-6 flex items-center space-x-1 text-gray-500">
+                <FaRegComment></FaRegComment>
+                <span>{comments?.length} comments</span>
+              </p>
+            </div>
+            {comments
+              ?.slice(0, 3)
+              .sort(
+                (a, b) =>
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime(),
+              )
+              .map((comment) => <Comment key={comment.id} comment={comment} />)}
+
+            {comments && comments?.length > 0 && (
+              <Link href={`/post/${post.id}`}>
+                <p className="mx-6 mt-8 font-semibold text-gray-500">
+                  View all {comments?.length} comments
+                </p>
+              </Link>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

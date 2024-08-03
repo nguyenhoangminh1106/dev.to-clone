@@ -11,7 +11,7 @@ const LeftSideBar = () => {
   if (isError) return <p>Error loading statistics!</p>;
 
   return (
-    <div className="mt-5 rounded-lg p-2">
+    <div className="mt-5 rounded-lg">
       <div className="mb-4 rounded-lg bg-gray-100 bg-white p-4">
         <h2 className="text-lg font-bold">DEV Community</h2>
         <p className="text-gray-600">

@@ -1,13 +1,12 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import Comments from "./Comments";
 
 import type { ParsedUrlQuery } from "querystring";
 import PostList from "./PostList";
 import Link from "next/link";
 
-const PostComment = () => {
+const PostSideBar = () => {
   const router = useRouter();
   const { postId } = router.query as ParsedUrlQuery & { postId: number };
 
@@ -53,25 +52,24 @@ const PostComment = () => {
           <div className="ml-4">
             <h2 className="font-bold">{user?.name}</h2>
             <p className="text-gray-500">{user?.bio}</p>
-            <Link href={`/user/${user?.id}`}>
-              <button className="button-secondary mt-2">View Profile</button>
-            </Link>
           </div>
+          <Link href={`/user/${user?.id}`}>
+            <button className="button-secondary mt-2">View Profile</button>
+          </Link>
         </div>
       </div>
 
       {/* More Posts */}
       <div className="mb-4 rounded-lg bg-white p-4 shadow-md">
         <h3 className="mb-4 text-lg font-semibold">More from {user?.name}</h3>
-        <PostList posts={user?.posts ?? []} refetch={refetch} />
-      </div>
-
-      {/* Comments Section */}
-      <div className="rounded-lg bg-white p-4 shadow-md">
-        <Comments postId={numericPostId} />
+        <PostList
+          showCommentLists={false}
+          posts={user?.posts ?? []}
+          refetch={refetch}
+        />
       </div>
     </div>
   );
 };
 
-export default PostComment;
+export default PostSideBar;
