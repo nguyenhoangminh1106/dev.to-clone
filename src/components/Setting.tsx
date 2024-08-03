@@ -57,7 +57,7 @@ const Settings = () => {
     });
 
     try {
-      refetch();
+      await refetch();
     } catch (error) {
       console.log("Refetch unsuccessfully: ", error);
     }
