@@ -23,7 +23,6 @@ const Post = ({
   const [activePostMenu, setActivePostMenu] = useState<number | null>(null);
   const [isPublished, setIsPublished] = useState(post.published);
   const [isSharing, setisSharing] = useState(false);
-  const [status, setStatus] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const deletePost = api.post.deletePost.useMutation();
@@ -52,14 +51,11 @@ const Post = ({
 
   const onTogglePublish = async () => {
     try {
-      setStatus("Changing...");
       await togglePublishMutation.mutateAsync({ postId: post.id });
       setIsPublished(!isPublished);
-      setStatus("");
       refetch();
     } catch (error) {
       console.error("Error toggling publish status:", error);
-      setStatus("Error toggling publish status.");
     }
   };
 
@@ -85,14 +81,11 @@ const Post = ({
     );
     if (!confirmed) return;
 
-    setStatus("Deleting...");
     try {
       await deletePost.mutateAsync({ postId: post.id });
-      setStatus("");
       refetch();
     } catch (error) {
       console.error("Error deleting post:", error);
-      setStatus("Error deleting post.");
     }
   };
 
@@ -104,7 +97,6 @@ const Post = ({
       })
       .catch((error) => {
         console.error("Error navigating to edit post:", error);
-        setStatus("Error navigating to edit post.");
       });
   };
 
@@ -183,15 +175,6 @@ const Post = ({
         </h1>
 
         <p className="mx-6 mt-2 text-gray-700">{post.description}</p>
-        {/* {post.coverImage && (
-            <Image
-              src={post.coverImage}
-              alt="Cover"
-              width={500}
-              height={300}
-              className="mx-auto my-6 h-auto w-full rounded-lg object-cover"
-            />
-          )} */}
 
         {showComments && (
           <div className="comments-list mt-4">

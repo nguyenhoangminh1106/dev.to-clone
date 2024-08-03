@@ -2,7 +2,6 @@ import React from "react";
 import Setting from "~/components/Setting";
 import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
-import Head from "next/head";
 import { useSession } from "next-auth/react";
 
 const SettingsPage = () => {

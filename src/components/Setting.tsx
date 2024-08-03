@@ -52,8 +52,8 @@ const Settings = () => {
 
     await updateUserMutation.mutateAsync({
       userId: session?.user.id ?? "",
-      bio: bio || user?.bio || "",
-      image: profileImageUrl || defaultProfileImage,
+      bio: bio ?? user?.bio ?? "",
+      image: profileImageUrl ?? defaultProfileImage,
     });
 
     refetch();
@@ -90,7 +90,7 @@ const Settings = () => {
           </label>
           <div className="mb-4 flex items-center">
             <Image
-              src={user?.image || defaultProfileImage}
+              src={user?.image ?? defaultProfileImage}
               alt="Profile"
               width={50}
               height={50}

@@ -4,9 +4,7 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import NavBar from "~/components/NavBar";
 import Image from "next/image";
-import BackButton from "~/components/BackButton";
 import type { ParsedUrlQuery } from "querystring";
-import Footer from "~/components/Footer";
 
 const EditPost = () => {
   const { data: session } = useSession();
@@ -168,7 +166,7 @@ const EditPost = () => {
               className="h-40 w-full rounded-lg border p-2 focus:outline-none"
             />
           </div>
-          <div className="flex">
+          <div className="flex items-center space-x-2">
             <button onClick={handleUpdate} className="button-primary">
               Update Post
             </button>

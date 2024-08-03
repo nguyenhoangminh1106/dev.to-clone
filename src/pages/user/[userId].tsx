@@ -15,14 +15,6 @@ const UserProfile = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const { userId } = router.query as ParsedUrlQuery & { userId: string };
-  const [editing, setEditing] = useState(false);
-  const [newBio, setNewBio] = useState("");
-  const [newProfilePicture, setNewProfilePicture] = useState<File | null>(null);
-  const [newProfilePictureName, setNewProfilePictureName] =
-    useState("No file chosen");
-
-  const updateUserMutation = api.user.updateUser.useMutation();
-  const getPresignedUrlMutation = api.s3.getPresignedUrl.useMutation();
 
   const defaultProfileImage =
     "https://lyra-trial-1106.s3.ap-southeast-2.amazonaws.com/profileImage/6yvpkj.jpg";
@@ -34,60 +26,6 @@ const UserProfile = () => {
     isError,
     refetch,
   } = api.user.getUserById.useQuery({ userId });
-
-  // Handle profile picture change
-  const handleProfilePictureChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setNewProfilePictureName("Loading...");
-    const image = e.target.files?.[0] ?? null;
-    setNewProfilePicture(image);
-
-    if (image) {
-      setNewProfilePictureName(image.name);
-    }
-  };
-
-  // Handle profile update
-  const handleUpdateProfile = async () => {
-    setNewProfilePictureName("Loading...");
-
-    if (!session) return;
-
-    // Handle new profile picture upload
-    let profilePictureUrl = user?.image;
-    if (newProfilePicture) {
-      // Get presigned URL and upload
-      const { url } = await getPresignedUrlMutation.mutateAsync({
-        filename: newProfilePicture.name,
-        filefolder: "profileImage",
-        filetype: newProfilePicture.type,
-      });
-
-      await fetch(url, {
-        method: "PUT",
-        headers: { "Content-Type": newProfilePicture.type },
-        body: newProfilePicture,
-      });
-
-      profilePictureUrl = url.split("?")[0];
-    }
-
-    // Update user profile
-    await updateUserMutation.mutateAsync({
-      userId,
-      bio: newBio ?? user?.bio ?? "",
-      image: profilePictureUrl ?? defaultProfileImage,
-    });
-
-    try {
-      await refetch();
-    } catch (error) {
-      console.log("Refetch unsuccessfully: ", error);
-    }
-    setNewProfilePictureName("");
-    setEditing(false);
-  };
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading profile.</p>;

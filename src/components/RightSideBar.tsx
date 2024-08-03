@@ -55,7 +55,7 @@ const RightSideBar = () => {
 
       <div className="mt-3 w-full rounded-md border bg-white p-4">
         <h2 className="mb-2 text-lg font-semibold">
-          👋 What's happening this week
+          👋 What&apos;s happening this week
         </h2>
         <h3 className="text-md mb-2 font-bold">Challenges 🤗</h3>
 
