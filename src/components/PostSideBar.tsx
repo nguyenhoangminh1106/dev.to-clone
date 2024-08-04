@@ -61,7 +61,9 @@ const PostSideBar = () => {
 
       {/* More Posts */}
       <div className="mb-4 rounded-lg bg-white p-4 shadow-md">
-        <h3 className="mb-4 text-lg font-semibold">More from {user?.name}</h3>
+        <h3 className="mb-4 text-lg font-semibold">
+          More from <span className="text-indigo-700">{user?.name}</span>
+        </h3>
         <PostList
           showCommentLists={false}
           posts={user?.posts ?? []}

@@ -8,6 +8,9 @@ export default {
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
       },
+      maxWidth: {
+        "10xl": "95rem", // 160rem equals 2560px
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],

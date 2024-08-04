@@ -105,7 +105,7 @@ const Post = ({
   };
 
   return (
-    <div className="relative mx-1 my-2 sm:mx-0">
+    <div className="relative mx-1 my-2">
       <div className="rounded-lg bg-white p-4 shadow">
         <div className="mb-4 flex items-center">
           <Link href={`/user/${user?.id}`}>

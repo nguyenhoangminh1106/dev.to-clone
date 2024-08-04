@@ -20,7 +20,7 @@ const PostList = ({
     );
 
   return (
-    <div className="w-full max-w-3xl">
+    <div className="mx-1 w-full">
       {sortedPosts.length > 0 ? (
         sortedPosts.map((post) => (
           <Post

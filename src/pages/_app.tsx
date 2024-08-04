@@ -2,6 +2,8 @@ import { GeistSans } from "geist/font/sans";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
+import NavBar from "~/components/NavBar";
+import Footer from "~/components/Footer";
 import Head from "next/head";
 
 import { api } from "~/utils/api";
@@ -25,8 +27,22 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
         <link rel="icon" href="/dev.ico" />
       </Head>
-      <div className={GeistSans.className}>
-        <Component {...pageProps} />
+      <div className="max-w-10xl mx-auto">
+        <NavBar />
+      </div>
+      <div>
+        <div className={GeistSans.className}>
+          <div className="flex min-h-screen justify-center bg-gray-100">
+            <div className="max-w-10xl">
+              <Component {...pageProps} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-gray-300 bg-gray-100">
+        <div className="max-w-10xl mx-auto">
+          <Footer />
+        </div>
       </div>
     </SessionProvider>
   );

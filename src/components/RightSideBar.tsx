@@ -4,7 +4,31 @@ import Image from "next/image";
 const RightSideBar = () => {
   return (
     <>
-      <div className="mt-5 rounded-lg bg-white p-4 shadow-md">
+      <div className="mt-5 w-full rounded-md border bg-white p-4">
+        <h2 className="mb-2 text-lg font-semibold">
+          👋 What&apos;s happening this week
+        </h2>
+        <h3 className="text-md mb-2 font-bold">Challenges 🤗</h3>
+
+        <div className="mb-4 rounded-md border p-2">
+          <p>Running until August 18</p>
+          <a href="#" className="font-semibold text-blue-600">
+            Build Better on Stellar: Smart Contract Challenge
+          </a>
+          <p>50k in prizes!</p>
+        </div>
+
+        <div className="mb-4 rounded-md border p-2">
+          <p>Running until August 4</p>
+          <a href="#" className="font-semibold text-blue-600">
+            Frontend Challenge: Recreation Edition
+          </a>
+          <p>Claim your next badge</p>
+        </div>
+
+        <p>Have a great week ❤️</p>
+      </div>
+      <div className="mt-3 rounded-lg bg-white p-4 shadow-md">
         <div>
           <h2 className="mb-4 text-xl font-bold">About Me</h2>
           <Image
@@ -51,31 +75,6 @@ const RightSideBar = () => {
             </a>
           </div>
         </div>
-      </div>
-
-      <div className="mt-3 w-full rounded-md border bg-white p-4">
-        <h2 className="mb-2 text-lg font-semibold">
-          👋 What&apos;s happening this week
-        </h2>
-        <h3 className="text-md mb-2 font-bold">Challenges 🤗</h3>
-
-        <div className="mb-4 rounded-md border p-2">
-          <p>Running until August 18</p>
-          <a href="#" className="font-semibold text-blue-600">
-            Build Better on Stellar: Smart Contract Challenge
-          </a>
-          <p>50k in prizes!</p>
-        </div>
-
-        <div className="mb-4 rounded-md border p-2">
-          <p>Running until August 4</p>
-          <a href="#" className="font-semibold text-blue-600">
-            Frontend Challenge: Recreation Edition
-          </a>
-          <p>Claim your next badge</p>
-        </div>
-
-        <p>Have a great week ❤️</p>
       </div>
     </>
   );

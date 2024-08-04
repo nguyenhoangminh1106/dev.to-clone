@@ -59,7 +59,7 @@ const NavBar = () => {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 flex items-center justify-between bg-white px-2 py-2 shadow sm:px-5 md:px-20">
+      <nav className="sticky top-0 z-50 flex items-center justify-between bg-white px-2 py-2 sm:px-5 md:px-20">
         <div className="flex grow items-center">
           <button
             onClick={toggleSidebar}

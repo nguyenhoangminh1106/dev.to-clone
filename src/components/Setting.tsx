@@ -66,7 +66,7 @@ const Settings = () => {
 
   return (
     <div className="flex flex-col justify-center space-y-5">
-      <div className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-lg">
+      <div className="w-full rounded-lg bg-white p-6 shadow-lg">
         <h1 className="mb-6 text-2xl font-bold">User</h1>
         <div className="mb-6">
           <div className="mb-4">
@@ -119,7 +119,7 @@ const Settings = () => {
         </div>
       </div>
 
-      <div className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-lg">
+      <div className="w-full rounded-lg bg-white p-6 shadow-lg">
         <h1 className="mb-6 text-2xl font-bold">Basic</h1>
         <div className="mb-6">
           <div className="mb-4">
