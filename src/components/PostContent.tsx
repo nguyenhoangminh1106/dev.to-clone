@@ -7,6 +7,7 @@ import SharingUrl from "./SharingUrl";
 import Link from "next/link";
 import Comments from "./Comments";
 import ReactMarkdown from "react-markdown";
+import { FaHeart, FaComment, FaBookmark, FaEllipsisH } from "react-icons/fa";
 
 import type { ParsedUrlQuery } from "querystring";
 import type { User } from "@prisma/client";
@@ -58,67 +59,86 @@ const PostContent = () => {
   }, [data, error]);
 
   return (
-    <div className="flex flex-wrap">
-      <span>{editError && <p style={{ color: "red" }}>{editError}</p>}</span>
-      <div className="mx-auto w-full rounded-lg bg-white p-4 shadow-md">
-        {coverImage && (
-          <div className="relative mb-4 h-64 w-full overflow-hidden rounded-lg">
-            <Image
-              src={coverImage}
-              alt="Cover Image"
-              layout="fill"
-              objectFit="cover"
-              className="h-full w-full object-cover"
-            />
-          </div>
-        )}
-        <div className="relative mb-4 flex items-center justify-between">
-          <div className="flex items-center">
-            <Link href={`/user/${createdBy?.id}`}>
-              <Image
-                src={createdBy?.image ?? defaultProfileImage}
-                alt="Author's Profile Image"
-                width={40}
-                height={40}
-                className="h-10 w-10 rounded-full"
-              />
-            </Link>
-            <div className="ml-3">
-              <p className="font-semibold">{createdBy?.name}</p>
-              <p className="text-sm text-gray-500">
-                Posted on {createdAt?.toLocaleDateString("en-GB")}
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center">
-            <button onClick={onShare} className="button-secondary">
-              Share
-            </button>
-            <div
-              className={`absolute right-0 top-full mt-2 bg-white transition-all duration-1000 ease-in-out ${
-                isSharing ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-              }`}
-            >
-              <SharingUrl url={`${homeUrl}/post/${postId}`} />
-            </div>
-          </div>
+    <div className="justify-center sm:flex sm:space-x-6">
+      <div className="mt-10 flex hidden flex-col items-center space-y-10 py-4 text-gray-700 sm:block">
+        <div className="flex flex-col items-center">
+          <FaHeart className="text-xl text-gray-400" />
+          <span className="text-sm">0</span>
         </div>
-
-        <h1 className="mb-4 text-3xl font-bold">{title}</h1>
-        <div className="mb-4 flex items-center">
-          <div className="flex space-x-2 text-gray-500">{description}</div>
+        <div className="flex flex-col items-center">
+          <FaComment className="text-xl text-gray-400" />
+          <span className="text-sm">0</span>
         </div>
-        <div className="prose my-12 max-w-full">
-          <ReactMarkdown>{body}</ReactMarkdown>
+        <div className="flex flex-col items-center">
+          <FaBookmark className="text-xl text-gray-400" />
+          <span className="text-sm">1</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <FaEllipsisH className="text-xl text-gray-400" />
         </div>
       </div>
+      <div className="flex w-full flex-wrap">
+        <span>{editError && <p style={{ color: "red" }}>{editError}</p>}</span>
+        <div className="mx-auto w-full rounded-lg bg-white p-4 shadow-md">
+          {coverImage && (
+            <div className="relative mb-4 h-64 w-full overflow-hidden rounded-lg">
+              <Image
+                src={coverImage}
+                alt="Cover Image"
+                layout="fill"
+                objectFit="cover"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          )}
+          <div className="relative mb-4 flex items-center justify-between">
+            <div className="flex items-center">
+              <Link href={`/user/${createdBy?.id}`}>
+                <Image
+                  src={createdBy?.image ?? defaultProfileImage}
+                  alt="Author's Profile Image"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-full"
+                />
+              </Link>
+              <div className="ml-3">
+                <p className="font-semibold">{createdBy?.name}</p>
+                <p className="text-sm text-gray-500">
+                  Posted on {createdAt?.toLocaleDateString("en-GB")}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <button onClick={onShare} className="button-secondary">
+                Share
+              </button>
+              <div
+                className={`absolute right-0 top-full mt-2 bg-white transition-all duration-1000 ease-in-out ${
+                  isSharing ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+                }`}
+              >
+                <SharingUrl url={`${homeUrl}/post/${postId}`} />
+              </div>
+            </div>
+          </div>
 
-      {/* Comments Section */}
-      <div
-        id="comment"
-        className="mt-1 w-full rounded-lg bg-white p-4 shadow-md"
-      >
-        <Comments postId={numericPostId} />
+          <h1 className="mb-4 text-3xl font-bold">{title}</h1>
+          <div className="mb-4 flex items-center">
+            <div className="flex space-x-2 text-gray-500">{description}</div>
+          </div>
+          <div className="prose my-12 max-w-full">
+            <ReactMarkdown>{body}</ReactMarkdown>
+          </div>
+        </div>
+
+        {/* Comments Section */}
+        <div
+          id="comment"
+          className="mt-1 w-full rounded-lg bg-white p-4 shadow-md"
+        >
+          <Comments postId={numericPostId} />
+        </div>
       </div>
     </div>
   );

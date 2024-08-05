@@ -6,16 +6,33 @@
   border-width: 2px;
   border-color: rgb(67 56 202);
   padding: 0.5rem 1rem;
+  font-weight: 600;
   margin: 0 0.25em;
   color: rgb(67 56 202);
   transition: 0.3s ease;
   border-radius: 5%;
 }
 
+.button-primary-filled {
+  font-weight: 500;
+
+  border-width: 2px;
+  background-color: rgb(67 56 202);
+  padding: 0.5rem 1rem;
+  margin: 0 0.25em;
+  color: white;
+  transition: 0.3s ease;
+  border-radius: 10%;
+}
+
 .button-primary:hover {
   background-color: rgb(67 56 202);
   color: white;
   text-decoration: underline;
+}
+
+.button-primary-filled:hover {
+  background-color: rgb(67 56 170);
 }
 
 .button-primary:hover {

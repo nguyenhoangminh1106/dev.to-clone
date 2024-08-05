@@ -156,9 +156,12 @@ const Settings = () => {
           />
         </div>
       </div>
-      <div className="flex w-full items-center space-x-2 pb-5">
-        <button onClick={handleUpdateProfile} className="button-primary">
-          Save Changes
+      <div className="flex w-full flex-col items-center space-x-2 rounded-lg bg-white p-5">
+        <button
+          onClick={handleUpdateProfile}
+          className="button-primary-filled w-full"
+        >
+          Save Profile Information
         </button>
         <span>{status && <p style={{ color: "red" }}>{status}</p>}</span>
       </div>

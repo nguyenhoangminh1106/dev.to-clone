@@ -1,17 +1,31 @@
 import Link from "next/link";
 import { FcHome } from "react-icons/fc";
-import { AiOutlineRead } from "react-icons/ai";
-import { FaPodcast, FaVideo, FaTags } from "react-icons/fa";
+import { AiOutlineRead, AiOutlineClose, AiOutlineMail } from "react-icons/ai";
+import {
+  FaPodcast,
+  FaVideo,
+  FaTags,
+  FaDev,
+  FaThumbsUp,
+  FaUserSecret,
+  FaEye,
+  FaFacebookF,
+  FaGithub,
+  FaInstagram,
+  FaTwitch,
+  FaMastodon,
+} from "react-icons/fa";
 import { MdHelpOutline, MdShoppingCart } from "react-icons/md";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { RiTrophyLine, RiStarLine } from "react-icons/ri";
-import { FaDev } from "react-icons/fa";
-import { AiOutlineMail } from "react-icons/ai";
 import { GiBookshelf } from "react-icons/gi";
 import { BiCodeBlock } from "react-icons/bi";
+import { FiSettings } from "react-icons/fi";
 import { api } from "~/utils/api";
+import { useSession } from "next-auth/react";
 
 const LeftSideBar = () => {
+  const { data: session } = useSession();
   const { data, isLoading, isError } = api.utils.getStats.useQuery();
 
   if (isLoading) return <p>Loading...</p>;
@@ -20,22 +34,41 @@ const LeftSideBar = () => {
   return (
     <div className="mt-5 rounded-lg">
       <div className="mb-4 rounded-lg bg-gray-100 bg-white p-4">
-        <h2 className="text-lg font-bold">DEV Community</h2>
-        <p className="text-gray-600">
+        <h2 className="text-xl font-bold">DEV Community</h2>
+        <p className="mt-4 text-gray-600">
           We&apos;re a place where coders share, stay up-to-date, and grow their
           careers.
         </p>
-        <div className="button-secondary decoration-none shadow-lg">
-          <h2 className="mb-4 text-lg font-bold">Right Now !!!</h2>
-          <div>
-            <p>Total Users: {data?.totalUsers}</p>
-            <p>Total Posts: {data?.totalPosts}</p>
-            <p>Total Comments: {data?.totalComments}</p>
+        {session?.user && (
+          <div className="button-secondary decoration-none shadow-lg">
+            <h2 className="mb-4 text-lg font-bold">Right Now !!!</h2>
+            <div>
+              <p>Total Users: {data?.totalUsers}</p>
+              <p>Total Posts: {data?.totalPosts}</p>
+              <p>Total Comments: {data?.totalComments}</p>
+            </div>
           </div>
-        </div>
+        )}
+        {!session?.user && (
+          <div className="mb-2 mt-4 flex flex-col space-y-1">
+            <Link
+              href="/signin"
+              className="button-primary decoration-none shadow-lg"
+            >
+              Create Account
+            </Link>
+
+            <Link
+              href="/signin"
+              className="button-secondary decoration-none shadow-lg"
+            >
+              Login
+            </Link>
+          </div>
+        )}
       </div>
       <nav>
-        <ul className="space-y-2">
+        <ul className="space-y-1">
           <li>
             <Link href="/" className="button-secondary flex items-center">
               <span className="flex items-center">
@@ -170,6 +203,61 @@ const LeftSideBar = () => {
             </Link>
           </li>
         </ul>
+
+        <div className="ml-5 mt-6 font-bold">Others</div>
+        <ul className="space-y-1">
+          <li>
+            <Link
+              href="/code-of-conduct"
+              className="button-secondary flex items-center"
+            >
+              <span className="flex items-center">
+                <FaThumbsUp size={20} className="text-yellow-300" />
+                <span className="mx-1">Code of Conduct</span>
+              </span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/privacy-policy"
+              className="button-secondary flex items-center"
+            >
+              <span className="flex items-center">
+                <FaUserSecret size={20} className="text-yellow-500" />
+                <span className="mx-1">Privacy Policy</span>
+              </span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/terms-of-use"
+              className="button-secondary flex items-center"
+            >
+              <span className="flex items-center">
+                <FaEye size={20} className="" />
+                <span className="mx-1">Terms of Use</span>
+              </span>
+            </Link>
+          </li>
+        </ul>
+
+        <div className="p-4">
+          {/* Social Media Icons */}
+          <div className="mb-6 flex space-x-4">
+            <AiOutlineClose className="text-xl text-gray-700" />
+            <FaFacebookF className="text-xl text-gray-700" />
+            <FaGithub className="text-xl text-gray-700" />
+            <FaInstagram className="text-xl text-gray-700" />
+            <FaTwitch className="text-xl text-gray-700" />
+            <FaMastodon className="text-xl text-gray-700" />
+          </div>
+
+          {/* My Tags Section */}
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-bold">My Tags</h3>
+            <FiSettings className="text-xl text-gray-700" />
+          </div>
+        </div>
       </nav>
     </div>
   );

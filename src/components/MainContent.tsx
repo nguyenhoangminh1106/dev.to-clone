@@ -2,11 +2,14 @@ import { api } from "~/utils/api";
 import PostList from "./PostList";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import { FiChevronRight } from "react-icons/fi";
 
 import type { ParsedUrlQuery } from "querystring";
 
 const MainContent = () => {
   const router = useRouter();
+  const { data: session } = useSession();
   const { query } = (router.query as ParsedUrlQuery & { query: string }) ?? "";
 
   const websiteLogo =
@@ -23,8 +26,58 @@ const MainContent = () => {
   if (isError) return <p>Error loading posts</p>;
 
   return (
-    <main className="mt-4 flex-grow sm:mt-7">
+    <main className="mt-4 flex-grow sm:mx-2 sm:mt-7">
       <div className="mb-4">
+        {session?.user && !query && (
+          <div className="mx-2 mb-4 hidden rounded-lg bg-indigo-600 px-24 py-10 shadow-md lg:block">
+            <div className="flex items-start justify-between">
+              <Image
+                src="/images/dev.png"
+                alt="DEV Logo"
+                width={50}
+                height={50}
+                className="h-24 w-24 rounded-2xl"
+              />
+              <button className="text-2xl text-white">&times;</button>{" "}
+              {/* Close Button */}
+            </div>
+            <h1 className="mt-4 text-4xl font-bold text-white">
+              You're now a part of the community!
+            </h1>
+            <p className="mt-2 text-sm font-semibold uppercase text-slate-300">
+              Suggested things you can do
+            </p>
+            <ul className="mt-4 space-y-3 text-white">
+              <li className="flex cursor-pointer items-center justify-between rounded-lg bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700">
+                <span className="flex items-center space-x-2">
+                  <span role="img" aria-label="smiley">
+                    😊
+                  </span>
+                  <span>Join the Welcome thread</span>
+                </span>
+                <FiChevronRight className="text-white" />
+              </li>
+              <li className="flex cursor-pointer items-center justify-between rounded-lg bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700">
+                <span className="flex items-center space-x-2">
+                  <span role="img" aria-label="write">
+                    ✍️
+                  </span>
+                  <span>Write your first DEV Community post</span>
+                </span>
+                <FiChevronRight className="text-white" />
+              </li>
+              <li className="flex cursor-pointer items-center justify-between rounded-lg bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700">
+                <span className="flex items-center space-x-2">
+                  <span role="img" aria-label="customize">
+                    ✨
+                  </span>
+                  <span>Customize your profile</span>
+                </span>
+                <FiChevronRight className="text-white" />
+              </li>
+            </ul>
+          </div>
+        )}
         {!query && (
           <>
             <div className="mb-4 ml-5 flex items-center space-x-4">
@@ -37,7 +90,7 @@ const MainContent = () => {
               </p>
             </div>
 
-            <div className="mx-0 mx-1 rounded-lg bg-white p-6 shadow-md sm:mx-2">
+            <div className="mx-1 rounded-lg bg-white p-6 shadow-md sm:mx-2">
               <p className="mb-4">👋 DEV Challenges</p>
               <div className="mx-1 sm:mx-10">
                 <h1 className="mb-2 text-2xl font-semibold">

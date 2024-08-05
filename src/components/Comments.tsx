@@ -55,7 +55,7 @@ const Comments = ({ postId }: { postId: number }) => {
           className="ml-4 flex-grow rounded border p-2"
         />
         <button onClick={handleAddComment} className="button-secondary">
-          Submit
+          Subscribe
         </button>
       </div>
 

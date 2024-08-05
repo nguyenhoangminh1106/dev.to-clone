@@ -170,20 +170,20 @@ const Post = ({
           )}
         </div>
 
-        <h1 className="mx-6 mt-2 text-3xl font-bold hover:text-indigo-700">
+        <h1 className="mx-12 mt-2 text-2xl font-bold hover:text-indigo-700">
           <Link href={`/post/${post.id}`}>{post.title}</Link>
         </h1>
 
-        <p className="mx-6 mt-2 text-gray-700">{post.description}</p>
+        <p className="mx-12 mt-2 text-gray-700">{post.description}</p>
 
         {showComments && (
           <div className="comments-list mt-4">
             <div className="flex items-center space-x-1">
-              <p className="mx-6 flex items-center space-x-1 text-gray-500">
+              <p className="mx-12 flex items-center space-x-1 text-gray-500">
                 <FaFire></FaFire>
                 <span>13 reactions</span>
               </p>
-              <p className="mx-6 flex items-center space-x-1 text-gray-500">
+              <p className="mx-12 flex items-center space-x-1 text-gray-500">
                 <FaRegComment></FaRegComment>
                 <span>{comments?.length} comments</span>
               </p>

@@ -27,21 +27,21 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
         <link rel="icon" href="/dev.ico" />
       </Head>
-      <div className="max-w-10xl mx-auto">
-        <NavBar />
-      </div>
-      <div>
-        <div className={GeistSans.className}>
+      <div className={GeistSans.className}>
+        <div className="mx-auto max-w-10xl">
+          <NavBar />
+        </div>
+        <div>
           <div className="flex min-h-screen justify-center bg-gray-100">
             <div className="max-w-10xl">
               <Component {...pageProps} />
             </div>
           </div>
         </div>
-      </div>
-      <div className="border-t border-gray-300 bg-gray-100">
-        <div className="max-w-10xl mx-auto">
-          <Footer />
+        <div className="border-t border-gray-300 bg-gray-100">
+          <div className="mx-auto max-w-10xl">
+            <Footer />
+          </div>
         </div>
       </div>
     </SessionProvider>

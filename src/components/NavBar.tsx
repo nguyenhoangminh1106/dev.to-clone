@@ -106,7 +106,7 @@ const NavBar = () => {
               </button>
             </Link>
 
-            <FaBell className="text-xl text-gray-600" />
+            <FaBell className="text-xl text-gray-500" />
 
             <div>
               <div
@@ -119,7 +119,7 @@ const NavBar = () => {
                   alt="User Avatar"
                   width={500}
                   height={500}
-                  className="h-10 w-10 cursor-pointer rounded-full"
+                  className="h-8 w-8 cursor-pointer rounded-full"
                 />
                 {isDropdownOpen && (
                   <div className="absolute right-0 w-48 rounded-lg bg-white p-4 shadow-md transition duration-200 ease-in-out">
@@ -130,17 +130,23 @@ const NavBar = () => {
                       <p>{session.user.name}</p>
                       <p className="truncate text-xs">{session.user.id}</p>
                     </Link>
+                    <div className="block truncate px-4 py-2 text-gray-700 hover:bg-gray-100">
+                      Dashboard
+                    </div>
+                    <Link
+                      href="/createPost"
+                      className="block truncate px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      Create Post
+                    </Link>
+                    <div className="block truncate px-4 py-2 text-gray-700 hover:bg-gray-100">
+                      Reading List
+                    </div>
                     <Link
                       href="/setting"
                       className="block truncate border-b-2 border-b-gray-100 px-4 py-2 text-gray-700 hover:bg-gray-100"
                     >
                       Settings
-                    </Link>
-                    <Link
-                      href="/createPost"
-                      className="block truncate px-4 py-2 text-gray-700 hover:bg-gray-100 md:hidden"
-                    >
-                      Create Post
                     </Link>
 
                     <button
@@ -180,7 +186,7 @@ const NavBar = () => {
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-lg border p-2 pl-10 transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700"
+            className="w-full rounded-lg border p-2 pl-10 text-gray-100 transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700"
           />
           <button type="submit" className="hidden"></button>
         </form>

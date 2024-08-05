@@ -37,7 +37,7 @@ const SettingsPage = () => {
         <p className="my-5 text-2xl font-bold text-indigo-700">
           @{session?.user.name}: {session?.user.id}
         </p>
-        <div className="mx-auto w-full flex-grow">
+        <div className="mx-auto mb-10 w-full flex-grow">
           <Setting />
         </div>
       </div>
