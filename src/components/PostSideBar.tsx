@@ -5,7 +5,6 @@ import { api } from "~/utils/api";
 import type { ParsedUrlQuery } from "querystring";
 import PostList from "./PostList";
 import Link from "next/link";
-import UserInfo from "./UserInfo";
 
 const PostSideBar = () => {
   const router = useRouter();

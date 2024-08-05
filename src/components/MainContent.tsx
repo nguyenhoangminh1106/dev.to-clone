@@ -42,7 +42,7 @@ const MainContent = () => {
               {/* Close Button */}
             </div>
             <h1 className="mt-4 text-4xl font-bold text-white">
-              You're now a part of the community!
+              You&apos;re now a part of the community!
             </h1>
             <p className="mt-2 text-sm font-semibold uppercase text-slate-300">
               Suggested things you can do

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
-import NavBar from "~/components/NavBar";
 import Image from "next/image";
 import MdEditor from "react-markdown-editor-lite";
 import MarkdownIt from "markdown-it";

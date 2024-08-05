@@ -1,23 +1,15 @@
 // UserProfile.tsx
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import Image from "next/image";
 import type { ParsedUrlQuery } from "querystring";
-import NavBar from "~/components/NavBar";
 import PostList from "~/components/PostList";
-import Footer from "~/components/Footer";
 import { FaHashtag, FaRegComment, FaRegFileAlt } from "react-icons/fa";
 import UserInfo from "~/components/UserInfo";
 
 const UserProfile = () => {
-  const { data: session } = useSession();
   const router = useRouter();
   const { userId } = router.query as ParsedUrlQuery & { userId: string };
-
-  const defaultProfileImage =
-    "https://lyra-trial-1106.s3.ap-southeast-2.amazonaws.com/profileImage/6yvpkj.jpg";
 
   // Fetch user profile data
   const {

@@ -42,7 +42,7 @@ const RightSideBar = () => {
           </li>
           <li className="border-b py-4">
             <p className="text-md text-gray-900 hover:text-indigo-700">
-              Getting familiar with Rust's Syntax
+              Getting familiar with Rust&apos;s Syntax
             </p>
             <div className="mt-1 text-sm text-gray-500">
               <span>19 comments</span>
@@ -119,7 +119,7 @@ const RightSideBar = () => {
         <ul>
           <li className="border-b py-4">
             <p className="text-md text-gray-500 hover:text-indigo-700">
-              I'm developing a minimalistic note-taking web app with custom
+              I&apos;m developing a minimalistic note-taking web app with custom
               widgets. Can you suggest any widgets you would like to see?
             </p>
             <div className="mt-1 flex items-center text-sm text-gray-500">
@@ -139,8 +139,8 @@ const RightSideBar = () => {
           </li>
           <li className="border-b py-4">
             <p className="text-md text-gray-500 hover:text-indigo-700">
-              You're faced with conflicting team members. How do you navigate a
-              resolution between them?
+              You&apos;re faced with conflicting team members. How do you
+              navigate a resolution between them?
             </p>
             <div className="mt-1 flex items-center text-sm text-gray-500">
               <span>2 comments</span>
@@ -148,8 +148,8 @@ const RightSideBar = () => {
           </li>
           <li className="border-b py-4">
             <p className="text-md text-gray-500 hover:text-indigo-700">
-              You're facing a challenging client situation. How can you
-              prioritize your team's well-being?
+              You&apos;re facing a challenging client situation. How can you
+              prioritize your team&apos;s well-being?
             </p>
             <div className="mt-1 flex items-center text-sm text-gray-500">
               <span className="mr-2 rounded-full bg-yellow-300 px-1 py-0.5 text-xs text-yellow-800">

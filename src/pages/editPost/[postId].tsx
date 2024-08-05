@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import NavBar from "~/components/NavBar";
 import Image from "next/image";
 import type { ParsedUrlQuery } from "querystring";
 import MdEditor from "react-markdown-editor-lite";
