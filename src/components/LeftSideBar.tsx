@@ -24,8 +24,14 @@ import { FiSettings } from "react-icons/fi";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 
+/**
+ * LEFT-SIDE BAR ON THE HOME PAGE
+ * @returns
+ */
 const LeftSideBar = () => {
   const { data: session } = useSession();
+
+  // Get number of users, posts, comments
   const { data, isLoading, isError } = api.utils.getStats.useQuery();
 
   if (isLoading) return <p>Loading...</p>;
@@ -39,6 +45,7 @@ const LeftSideBar = () => {
           We&apos;re a place where coders share, stay up-to-date, and grow their
           careers.
         </p>
+        {/* If signed in, display statistic */}
         {session?.user && (
           <div className="button-secondary decoration-none shadow-lg">
             <h2 className="mb-4 text-lg font-bold">Right Now !!!</h2>
@@ -49,6 +56,7 @@ const LeftSideBar = () => {
             </div>
           </div>
         )}
+        {/* If not signed in, display sign in button */}
         {!session?.user && (
           <div className="mb-2 mt-4 flex flex-col space-y-1">
             <Link
@@ -67,6 +75,8 @@ const LeftSideBar = () => {
           </div>
         )}
       </div>
+
+      {/* Navigation */}
       <nav>
         <ul className="space-y-1">
           <li>

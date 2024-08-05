@@ -6,10 +6,18 @@ import Image from "next/image";
 import LeftSideBar from "./LeftSideBar";
 import { useRouter } from "next/router";
 
+/**
+ * NAVIGATION BAR
+ * @returns 
+ */
 const NavBar = () => {
   const { data: session } = useSession();
+
+  // Control the drop down menu from profile image
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  // In small screen the bar will collapse
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const searchBarRef = useRef<HTMLDivElement>(null);
@@ -19,9 +27,12 @@ const NavBar = () => {
 
   const router = useRouter();
 
+  // Open and close left side bar in small screen
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  // Search in database
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -36,6 +47,7 @@ const NavBar = () => {
     }
   };
 
+  // Control open/close of the search bar
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -92,6 +104,8 @@ const NavBar = () => {
             <FaSearch className="absolute left-3 top-2.5 text-xl text-gray-500" />
           </form>
         </div>
+
+        {/* If signed in, can create post */}
         {session ? (
           <div className="flex items-center space-x-4">
             <button
@@ -121,6 +135,8 @@ const NavBar = () => {
                   height={500}
                   className="h-8 w-8 cursor-pointer rounded-full"
                 />
+
+                {/* Drop down menu */}
                 {isDropdownOpen && (
                   <div className="absolute right-0 w-48 rounded-lg bg-white p-4 shadow-md transition duration-200 ease-in-out">
                     <Link
@@ -160,6 +176,7 @@ const NavBar = () => {
               </div>
             </div>
           </div>
+          // Not signed in
         ) : (
           <div className="flex">
             <Link href="/signin">
@@ -174,6 +191,7 @@ const NavBar = () => {
         )}
       </nav>
 
+      {/* Search bar in small screen */}
       <div
         ref={searchBarRef}
         className={`absolute left-0 block w-full bg-white px-5 py-2 shadow-md transition-all duration-300 ease-in-out md:hidden ${
@@ -191,6 +209,8 @@ const NavBar = () => {
           <button type="submit" className="hidden"></button>
         </form>
       </div>
+
+      {/* Control open/close of search bar in small screen */}
       <span className="block sm:hidden">
         {isSidebarOpen && (
           <div className="fixed inset-0 z-40" onClick={toggleSidebar}>

@@ -2,6 +2,10 @@ import MainContent from "~/components/MainContent";
 import LeftSideBar from "~/components/LeftSideBar";
 import RightSideBar from "~/components/RightSideBar";
 
+/**
+ * HOME PAGE
+ * @returns
+ */
 export default function Home() {
   return (
     <div className="flex w-full max-w-10xl flex-col">

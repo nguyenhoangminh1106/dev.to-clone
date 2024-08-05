@@ -4,6 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaBirthdayCake, FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 
+/**
+ * DISPLAY USER INFO
+ * @param param0
+ * @returns
+ */
 export default function UserInfo({ user }: { user: User }) {
   const { data: session } = useSession();
   const defaultProfileImage =

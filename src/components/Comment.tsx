@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Comment } from "@prisma/client"; // Importing the Comment type from Prisma
 
+/**
+ * Include autho info for Comment Type
+ */
 interface CommentProps {
   comment: Comment & {
     author: {
@@ -12,10 +15,23 @@ interface CommentProps {
   };
 }
 
-const CommentComponent = ({ comment }: CommentProps) => {
+/**
+ * Display each comment
+ *
+ * @param comment
+ * @returns
+ */
+const CommentComponent = ({
+  comment,
+  isFilled,
+}: {
+  comment: CommentProps["comment"];
+  isFilled: boolean;
+}) => {
   return (
-    <div className="comment-item mt-4">
+    <div className="comment-item mt-8">
       <div className="flex items-center">
+        {/* Author image */}
         <Link href={`/user/${comment.author.id}`}>
           <Image
             src={comment.author.image ?? "/default-avatar.png"}
@@ -25,7 +41,11 @@ const CommentComponent = ({ comment }: CommentProps) => {
             className="h-8 w-8 rounded-full"
           />
         </Link>
-        <div className="ml-3 w-full rounded-lg bg-gray-100 p-1">
+
+        {/* Author info */}
+        <div
+          className={`ml-3 w-full rounded-lg ${isFilled ? "bg-gray-100" : "border border-gray-200"} p-2`}
+        >
           <div className="flex items-center space-x-2">
             <p className="font-semibold">{comment.author.name ?? "Unknown"}</p>
             <p className="text-sm text-gray-500">

@@ -6,6 +6,11 @@ import type { ParsedUrlQuery } from "querystring";
 import PostList from "./PostList";
 import Link from "next/link";
 
+/**
+ * SIDE BAR IN THE POST DETAILS PAGE
+ * @returns
+ *
+ */
 const PostSideBar = () => {
   const router = useRouter();
   const { postId } = router.query as ParsedUrlQuery & { postId: number };
@@ -47,7 +52,7 @@ const PostSideBar = () => {
               alt="Author Avatar"
               width={50}
               height={50}
-              className="absolute -top-5 left-6 h-10 w-10 rounded-full"
+              className="absolute -top-5 left-6 h-12 w-12 rounded-full"
             />
           </Link>
           <div className="ml-20 mt-2">
@@ -61,8 +66,23 @@ const PostSideBar = () => {
             </button>
           </div>
         </Link>
-        <div className="ml-4">
+        <div className="my-3 ml-4">
           <p className="text-gray-500">{user?.bio}</p>
+        </div>
+
+        <div className="ml-4 flex flex-col space-y-2 pb-4">
+          <div className="text-gray-500">
+            <h1 className="text-sm font-bold">LOCATION</h1>
+            <p>Melbourne, Australia</p>
+          </div>
+          <div className="text-sm text-gray-500">
+            <h1 className="font-semibold">WORK</h1>
+            <p>Student</p>
+          </div>
+          <div className="text-sm text-gray-500">
+            <h1 className="font-semibold">JOINED</h1>
+            <p>Jul 30, 2024</p>
+          </div>
         </div>
       </div>
 
@@ -75,6 +95,7 @@ const PostSideBar = () => {
           showCommentLists={false}
           posts={user?.posts ?? []}
           refetch={refetch}
+          showHeaderLists={false}
         />
       </div>
     </div>

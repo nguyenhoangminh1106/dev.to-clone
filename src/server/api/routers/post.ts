@@ -3,7 +3,11 @@ import { z } from "zod";
 import { db } from "~/server/db";
 import { deleteImage } from "~/server/api/routers/s3";
 
+/**
+ * HANDLE POST REQUEST
+ */
 export const postRouter = createTRPCRouter({
+  // Add a post to database
   createPost: publicProcedure
     .input(
       z.object({
@@ -28,6 +32,7 @@ export const postRouter = createTRPCRouter({
       return newPost;
     }),
 
+  // Get all the post has status "published" == true
   getPublishedPosts: publicProcedure
     .input(z.object({ query: z.string().optional() }))
     .query(async ({ input }) => {
@@ -48,13 +53,14 @@ export const postRouter = createTRPCRouter({
       return posts;
     }),
 
+  // Return a list of post characteristic
   getPostById: publicProcedure
     .input(z.object({ postId: z.number() }))
     .query(async ({ input }) => {
       const { postId } = input;
       const post = await db.post.findUnique({
         where: { id: postId },
-        include: { createdBy: true },
+        include: { createdBy: true, Comment: true },
       });
       if (!post) {
         throw new Error("Post not found");
@@ -66,9 +72,19 @@ export const postRouter = createTRPCRouter({
       const coverImage = post.coverImage;
       const createdBy = post.createdBy;
       const createdAt = post.createdAt;
-      return { title, description, body, coverImage, createdBy, createdAt };
+      const comments = post.Comment;
+      return {
+        title,
+        description,
+        body,
+        coverImage,
+        createdBy,
+        createdAt,
+        comments,
+      };
     }),
 
+  // Delete a post using Id
   deletePost: publicProcedure
     .input(z.object({ postId: z.number() }))
     .mutation(async ({ input }) => {
@@ -97,6 +113,7 @@ export const postRouter = createTRPCRouter({
       return { success: true };
     }),
 
+  // Reverse the "published" status of a post
   togglePublish: publicProcedure
     .input(z.object({ postId: z.number() }))
     .mutation(async ({ input }) => {
@@ -111,6 +128,7 @@ export const postRouter = createTRPCRouter({
       return { success: true };
     }),
 
+  // Update the post
   updatePost: publicProcedure
     .input(
       z.object({
@@ -136,7 +154,12 @@ export const postRouter = createTRPCRouter({
 
       await db.post.update({
         where: { id: postId },
-        data: { title, description, body, coverImage },
+        data: {
+          title,
+          description,
+          body,
+          coverImage,
+        },
       });
 
       // Delete the cover image from S3 if it exists

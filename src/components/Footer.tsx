@@ -1,6 +1,10 @@
 import React from "react";
 import Link from "next/link";
 
+/**
+ * Footer of webpage
+ * @returns
+ */
 const Footer = () => {
   return (
     <footer className="bg-gray-100 p-4 pt-5 text-center">

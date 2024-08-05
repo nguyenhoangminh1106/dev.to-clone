@@ -3,6 +3,11 @@ import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import Image from "next/image";
 
+/**
+ * SETTING PAGE
+ * @returns 
+ * 
+ */
 const Settings = () => {
   const { data: session } = useSession();
   const [bio, setBio] = useState("");
@@ -16,11 +21,14 @@ const Settings = () => {
   const [status, setStatus] = useState("");
 
   const updateUserMutation = api.user.updateUser.useMutation();
+
+  // The link to S3 bucket
   const getPresignedUrlMutation = api.s3.getPresignedUrl.useMutation();
 
   const defaultProfileImage =
     "https://lyra-trial-1106.s3.ap-southeast-2.amazonaws.com/profileImage/6yvpkj.jpg";
 
+  // Handle after user upload the image
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     if (file) {
@@ -29,6 +37,7 @@ const Settings = () => {
     }
   };
 
+  // Update the profile
   const handleUpdateProfile = async () => {
     let profileImageUrl = user?.image;
     if (profileImage) {
@@ -66,6 +75,7 @@ const Settings = () => {
 
   return (
     <div className="flex flex-col justify-center space-y-5">
+      {/* Update form */}
       <div className="w-full rounded-lg bg-white p-6 shadow-lg">
         <h1 className="mb-6 text-2xl font-bold">User</h1>
         <div className="mb-6">

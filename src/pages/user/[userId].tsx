@@ -7,6 +7,10 @@ import PostList from "~/components/PostList";
 import { FaHashtag, FaRegComment, FaRegFileAlt } from "react-icons/fa";
 import UserInfo from "~/components/UserInfo";
 
+/**
+ * DISPLAY USER INFO, USER'S POSTS
+ * @returns
+ */
 const UserProfile = () => {
   const router = useRouter();
   const { userId } = router.query as ParsedUrlQuery & { userId: string };
@@ -28,7 +32,7 @@ const UserProfile = () => {
 
       <div className="w-full pt-28 md:w-3/4">
         {" "}
-        {/* New container to match the white rectangle width */}
+        {/* Statistics */}
         <div className="sm:flex sm:space-x-4">
           <div className="mt-2 h-1/2 w-full rounded-lg bg-white p-4 shadow-md sm:w-1/3">
             <div className="mb-4 flex items-center">
@@ -48,11 +52,14 @@ const UserProfile = () => {
               <span className="text-gray-700">0 tags followed</span>
             </div>
           </div>
+
+          {/* List of posts from the user */}
           <div className="w-full sm:w-2/3">
             <PostList
               showCommentLists={false}
               posts={user?.posts ?? []}
               refetch={refetch}
+              showHeaderLists={true}
             />
           </div>
         </div>

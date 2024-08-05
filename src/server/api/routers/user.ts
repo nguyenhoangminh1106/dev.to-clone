@@ -6,7 +6,11 @@ import {
 import { z } from "zod";
 import { deleteImage } from "~/server/api/routers/s3";
 
+/**
+ * HANDLE USER REQUEST
+ */
 export const userRouter = createTRPCRouter({
+  // Return user object from an Id
   getUserById: publicProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -18,6 +22,7 @@ export const userRouter = createTRPCRouter({
       return user;
     }),
 
+  // Update user
   updateUser: protectedProcedure
     .input(
       z.object({

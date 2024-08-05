@@ -23,12 +23,12 @@ model Post {
 
     published Boolean @default(true)
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User      @relation(fields: [createdById], references: [id])
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    createdBy   User     @relation(fields: [createdById], references: [id])
     createdById String
-    Comment     Comment[]
+
+    Comment Comment[]
 
     @@index([title])
 }
@@ -79,11 +79,11 @@ model Comment {
     content   String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    postId    Int
-    authorId  String
 
-    post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-    author User @relation(fields: [authorId], references: [id])
+    postId   Int
+    authorId String
+    post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+    author   User   @relation(fields: [authorId], references: [id])
 
     @@index([postId])
     @@index([authorId])

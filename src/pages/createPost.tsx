@@ -9,6 +9,11 @@ import "react-markdown-editor-lite/lib/index.css";
 
 const mdParser = new MarkdownIt();
 
+/**
+ * PAGE TO CREATE A POST
+ * @returns
+ *
+ */
 const CreatePost = () => {
   const { data: session } = useSession();
   const [title, setTitle] = useState("");
@@ -94,6 +99,7 @@ const CreatePost = () => {
 
   return (
     <div className="mx-1 flex lg:ml-32 lg:mr-24">
+      {/* Edit form */}
       <div className="my-12 w-full bg-white p-8 shadow-2xl transition duration-300 hover:bg-slate-50 sm:w-8/12">
         <div className="mb-4">
           <input
@@ -137,6 +143,7 @@ const CreatePost = () => {
           />
         </div>
         <div className="mb-4">
+          {/* Allow user to use Markdown */}
           <MdEditor
             placeholder="Post content"
             value={body}

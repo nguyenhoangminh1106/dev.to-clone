@@ -6,12 +6,16 @@ import {
 import { S3 } from "aws-sdk";
 import { z } from "zod";
 
+/**
+ * HANDLE CONNECTION WITH S3 BUCKETS
+ */
 const s3 = new S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_REGION,
 });
 
+// Delete an image
 export const deleteImage = async (imageUrl: string) => {
   const bucketName = process.env.AWS_BUCKET_NAME;
   if (!bucketName) {
@@ -36,6 +40,7 @@ export const deleteImage = async (imageUrl: string) => {
 };
 
 export const s3Router = createTRPCRouter({
+  // Get the Url of the image in S3
   getPresignedUrl: protectedProcedure
     .input(
       z.object({
@@ -56,6 +61,7 @@ export const s3Router = createTRPCRouter({
       return { url };
     }),
 
+  // Delete an image in S3
   deleteImage: publicProcedure
     .input(z.object({ imageUrl: z.string() }))
     .mutation(async ({ input }) => {

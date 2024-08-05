@@ -7,14 +7,21 @@ import { FiChevronRight } from "react-icons/fi";
 
 import type { ParsedUrlQuery } from "querystring";
 
+/**
+ * THE MIDDLE COLUMN OF THE WEBPAGE
+ * @returns
+ */
 const MainContent = () => {
   const router = useRouter();
   const { data: session } = useSession();
+
+  // Convert query to string
   const { query } = (router.query as ParsedUrlQuery & { query: string }) ?? "";
 
   const websiteLogo =
     "https://lyra-trial-1106.s3.ap-southeast-2.amazonaws.com/default/OIP.jfif";
 
+  // Add post to database
   const {
     data: posts,
     isLoading,
@@ -28,8 +35,9 @@ const MainContent = () => {
   return (
     <main className="mt-4 flex-grow sm:mx-2 sm:mt-7">
       <div className="mb-4">
+        {/* If not searching and already signed in */}
         {session?.user && !query && (
-          <div className="mx-2 mb-4 hidden rounded-lg bg-indigo-600 px-24 py-10 shadow-md lg:block">
+          <div className="mx-1 mb-4 hidden rounded-lg bg-indigo-600 px-24 py-10 shadow-md lg:block">
             <div className="flex items-start justify-between">
               <Image
                 src="/images/dev.png"
@@ -78,6 +86,8 @@ const MainContent = () => {
             </ul>
           </div>
         )}
+
+        {/* If not signed in */}
         {!query && (
           <>
             <div className="mb-4 ml-5 flex items-center space-x-4">
@@ -90,7 +100,7 @@ const MainContent = () => {
               </p>
             </div>
 
-            <div className="mx-1 rounded-lg bg-white p-6 shadow-md sm:mx-2">
+            <div className="mx-1 rounded-lg bg-white p-6 shadow-md sm:mx-1">
               <p className="mb-4">👋 DEV Challenges</p>
               <div className="mx-1 sm:mx-10">
                 <h1 className="mb-2 text-2xl font-semibold">
@@ -163,6 +173,7 @@ const MainContent = () => {
           </>
         )}
 
+        {/* When display search result */}
         {query && (
           <div className="mb-4 ml-5 flex items-center space-x-4 text-2xl font-bold">
             <i>Search result for: &quot;{query}&quot;</i>
@@ -174,6 +185,7 @@ const MainContent = () => {
             showCommentLists={true}
             posts={posts ?? []}
             refetch={refetch}
+            showHeaderLists={true}
           />
         </div>
       </div>

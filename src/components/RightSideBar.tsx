@@ -1,6 +1,10 @@
 import React from "react";
 import Image from "next/image";
 
+/**
+ * RIGHT SIDE BAR IN THE HOME PAGE
+ * @returns 
+ */
 const RightSideBar = () => {
   return (
     <>

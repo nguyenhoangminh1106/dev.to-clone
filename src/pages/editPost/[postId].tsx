@@ -10,6 +10,10 @@ import "react-markdown-editor-lite/lib/index.css";
 
 const mdParser = new MarkdownIt();
 
+/**
+ * PAGE TO EDIT A POST
+ * @returns
+ */
 const EditPost = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -25,6 +29,8 @@ const EditPost = () => {
   );
 
   const updatePostMutation = api.post.updatePost.useMutation();
+
+  // Link to image in S3 bucket
   const getPresignedUrlMutation = api.s3.getPresignedUrl.useMutation();
 
   // Parse postId from query
@@ -40,6 +46,7 @@ const EditPost = () => {
     setBody(text);
   };
 
+  // Update the data
   useEffect(() => {
     if (data) {
       setTitle(data.title);
@@ -121,6 +128,7 @@ const EditPost = () => {
 
   return (
     <div className="mx-1 flex lg:ml-32 lg:mr-24">
+      {/* Update form */}
       <div className="my-12 w-full bg-white p-8 shadow-2xl transition duration-300 hover:bg-slate-50 sm:w-8/12">
         <div className="mb-4">
           <input
@@ -165,6 +173,7 @@ const EditPost = () => {
           />
         </div>
         <div className="mb-4">
+          {/* Allow user to use Markdown to decorate their post */}
           <MdEditor
             placeholder="Post content"
             value={body}
@@ -183,6 +192,8 @@ const EditPost = () => {
           </span>
         </div>
       </div>
+
+      {/* Right side area of the page */}
       <div className="hidden w-4/12 px-1 py-36 sm:block">
         <div className="rounded-lg p-6">
           <h2 className="mb-4 text-lg font-bold">Writing a Great Post Title</h2>

@@ -1,5 +1,11 @@
 import { useRouter } from "next/router";
 
+/**
+ * BACK BUTTON
+ * - Return to previous page
+ * 
+ * @returns 
+ */
 const BackButton = () => {
   const router = useRouter();
 

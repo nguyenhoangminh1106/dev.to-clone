@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 
+/**
+ *  DISPLAY BLOCK TO COPY POST URL
+ * @param param0 
+ * @returns 
+ */
 const SharingUrl = ({ url }: { url: string }) => {
   const [isCopied, setIsCopied] = useState(false);
 

@@ -6,7 +6,14 @@ import {
 import { z } from "zod";
 import { db } from "~/server/db";
 
+/**
+ * HANDLE COMMENT REQUESTS
+ */
+
 export const commentRouter = createTRPCRouter({
+  /**
+   * Return list of comments from a post
+   */
   getByPostId: publicProcedure
     .input(z.object({ postId: z.number() }))
     .query(async ({ input }) => {
@@ -18,6 +25,7 @@ export const commentRouter = createTRPCRouter({
       return comments;
     }),
 
+  // Add a comment to database
   add: protectedProcedure
     .input(
       z.object({

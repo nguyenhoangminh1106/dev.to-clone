@@ -2,6 +2,11 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 
+/**
+ * OATH SIGN IN WITH GITHUB, GOOGLE
+ *
+ * @returns
+ */
 const SignUp = () => {
   const websiteLogo =
     "https://lyra-trial-1106.s3.ap-southeast-2.amazonaws.com/default/OIP.jfif";

@@ -1,16 +1,22 @@
-// PostList.tsx
 import React from "react";
 import Post from "~/components/Post";
 import type { Post as PostType } from "@prisma/client";
 
+/**
+ * DISPLAY THE LIST OF POSTS
+ * @param param0
+ * @returns
+ */
 const PostList = ({
   posts,
   refetch,
-  showCommentLists,
+  showCommentLists, // Whether each post in the list will display comments
+  showHeaderLists,
 }: {
   posts: PostType[];
   refetch: () => void;
   showCommentLists: boolean;
+  showHeaderLists: boolean;
 }) => {
   const sortedPosts = posts
     .slice()
@@ -21,6 +27,7 @@ const PostList = ({
 
   return (
     <div className="w-full">
+      {/* Sort posts from the latest */}
       {sortedPosts.length > 0 ? (
         sortedPosts.map((post) => (
           <Post
@@ -28,6 +35,7 @@ const PostList = ({
             post={post}
             refetch={refetch}
             showComments={showCommentLists}
+            showHeader={showHeaderLists}
           />
         ))
       ) : (

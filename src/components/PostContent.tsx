@@ -7,12 +7,21 @@ import SharingUrl from "./SharingUrl";
 import Link from "next/link";
 import Comments from "./Comments";
 import ReactMarkdown from "react-markdown";
-import { FaHeart, FaComment, FaBookmark, FaEllipsisH } from "react-icons/fa";
+import {
+  FavoriteBorder,
+  ChatBubbleOutline,
+  BookmarkBorder,
+  MoreHoriz,
+} from "@mui/icons-material";
 
 import type { ParsedUrlQuery } from "querystring";
 import type { User } from "@prisma/client";
 import type { DateTime } from "aws-sdk/clients/devicefarm";
 
+/**
+ * THE MAIN CONTENT OF EACH POST
+ * @returns
+ */
 const PostContent = () => {
   const router = useRouter();
   const { postId } = router.query as ParsedUrlQuery & { postId: number };
@@ -21,6 +30,18 @@ const PostContent = () => {
   const [body, setBody] = useState("");
   const [createdBy, setCreatedBy] = useState<User | null>(null);
   const [createdAt, setCreatedAt] = useState<DateTime | null>(null);
+  const [comments, setComments] = useState<
+    | {
+        id: string;
+        content: string;
+        createdAt: Date;
+        updatedAt: Date;
+        postId: number;
+        authorId: string;
+      }[]
+    | null
+  >(null);
+
   const [isSharing, setisSharing] = useState(false);
 
   const [coverImage, setCoverImage] = useState<string | null>(null);
@@ -44,6 +65,7 @@ const PostContent = () => {
     setisSharing(!isSharing);
   };
 
+  // Get the post details
   useEffect(() => {
     if (data) {
       setTitle(data.title);
@@ -52,6 +74,7 @@ const PostContent = () => {
       setCoverImage(data.coverImage);
       setCreatedBy(data.createdBy);
       setCreatedAt(data.createdAt);
+      setComments(data.comments);
     } else if (error) {
       console.error("Error fetching post:", error);
       setEditError(`Error fetching post.`);
@@ -60,23 +83,26 @@ const PostContent = () => {
 
   return (
     <div className="justify-center sm:flex sm:space-x-6">
+      {/* Reaction/Comments/Tags Icon */}
       <div className="mt-10 flex hidden flex-col items-center space-y-10 py-4 text-gray-700 sm:block">
         <div className="flex flex-col items-center">
-          <FaHeart className="text-xl text-gray-400" />
+          <FavoriteBorder className="text-xl" />
           <span className="text-sm">0</span>
         </div>
         <div className="flex flex-col items-center">
-          <FaComment className="text-xl text-gray-400" />
-          <span className="text-sm">0</span>
+          <ChatBubbleOutline className="text-xl" />
+          <span className="text-sm">{comments?.length}</span>
         </div>
         <div className="flex flex-col items-center">
-          <FaBookmark className="text-xl text-gray-400" />
+          <BookmarkBorder className="text-xl" />
           <span className="text-sm">1</span>
         </div>
         <div className="flex flex-col items-center">
-          <FaEllipsisH className="text-xl text-gray-400" />
+          <MoreHoriz className="text-xl" />
         </div>
       </div>
+
+      {/* Main Post Area */}
       <div className="flex w-full flex-wrap">
         <span>{editError && <p style={{ color: "red" }}>{editError}</p>}</span>
         <div className="mx-auto w-full rounded-lg bg-white p-4 shadow-md">
@@ -137,7 +163,11 @@ const PostContent = () => {
           id="comment"
           className="mt-1 w-full rounded-lg bg-white p-4 shadow-md"
         >
-          <Comments postId={numericPostId} />
+          <Comments postId={numericPostId} isListFilled={false} />
+          <div className="mb-5 flex justify-center space-x-10">
+            <span className="text-sm text-gray-500">Code of conduct</span>
+            <span className="text-sm text-gray-500">Report abuse</span>
+          </div>
         </div>
       </div>
     </div>

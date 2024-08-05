@@ -8,18 +8,27 @@ import { useRouter } from "next/router";
 import type { Post as PostType } from "@prisma/client";
 import SharingUrl from "./SharingUrl";
 import Comment from "./Comment";
-import { FaRegComment, FaFire } from "react-icons/fa";
+import { FaRegComment, FaFire, FaBookmark } from "react-icons/fa";
 
+/**
+ * CONTROL A SINGLE POST
+ *
+ * @param post, refetch, showComments
+ * @returns
+ */
 const Post = ({
   post,
   refetch,
   showComments,
+  showHeader,
 }: {
   post: PostType;
   refetch: () => void;
   showComments: boolean;
+  showHeader: boolean;
 }) => {
   const { data: session } = useSession();
+  // Drop down menu status
   const [activePostMenu, setActivePostMenu] = useState<number | null>(null);
   const [isPublished, setIsPublished] = useState(post.published);
   const [isSharing, setisSharing] = useState(false);
@@ -49,6 +58,7 @@ const Post = ({
     postId,
   });
 
+  // Change the publish status
   const onTogglePublish = async () => {
     try {
       await togglePublishMutation.mutateAsync({ postId: post.id });
@@ -59,6 +69,7 @@ const Post = ({
     }
   };
 
+  // Control open/close of the drop-down menu
   const handleClickOutside = (event: MouseEvent) => {
     if (
       dropdownRef.current &&
@@ -75,6 +86,7 @@ const Post = ({
     };
   }, []);
 
+  // Delete the post
   const onDelete = async () => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this post?",
@@ -89,6 +101,7 @@ const Post = ({
     }
   };
 
+  // Redirect to edit page
   const onEdit = () => {
     router
       .push(`/editPost/${post.id}`)
@@ -100,6 +113,7 @@ const Post = ({
       });
   };
 
+  // Display the sharing link
   const onShare = () => {
     setisSharing(!isSharing);
   };
@@ -107,87 +121,126 @@ const Post = ({
   return (
     <div className="relative mx-1 my-2">
       <div className="rounded-lg bg-white p-4 shadow">
-        <div className="mb-4 flex items-center">
-          <Link href={`/user/${user?.id}`}>
-            <Image
-              src={user?.image ?? defaultProfileImage}
-              alt="Profile Image"
-              width={40}
-              height={40}
-              className="h-10 w-10 rounded-full"
-            />
-          </Link>
-          <div className="ml-3">
-            <p className="font-semibold">{user?.name ?? "Unknown"}</p>
-            <p className="text-sm text-gray-500">
-              {new Date(post.createdAt).toLocaleDateString("en-GB")}
-            </p>
-          </div>
-        </div>
-
-        <div className="absolute right-0 top-0 mx-6 my-4">
-          <button
-            onClick={() => toggleDropdown(post.id)}
-            className="text-gray-600 hover:text-gray-800"
-          >
-            <span className="inline-block text-xl">•••</span>
-          </button>
-          {activePostMenu === post.id && (
-            <div
-              ref={dropdownRef}
-              className="absolute right-0 z-10 mt-2 w-48 rounded-md border border-gray-300 bg-white shadow-lg"
-            >
-              {session?.user?.id === post.createdById && (
-                <>
-                  <button
-                    onClick={onEdit}
-                    className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={onDelete}
-                    className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={onTogglePublish}
-                    className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                  >
-                    {isPublished ? "Hide" : "Show"}
-                  </button>
-                </>
-              )}
-              <button
-                onClick={onShare}
-                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-              >
-                Share
-              </button>
-              {isSharing && <SharingUrl url={`${homeUrl}/post/${post.id}`} />}
+        {showHeader && (
+          <div>
+            {/* Author info */}
+            <div className="mb-4 flex items-center">
+              <Link href={`/user/${user?.id}`}>
+                <Image
+                  src={user?.image ?? defaultProfileImage}
+                  alt="Profile Image"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-full"
+                />
+              </Link>
+              <div className="ml-3">
+                <p className="font-semibold">{user?.name ?? "Unknown"}</p>
+                <p className="text-sm text-gray-500">
+                  {new Date(post.createdAt).toLocaleDateString("en-GB")}
+                </p>
+              </div>
             </div>
-          )}
-        </div>
 
-        <h1 className="mx-12 mt-2 text-2xl font-bold hover:text-indigo-700">
+            {/* Drop-down menu */}
+            <div className="absolute right-0 top-0 mx-6 my-4">
+              <button
+                onClick={() => toggleDropdown(post.id)}
+                className="text-gray-600 hover:text-gray-800"
+              >
+                <span className="inline-block text-xl">•••</span>
+              </button>
+              {activePostMenu === post.id && (
+                <div
+                  ref={dropdownRef}
+                  className="absolute right-0 z-10 mt-2 w-48 rounded-md border border-gray-300 bg-white shadow-lg"
+                >
+                  {session?.user?.id === post.createdById && (
+                    <>
+                      <button
+                        onClick={onEdit}
+                        className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={onDelete}
+                        className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={onTogglePublish}
+                        className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                      >
+                        {isPublished ? "Hide" : "Show"}
+                      </button>
+                    </>
+                  )}
+                  <button
+                    onClick={onShare}
+                    className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                  >
+                    Share
+                  </button>
+                  {isSharing && (
+                    <SharingUrl url={`${homeUrl}/post/${post.id}`} />
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        {/* Post details */}
+        <h1
+          className={` ${showHeader ? "mx-12 mt-2 text-2xl font-bold" : "text-md text-gray-700"} hover:text-indigo-700`}
+        >
           <Link href={`/post/${post.id}`}>{post.title}</Link>
         </h1>
 
-        <p className="mx-12 mt-2 text-gray-700">{post.description}</p>
+        <p
+          className={`mt-2 ${showHeader ? "mx-12 text-gray-700" : "text-sm text-gray-500"} `}
+        >
+          {post.description}
+        </p>
 
-        {showComments && (
-          <div className="comments-list mt-4">
+        {showHeader && (
+          <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1">
-              <p className="mx-12 flex items-center space-x-1 text-gray-500">
+              <Link
+                href={`/post/${post.id}`}
+                className="mx-10 flex items-center space-x-1 rounded-lg p-2 text-red-600 hover:bg-gray-100"
+              >
                 <FaFire></FaFire>
                 <span>13 reactions</span>
-              </p>
-              <p className="mx-12 flex items-center space-x-1 text-gray-500">
+              </Link>
+              <Link
+                href={`/post/${post.id}`}
+                className="flex items-center space-x-1 rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+              >
                 <FaRegComment></FaRegComment>
-                <span>{comments?.length} comments</span>
-              </p>
+                {comments && comments?.length > 0 ? (
+                  <span>{comments?.length} comments</span>
+                ) : (
+                  <span>Add a comment</span>
+                )}
+              </Link>
             </div>
+            <div className="flex items-center space-x-5 text-gray-500">
+              <div>6 min read </div>
+              <div>
+                <span className="text-gray-400">
+                  <FaBookmark></FaBookmark>
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Post comments */}
+        {showComments && (
+          <div className="comments-list mt-4">
+            {/* Only show last 3 comments */}
             {comments
               ?.slice(0, 3)
               .sort(
@@ -195,7 +248,9 @@ const Post = ({
                   new Date(b.createdAt).getTime() -
                   new Date(a.createdAt).getTime(),
               )
-              .map((comment) => <Comment key={comment.id} comment={comment} />)}
+              .map((comment) => (
+                <Comment key={comment.id} comment={comment} isFilled={true} />
+              ))}
 
             {comments && comments?.length > 0 && (
               <Link href={`/post/${post.id}`}>
