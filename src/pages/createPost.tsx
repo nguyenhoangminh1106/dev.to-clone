@@ -6,6 +6,7 @@ import Image from "next/image";
 import MdEditor from "react-markdown-editor-lite";
 import MarkdownIt from "markdown-it";
 import "react-markdown-editor-lite/lib/index.css";
+import { TagsInput } from "react-tag-input-component";
 
 const mdParser = new MarkdownIt();
 
@@ -17,7 +18,7 @@ const mdParser = new MarkdownIt();
 const CreatePost = () => {
   const { data: session } = useSession();
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [tags, setTags] = useState(["tags"]);
   const [body, setBody] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [tempCoverImageUrl, setTempCoverImageUrl] = useState<string | null>(
@@ -81,6 +82,7 @@ const CreatePost = () => {
     try {
       setError("Uploading post...");
       // Continue with post creation
+      const description = tags.map((tag) => `#${tag}`).join(" ") + " ";
       const response = await createPostMutation.mutateAsync({
         title,
         description,
@@ -134,12 +136,15 @@ const CreatePost = () => {
             className="w-full border-b p-2 text-2xl font-bold focus:outline-none"
           />
         </div>
-        <div className="mb-4">
-          <textarea
-            placeholder="Write your post description here..."
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full border-b p-2 focus:outline-none"
+        <div>
+          <TagsInput
+            value={tags}
+            onChange={setTags}
+            name="Add up to 4 tags..."
+            placeHolder="tags"
+            separators={
+              tags.length <= 4 ? ["Enter", " "] : ["~Only up to 4 tags~ Sorry!"]
+            }
           />
         </div>
         <div className="mb-4">

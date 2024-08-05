@@ -7,6 +7,7 @@ import type { ParsedUrlQuery } from "querystring";
 import MdEditor from "react-markdown-editor-lite";
 import MarkdownIt from "markdown-it";
 import "react-markdown-editor-lite/lib/index.css";
+import { TagsInput } from "react-tag-input-component";
 
 const mdParser = new MarkdownIt();
 
@@ -20,7 +21,7 @@ const EditPost = () => {
   const { postId } = router.query as ParsedUrlQuery & { postId: number };
   const [editError, setEditError] = useState("");
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [tags, setTags] = useState(["tags"]);
   const [body, setBody] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [oldCoverImage, setOldCoverImage] = useState("");
@@ -49,8 +50,13 @@ const EditPost = () => {
   // Update the data
   useEffect(() => {
     if (data) {
+      const tagList = data.description
+        .trim() // Remove any leading or trailing whitespace
+        .split(" ") // Split the string by spaces
+        .filter((tag) => tag) // Remove any empty strings
+        .map((tag) => tag.slice(1));
       setTitle(data.title);
-      setDescription(data.description);
+      setTags(tagList);
       setBody(data.body);
       const oldCoverImage = data.coverImage;
 
@@ -109,6 +115,7 @@ const EditPost = () => {
 
     try {
       setEditError("Updating post...");
+      const description = tags.map((tag) => `#${tag}`).join(" ") + " ";
       // Continue with post creation
       const response = await updatePostMutation.mutateAsync({
         postId: numericPostId,
@@ -165,11 +172,20 @@ const EditPost = () => {
           />
         </div>
         <div className="mb-4">
-          <textarea
+          {/* <textarea
             placeholder="Post description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="w-full border-b p-2 focus:outline-none"
+          /> */}
+          <TagsInput
+            value={tags}
+            onChange={setTags}
+            name="Add up to 4 tags..."
+            placeHolder="tags"
+            separators={
+              tags.length <= 4 ? ["Enter", " "] : ["~Only up to 4 tags~ Sorry!"]
+            }
           />
         </div>
         <div className="mb-4">
