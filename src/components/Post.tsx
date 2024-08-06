@@ -213,13 +213,13 @@ const Post = ({
                 className="mx-10 flex items-center space-x-1 rounded-lg p-2 text-red-600 hover:bg-gray-100"
               >
                 <FaFire />
-                <span className="hidden sm:block">
+                <span className="hidden lg:block">
                   {post?.reactions
                     ? post?.reactions.reduce((acc, num) => acc + num, 0)
                     : 0}{" "}
                   reactions
                 </span>
-                <span className="block sm:hidden">
+                <span className="block lg:hidden">
                   {post?.reactions
                     ? post?.reactions.reduce((acc, num) => acc + num, 0)
                     : 0}
@@ -232,13 +232,13 @@ const Post = ({
                 <FaRegComment></FaRegComment>
                 {comments && comments?.length > 0 ? (
                   <>
-                    <span className="hidden sm:block">
+                    <span className="hidden lg:block">
                       {comments?.length} comments
                     </span>
-                    <span className="block sm:hidden">{comments?.length}</span>
+                    <span className="block lg:hidden">{comments?.length}</span>
                   </>
                 ) : (
-                  <span className="hidden sm:block">Add a comment</span>
+                  <span className="hidden lg:block">Add a comment</span>
                 )}
               </Link>
             </div>

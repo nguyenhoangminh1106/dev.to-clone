@@ -27,14 +27,14 @@ const UserProfile = () => {
     <>
       {isLoading && <LoadingBar />}
       {isError && <p className="m-5 text-red-500">Error loading profile</p>}
-      <div className="flex flex-col items-center space-y-28 bg-gray-100">
+      <div className="flex flex-col items-center space-y-28 bg-gray-100 sm:mx-10 lg:mx-20">
         {user && <UserInfo user={user} />}
 
         <div className="w-full pt-28 md:w-3/4">
           {" "}
           {/* Statistics */}
           <div className="sm:flex sm:space-x-4">
-            <div className="mt-2 h-1/2 w-full rounded-lg bg-white p-4 shadow-md sm:w-1/3">
+            <div className="mt-2 h-1/2 w-full rounded-lg bg-white p-4 sm:w-1/3">
               <div className="mb-4 flex items-center">
                 <FaRegFileAlt className="mr-3 text-gray-500" size={24} />
                 <span className="text-gray-700">

@@ -115,9 +115,9 @@ const PostContent = () => {
       {/* Main Post Area */}
       <div className="flex w-full flex-wrap">
         <span>{editError && <p style={{ color: "red" }}>{editError}</p>}</span>
-        <div className="mx-auto w-full rounded-lg bg-white p-4 shadow-md">
+        <div className="mx-auto w-full rounded-lg bg-white shadow-md">
           {coverImage && (
-            <div className="relative mb-4 h-64 w-full overflow-hidden rounded-lg">
+            <div className="relative mb-4 h-80 w-full overflow-hidden rounded-lg">
               <Image
                 src={coverImage}
                 alt="Cover Image"
@@ -127,7 +127,7 @@ const PostContent = () => {
               />
             </div>
           )}
-          <div className="px-12 py-4">
+          <div className="px-16 py-4">
             <div className="relative mb-4 flex items-center justify-between">
               <div className="flex items-center">
                 <Link href={`/user/${createdBy?.id}`}>
