@@ -58,17 +58,17 @@ const LeftSideBar = () => {
         )}
         {/* If not signed in, display sign in button */}
         {!session?.user && (
-          <div className="mb-2 mt-4 flex flex-col space-y-1">
+          <div className="mb-2 mt-4 flex w-full flex-col space-y-1">
             <Link
               href="/signin"
-              className="button-primary decoration-none shadow-lg"
+              className="button-primary decoration-none w-full shadow-lg"
             >
               Create Account
             </Link>
 
             <Link
               href="/signin"
-              className="button-secondary decoration-none shadow-lg"
+              className="button-secondary decoration-none w-full shadow-lg"
             >
               Login
             </Link>

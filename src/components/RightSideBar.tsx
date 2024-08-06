@@ -1,16 +1,25 @@
 import React from "react";
 import Image from "next/image";
+import PostList from "./PostList";
+import { api } from "~/utils/api";
 
 /**
  * RIGHT SIDE BAR IN THE HOME PAGE
- * @returns 
+ * @returns
  */
 const RightSideBar = () => {
+  const {
+    data: posts,
+    isLoading,
+    isError,
+    refetch,
+  } = api.post.getPublishedPosts.useQuery({ filter: "comment", count: 8 });
+
   return (
     <>
       <div className="mt-5 rounded-lg bg-white p-4 shadow-md">
         <h2 className="text-xl font-bold">Active discussions</h2>
-        <ul>
+        {/* <ul>
           <li className="border-b py-4">
             <p className="text-md text-gray-900 hover:text-indigo-700">
               Monorepo VS Polyrepo
@@ -83,7 +92,13 @@ const RightSideBar = () => {
               <span>4 comments</span>
             </div>
           </li>
-        </ul>
+        </ul> */}
+        <PostList
+          showCommentLists={false}
+          posts={posts ?? []}
+          refetch={refetch}
+          showHeaderLists={false}
+        />
       </div>
       <div className="mt-3 w-full rounded-md border bg-white p-4">
         <h2 className="mb-2 text-lg font-semibold">

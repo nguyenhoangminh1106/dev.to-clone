@@ -115,7 +115,8 @@ const EditPost = () => {
 
     try {
       setEditError("Updating post...");
-      const description = tags.map((tag) => `#${tag}`).join(" ") + " ";
+      const description =
+        tags.map((tag) => `#${tag.toLowerCase}`).join(" ") + " ";
       // Continue with post creation
       const response = await updatePostMutation.mutateAsync({
         postId: numericPostId,
@@ -181,8 +182,8 @@ const EditPost = () => {
           <TagsInput
             value={tags}
             onChange={setTags}
-            name="Add up to 4 tags..."
-            placeHolder="tags"
+            name="tags"
+            placeHolder="Add up to 4 tags..."
             separators={
               tags.length <= 4 ? ["Enter", " "] : ["~Only up to 4 tags~ Sorry!"]
             }

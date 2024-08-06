@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { FiChevronRight } from "react-icons/fi";
 
 import type { ParsedUrlQuery } from "querystring";
+import Link from "next/link";
 
 /**
  * THE MIDDLE COLUMN OF THE WEBPAGE
@@ -65,7 +66,10 @@ const MainContent = () => {
                 </span>
                 <FiChevronRight className="text-white" />
               </li>
-              <li className="flex cursor-pointer items-center justify-between rounded-lg bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700">
+              <Link
+                href="/createPost"
+                className="flex cursor-pointer items-center justify-between rounded-lg bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700"
+              >
                 <span className="flex items-center space-x-2">
                   <span role="img" aria-label="write">
                     ✍️
@@ -73,8 +77,11 @@ const MainContent = () => {
                   <span>Write your first DEV Community post</span>
                 </span>
                 <FiChevronRight className="text-white" />
-              </li>
-              <li className="flex cursor-pointer items-center justify-between rounded-lg bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700">
+              </Link>
+              <Link
+                href="/setting"
+                className="flex cursor-pointer items-center justify-between rounded-lg bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700"
+              >
                 <span className="flex items-center space-x-2">
                   <span role="img" aria-label="customize">
                     ✨
@@ -82,7 +89,7 @@ const MainContent = () => {
                   <span>Customize your profile</span>
                 </span>
                 <FiChevronRight className="text-white" />
-              </li>
+              </Link>
             </ul>
           </div>
         )}

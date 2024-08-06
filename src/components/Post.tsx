@@ -120,7 +120,9 @@ const Post = ({
 
   return (
     <div className="relative mx-1 my-2">
-      <div className="rounded-lg bg-white p-4 shadow">
+      <div
+        className={`rounded-lg border-b border-b-gray-200 bg-white ${showHeader ? "p-4" : "py-4"} `}
+      >
         {showHeader && (
           <div>
             {/* Author info */}
@@ -198,9 +200,7 @@ const Post = ({
           <Link href={`/post/${post.id}`}>{post.title}</Link>
         </h1>
 
-        <p
-          className={`mt-2 ${showHeader ? "mx-12 text-gray-700" : "text-sm text-gray-500"} `}
-        >
+        <p className={`mt-2 ${showHeader ? "mx-12" : "text-sm"} text-gray-500`}>
           {post.description}
         </p>
 
@@ -212,7 +212,8 @@ const Post = ({
                 className="mx-10 flex items-center space-x-1 rounded-lg p-2 text-red-600 hover:bg-gray-100"
               >
                 <FaFire></FaFire>
-                <span>13 reactions</span>
+                <span className="hidden sm:block">13 reactions</span>
+                <span className="block sm:hidden">13</span>
               </Link>
               <Link
                 href={`/post/${post.id}`}
@@ -220,9 +221,14 @@ const Post = ({
               >
                 <FaRegComment></FaRegComment>
                 {comments && comments?.length > 0 ? (
-                  <span>{comments?.length} comments</span>
+                  <>
+                    <span className="hidden sm:block">
+                      {comments?.length} comments
+                    </span>
+                    <span className="block sm:hidden">{comments?.length}</span>
+                  </>
                 ) : (
-                  <span>Add a comment</span>
+                  <span className="hidden sm:block">Add a comment</span>
                 )}
               </Link>
             </div>

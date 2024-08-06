@@ -32,12 +32,19 @@ export const postRouter = createTRPCRouter({
       return newPost;
     }),
 
-  // Get all the post has status "published" == true
+  // Get all the post has status "published" == true and optionally filter by comments
   getPublishedPosts: publicProcedure
-    .input(z.object({ query: z.string().optional() }))
+    .input(
+      z.object({
+        query: z.string().optional(),
+        filter: z.enum(["", "comment"]).optional(),
+        count: z.number().optional(),
+      }),
+    )
     .query(async ({ input }) => {
-      const { query } = input;
+      const { query, filter, count } = input;
 
+      // Fetch posts with optional filtering by the number of comments
       const posts = await db.post.findMany({
         where: {
           AND: [
@@ -47,7 +54,17 @@ export const postRouter = createTRPCRouter({
         },
         include: {
           createdBy: true,
+          Comment: true, // Include comments to count them later
         },
+        orderBy:
+          filter === "comment"
+            ? {
+                Comment: {
+                  _count: "desc", // Order by the number of comments descending
+                },
+              }
+            : undefined,
+        take: count, // Limit the number of posts returned if count is provided
       });
 
       return posts;
