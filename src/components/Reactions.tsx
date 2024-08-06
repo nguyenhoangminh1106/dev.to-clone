@@ -35,7 +35,7 @@ const Reactions = ({
   const emojis = ["❤️", "🦄", "🤯", "🙏", "🔥"];
 
   return (
-    <div className="flex space-x-12 py-1">
+    <div className="flex space-x-4 py-1 sm:space-x-12">
       {reactions.map((count, index) => (
         <div
           key={index}

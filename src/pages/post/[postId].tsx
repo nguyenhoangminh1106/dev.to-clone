@@ -3,7 +3,7 @@ import PostContent from "~/components/PostContent";
 
 const Post = () => {
   return (
-    <div className="flex flex-wrap bg-gray-100 sm:mx-10">
+    <div className="mx-0 flex flex-wrap bg-gray-100 sm:mx-10">
       <div className="w-full px-2 pt-4 lg:w-2/3 lg:pl-20">
         <PostContent />
       </div>
