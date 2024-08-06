@@ -7,7 +7,6 @@ import MdEditor from "react-markdown-editor-lite";
 import MarkdownIt from "markdown-it";
 import "react-markdown-editor-lite/lib/index.css";
 import { TagsInput } from "react-tag-input-component";
-import { string } from "zod";
 
 const mdParser = new MarkdownIt();
 
@@ -84,7 +83,7 @@ const CreatePost = () => {
       setError("Uploading post...");
       // Continue with post creation
       const description =
-        tags.map((tag) => `#${tag.toLowerCase}`).join(" ") + " ";
+        tags.map((tag) => `#${tag.toLowerCase()}`).join("  ") + "  ";
       const response = await createPostMutation.mutateAsync({
         title,
         description,

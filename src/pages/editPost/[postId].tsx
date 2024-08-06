@@ -116,7 +116,7 @@ const EditPost = () => {
     try {
       setEditError("Updating post...");
       const description =
-        tags.map((tag) => `#${tag.toLowerCase}`).join(" ") + " ";
+        tags.map((tag) => `#${tag.toLowerCase()}`).join(" ") + " ";
       // Continue with post creation
       const response = await updatePostMutation.mutateAsync({
         postId: numericPostId,

@@ -15,84 +15,13 @@ const RightSideBar = () => {
     refetch,
   } = api.post.getPublishedPosts.useQuery({ filter: "comment", count: 8 });
 
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading posts</p>;
+
   return (
     <>
       <div className="mt-5 rounded-lg bg-white p-4 shadow-md">
         <h2 className="text-xl font-bold">Active discussions</h2>
-        {/* <ul>
-          <li className="border-b py-4">
-            <p className="text-md text-gray-900 hover:text-indigo-700">
-              Monorepo VS Polyrepo
-            </p>
-            <div className="mt-1 text-sm text-gray-500">
-              <span>5 comments</span>
-            </div>
-          </li>
-          <li className="border-b py-4">
-            <p className="text-md text-gray-900 hover:text-indigo-700">
-              Mastering Next.js: The Ultimate Guide to Structuring Large-Scale
-              Projects in 2024
-            </p>
-            <div className="mt-1 text-sm text-gray-500">
-              <span>36 comments</span>
-            </div>
-          </li>
-          <li className="border-b py-4">
-            <p className="text-md text-gray-900 hover:text-indigo-700">
-              Show us your open-source project!
-            </p>
-            <div className="mt-1 text-sm text-gray-500">
-              <span>115 comments</span>
-            </div>
-          </li>
-          <li className="border-b py-4">
-            <p className="text-md text-gray-900 hover:text-indigo-700">
-              What was your win this week?
-            </p>
-            <div className="mt-1 text-sm text-gray-500">
-              <span>39 comments</span>
-            </div>
-          </li>
-          <li className="border-b py-4">
-            <p className="text-md text-gray-900 hover:text-indigo-700">
-              Getting familiar with Rust&apos;s Syntax
-            </p>
-            <div className="mt-1 text-sm text-gray-500">
-              <span>19 comments</span>
-            </div>
-          </li>
-          <li className="border-b py-4">
-            <p className="text-md text-gray-900 hover:text-indigo-700">
-              9 Must-Try React UI Component Libraries for Stunning Web Apps in
-              2024
-            </p>
-            <div className="mt-1 text-sm text-gray-500">
-              <span>11 comments</span>
-            </div>
-          </li>
-          <li className="border-b py-4">
-            <p className="text-md text-gray-900 hover:text-indigo-700">
-              <span role="img" aria-label="rocket">
-                🚀
-              </span>{" "}
-              Ubuntu Unleashed - Stop Struggling with Software{" "}
-              <span role="img" aria-label="angel">
-                😇
-              </span>
-            </p>
-            <div className="mt-1 text-sm text-gray-500">
-              <span>2 comments</span>
-            </div>
-          </li>
-          <li className="py-4">
-            <p className="text-md text-gray-900 hover:text-indigo-700">
-              How to Dockerize a Next.js Application
-            </p>
-            <div className="mt-1 text-sm text-gray-500">
-              <span>4 comments</span>
-            </div>
-          </li>
-        </ul> */}
         <PostList
           showCommentLists={false}
           posts={posts ?? []}

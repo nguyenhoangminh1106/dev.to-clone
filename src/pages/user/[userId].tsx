@@ -1,5 +1,4 @@
 // UserProfile.tsx
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import type { ParsedUrlQuery } from "querystring";
