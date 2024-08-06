@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import type { Post as PostType } from "@prisma/client";
 import SharingUrl from "./SharingUrl";
 import Comment from "./Comment";
-import { FaRegComment, FaFire, FaBookmark } from "react-icons/fa";
+import { FaRegComment, FaBookmark, FaFire } from "react-icons/fa";
 
 /**
  * CONTROL A SINGLE POST
@@ -194,6 +194,7 @@ const Post = ({
           </div>
         )}
         {/* Post details */}
+
         <h1
           className={` ${showHeader ? "mx-12 mt-2 text-2xl font-bold" : "text-md text-gray-700"} hover:text-indigo-700`}
         >
@@ -211,9 +212,18 @@ const Post = ({
                 href={`/post/${post.id}`}
                 className="mx-10 flex items-center space-x-1 rounded-lg p-2 text-red-600 hover:bg-gray-100"
               >
-                <FaFire></FaFire>
-                <span className="hidden sm:block">13 reactions</span>
-                <span className="block sm:hidden">13</span>
+                <FaFire />
+                <span className="hidden sm:block">
+                  {post?.reactions
+                    ? post?.reactions.reduce((acc, num) => acc + num, 0)
+                    : 0}{" "}
+                  reactions
+                </span>
+                <span className="block sm:hidden">
+                  {post?.reactions
+                    ? post?.reactions.reduce((acc, num) => acc + num, 0)
+                    : 0}
+                </span>
               </Link>
               <Link
                 href={`/post/${post.id}`}

@@ -39,7 +39,7 @@ const PostList = ({
           />
         ))
       ) : (
-        <p>No posts available</p>
+        <p className="my-5 text-gray-500">No posts available</p>
       )}
     </div>
   );

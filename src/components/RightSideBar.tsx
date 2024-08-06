@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import PostList from "./PostList";
 import { api } from "~/utils/api";
+import LoadingBar from "./LoadingBar";
 
 /**
  * RIGHT SIDE BAR IN THE HOME PAGE
@@ -15,11 +16,11 @@ const RightSideBar = () => {
     refetch,
   } = api.post.getPublishedPosts.useQuery({ filter: "comment", count: 8 });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error loading posts</p>;
-
   return (
     <>
+      {isLoading && <LoadingBar />}
+      {isError && <p className="m-5 text-red-500">Error loading posts</p>}
+
       <div className="mt-5 rounded-lg bg-white p-4 shadow-md">
         <h2 className="text-xl font-bold">Active discussions</h2>
         <PostList

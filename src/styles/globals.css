@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  @keyframes loadingBar {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .loading-bar {
+    @apply w-full;
+    animation: loadingBar 15s linear infinite;
+  }
+}
+
 .button-primary {
   border-width: 2px;
   border-color: rgb(67 56 202);
@@ -34,7 +50,7 @@
 }
 
 .button-primary-filled:hover {
-  background-color: rgb(67 56 170);
+  background-color: rgb(67 56 202);
 }
 
 .button-primary:hover {

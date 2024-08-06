@@ -32,6 +32,39 @@ export const postRouter = createTRPCRouter({
       return newPost;
     }),
 
+  // Update reaction count
+  updateReaction: publicProcedure
+    .input(
+      z.object({
+        postId: z.number(),
+        index: z.number(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const { postId, index } = input;
+
+      const post = await db.post.findUnique({
+        where: { id: postId },
+      });
+
+      if (!post) {
+        throw new Error("Post not found");
+      }
+
+      // Increment the reaction count at the specified index
+
+      if (post.reactions[index] != null) {
+        post.reactions[index] += 1;
+      }
+
+      await db.post.update({
+        where: { id: postId },
+        data: { reactions: post.reactions },
+      });
+
+      return post.reactions;
+    }),
+
   // Get all the post has status "published" == true and optionally filter by comments
   getPublishedPosts: publicProcedure
     .input(
@@ -90,6 +123,7 @@ export const postRouter = createTRPCRouter({
       const createdBy = post.createdBy;
       const createdAt = post.createdAt;
       const comments = post.Comment;
+      const reactions = post.reactions;
       return {
         title,
         description,
@@ -98,6 +132,7 @@ export const postRouter = createTRPCRouter({
         createdBy,
         createdAt,
         comments,
+        reactions,
       };
     }),
 

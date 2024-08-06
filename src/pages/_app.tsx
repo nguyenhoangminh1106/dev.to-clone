@@ -27,13 +27,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
         <link rel="icon" href="/dev.ico" />
       </Head>
-      <div className={GeistSans.className}>
+      <div className="font-sans">
         <div className="mx-auto max-w-10xl">
           <NavBar />
         </div>
         <div>
           <div className="flex min-h-screen justify-center bg-gray-100">
-            <div className="max-w-10xl">
+            <div className="w-full max-w-10xl">
               <Component {...pageProps} />
             </div>
           </div>

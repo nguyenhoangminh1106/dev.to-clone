@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        sans: ["Merriweather ", ...fontFamily.sans],
       },
       maxWidth: {
         "10xl": "95rem", // 160rem equals 2560px

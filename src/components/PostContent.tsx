@@ -7,6 +7,8 @@ import SharingUrl from "./SharingUrl";
 import Link from "next/link";
 import Comments from "./Comments";
 import ReactMarkdown from "react-markdown";
+import Reactions from "./Reactions";
+
 import {
   FavoriteBorder,
   ChatBubbleOutline,
@@ -30,6 +32,8 @@ const PostContent = () => {
   const [body, setBody] = useState("");
   const [createdBy, setCreatedBy] = useState<User | null>(null);
   const [createdAt, setCreatedAt] = useState<DateTime | null>(null);
+  const [reactions, setRections] = useState<number[] | null>(null);
+
   const [comments, setComments] = useState<
     | {
         id: string;
@@ -75,6 +79,7 @@ const PostContent = () => {
       setCreatedBy(data.createdBy);
       setCreatedAt(data.createdAt);
       setComments(data.comments);
+      setRections(data.reactions);
     } else if (error) {
       console.error("Error fetching post:", error);
       setEditError(`Error fetching post.`);
@@ -87,7 +92,9 @@ const PostContent = () => {
       <div className="mt-10 flex hidden flex-col items-center space-y-10 py-4 text-gray-700 sm:block">
         <div className="flex flex-col items-center">
           <FavoriteBorder className="text-xl" />
-          <span className="text-sm">0</span>
+          <span className="text-sm">
+            {reactions ? reactions.reduce((acc, num) => acc + num, 0) : 0}
+          </span>
         </div>
         <div className="flex flex-col items-center">
           <ChatBubbleOutline className="text-xl" />
@@ -95,7 +102,8 @@ const PostContent = () => {
         </div>
         <div className="flex flex-col items-center">
           <BookmarkBorder className="text-xl" />
-          <span className="text-sm">1</span>
+          <span className="text-sm">{description?.split(" ").length}</span>
+          <span className="text-sm"> </span>
         </div>
         <div className="flex flex-col items-center">
           <MoreHoriz className="text-xl" />
@@ -117,44 +125,53 @@ const PostContent = () => {
               />
             </div>
           )}
-          <div className="relative mb-4 flex items-center justify-between">
-            <div className="flex items-center">
-              <Link href={`/user/${createdBy?.id}`}>
-                <Image
-                  src={createdBy?.image ?? defaultProfileImage}
-                  alt="Author's Profile Image"
-                  width={40}
-                  height={40}
-                  className="h-10 w-10 rounded-full"
-                />
-              </Link>
-              <div className="ml-3">
-                <p className="font-semibold">{createdBy?.name}</p>
-                <p className="text-sm text-gray-500">
-                  Posted on {createdAt?.toLocaleDateString("en-GB")}
-                </p>
+          <div className="px-12 py-4">
+            <div className="relative mb-4 flex items-center justify-between">
+              <div className="flex items-center">
+                <Link href={`/user/${createdBy?.id}`}>
+                  <Image
+                    src={createdBy?.image ?? defaultProfileImage}
+                    alt="Author's Profile Image"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 rounded-full"
+                  />
+                </Link>
+                <div className="ml-3">
+                  <p className="font-semibold">{createdBy?.name}</p>
+                  <p className="text-sm text-gray-500">
+                    Posted on {createdAt?.toLocaleDateString("en-GB")}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <button onClick={onShare} className="button-secondary">
+                  Share
+                </button>
+                <div
+                  className={`absolute right-0 top-full mt-2 bg-white transition-all duration-1000 ease-in-out ${
+                    isSharing
+                      ? "max-h-[1000px] opacity-100"
+                      : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <SharingUrl url={`${homeUrl}/post/${postId}`} />
+                </div>
               </div>
             </div>
-            <div className="flex items-center">
-              <button onClick={onShare} className="button-secondary">
-                Share
-              </button>
-              <div
-                className={`absolute right-0 top-full mt-2 bg-white transition-all duration-1000 ease-in-out ${
-                  isSharing ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-                }`}
-              >
-                <SharingUrl url={`${homeUrl}/post/${postId}`} />
-              </div>
-            </div>
-          </div>
 
-          <h1 className="mb-4 text-3xl font-bold">{title}</h1>
-          <div className="mb-4 flex items-center">
-            <div className="flex space-x-2 text-gray-500">{description}</div>
-          </div>
-          <div className="prose my-12 max-w-full">
-            <ReactMarkdown>{body}</ReactMarkdown>
+            <Reactions
+              postId={postId}
+              initialReactions={reactions || [0, 0, 0, 0, 0]}
+            />
+
+            <h1 className="mb-4 text-5xl font-bold">{title}</h1>
+            <div className="mb-4 flex items-center">
+              <div className="flex space-x-2 text-gray-500">{description}</div>
+            </div>
+            <div className="prose my-12 max-w-full text-xl text-black">
+              <ReactMarkdown>{body}</ReactMarkdown>
+            </div>
           </div>
         </div>
 
