@@ -162,7 +162,7 @@ const PostContent = () => {
 
             <Reactions
               postId={postId}
-              initialReactions={reactions || [0, 0, 0, 0, 0]}
+              initialReactions={reactions ?? [0, 0, 0, 0, 0]}
             />
 
             <h1 className="mb-4 text-5xl font-bold">{title}</h1>
