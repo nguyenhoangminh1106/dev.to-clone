@@ -116,7 +116,10 @@ const EditPost = () => {
     try {
       setEditError("Updating post...");
       const description =
-        tags.map((tag) => `#${tag.toLowerCase()}`).join(" ") + " ";
+        tags
+          .slice(0, 5) // Get up to the first 5 elements
+          .map((tag) => `#${tag.toLowerCase()}`) // Format each tag
+          .join("  ") + "  ";
       // Continue with post creation
       const response = await updatePostMutation.mutateAsync({
         postId: numericPostId,

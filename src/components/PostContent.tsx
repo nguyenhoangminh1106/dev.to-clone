@@ -102,7 +102,9 @@ const PostContent = () => {
         </div>
         <div className="flex flex-col items-center">
           <BookmarkBorder className="text-xl" />
-          <span className="text-sm">{description?.split(" ").length}</span>
+          <span className="text-sm">
+            {description?.split(" ").filter((tag) => tag.trim() !== "").length}
+          </span>
           <span className="text-sm"> </span>
         </div>
         <div className="flex flex-col items-center">

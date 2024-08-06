@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { api } from "~/utils/api";
+import { useEffect } from "react";
 
 const Reactions = ({
   postId,
@@ -8,8 +9,11 @@ const Reactions = ({
   postId: number;
   initialReactions: number[];
 }) => {
-  const [reactions, setReactions] = useState(initialReactions);
+  const [reactions, setReactions] = useState([0, 0, 0, 0, 0]);
   const numericPostId = typeof postId === "string" ? parseInt(postId, 10) : NaN;
+  useEffect(() => {
+    setReactions(initialReactions);
+  }, [initialReactions]);
 
   const addReaction = api.post.updateReaction.useMutation();
 

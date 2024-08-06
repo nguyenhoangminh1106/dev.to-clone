@@ -83,7 +83,10 @@ const CreatePost = () => {
       setError("Uploading post...");
       // Continue with post creation
       const description =
-        tags.map((tag) => `#${tag.toLowerCase()}`).join("  ") + "  ";
+        tags
+          .slice(0, 5) // Get up to the first 5 elements
+          .map((tag) => `#${tag.toLowerCase()}`) // Format each tag
+          .join("  ") + "  ";
       const response = await createPostMutation.mutateAsync({
         title,
         description,
