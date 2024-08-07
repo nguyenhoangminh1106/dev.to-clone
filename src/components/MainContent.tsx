@@ -36,7 +36,7 @@ const MainContent = () => {
       {isLoading && <LoadingBar />}
       {isError && <p className="m-5 text-red-500">Error loading posts</p>}
       <main className="mt-2 flex-grow md:mr-2 lg:mx-2">
-        <div className="mb-4">
+        <div className="my-5">
           {/* If not searching and already signed in */}
           {session?.user && !query && (
             <div className="mb-4 hidden rounded-lg bg-indigo-600 px-24 py-10 shadow-md lg:block">
