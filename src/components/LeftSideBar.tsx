@@ -42,7 +42,10 @@ const LeftSideBar = () => {
 
       <div className="mt-5 rounded-lg">
         <div className="mb-4 rounded-lg bg-gray-100 bg-white p-4">
-          <h2 className="text-xl font-bold">DEV Community</h2>
+          <h2 className="text-xl font-bold">
+            DEV Community is a community of {data?.totalUsers} amazing
+            developers
+          </h2>
           <p className="mt-4 text-gray-600">
             We&apos;re a place where coders share, stay up-to-date, and grow
             their careers.
@@ -63,16 +66,16 @@ const LeftSideBar = () => {
             <div className="mb-2 mt-4 flex w-full flex-col space-y-1">
               <Link
                 href="/signin"
-                className="button-primary decoration-none w-full shadow-lg"
+                className="button-primary decoration-none w-full"
               >
                 Create Account
               </Link>
 
               <Link
                 href="/signin"
-                className="button-secondary decoration-none w-full shadow-lg"
+                className="button-secondary decoration-none w-full"
               >
-                Login
+                Log in
               </Link>
             </div>
           )}

@@ -7,7 +7,7 @@ import Link from "next/link";
  */
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 p-4 pt-5 text-center">
+    <footer className="bg-gray-200 p-4 pt-5 text-center">
       <p>
         Thank you <i>Nam Dao</i> and the{" "}
         <Link

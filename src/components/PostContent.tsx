@@ -117,7 +117,7 @@ const PostContent = () => {
         <span>{editError && <p style={{ color: "red" }}>{editError}</p>}</span>
         <div className="mx-auto w-full rounded-lg bg-white shadow-md">
           {coverImage && (
-            <div className="relative mb-4 h-80 w-full overflow-hidden rounded-lg">
+            <div className="relative mb-4 h-64 w-full overflow-hidden rounded-lg sm:h-80">
               <Image
                 src={coverImage}
                 alt="Cover Image"
@@ -127,7 +127,7 @@ const PostContent = () => {
               />
             </div>
           )}
-          <div className="px-3 py-4 sm:px-8 md:px-16">
+          <div className="px-3 sm:px-8 sm:py-4 md:px-16">
             <div className="relative mb-4 flex items-center justify-between">
               <div className="flex items-center">
                 <Link href={`/user/${createdBy?.id}`}>
@@ -167,11 +167,13 @@ const PostContent = () => {
               initialReactions={reactions ?? [0, 0, 0, 0, 0]}
             />
 
-            <h1 className="mb-4 text-3xl font-bold sm:text-5xl">{title}</h1>
+            <h1 className="mb-4 text-3xl font-bold md:text-4xl lg:text-5xl">
+              {title}
+            </h1>
             <div className="mb-4 flex items-center">
               <div className="flex space-x-2 text-gray-500">{description}</div>
             </div>
-            <div className="prose my-12 max-w-full text-lg text-black sm:text-xl">
+            <div className="prose max-w-full text-lg text-black sm:my-12 sm:text-xl">
               <ReactMarkdown>{body}</ReactMarkdown>
             </div>
           </div>
@@ -180,10 +182,10 @@ const PostContent = () => {
         {/* Comments Section */}
         <div
           id="comment"
-          className="mt-1 w-full rounded-lg bg-white p-4 shadow-md"
+          className="w-full rounded-lg border-t border-t-gray-100 bg-white p-4 shadow-md"
         >
           <Comments postId={numericPostId} isListFilled={false} />
-          <div className="mb-5 flex justify-center space-x-10">
+          <div className="mt-5 flex justify-center space-x-10 sm:my-5">
             <span className="text-sm text-gray-500">Code of conduct</span>
             <span className="text-sm text-gray-500">Report abuse</span>
           </div>

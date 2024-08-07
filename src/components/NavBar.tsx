@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 
 /**
  * NAVIGATION BAR
- * @returns 
+ * @returns
  */
 const NavBar = () => {
   const { data: session } = useSession();
@@ -85,7 +85,7 @@ const NavBar = () => {
               width={500}
               height={500}
               alt="Logo"
-              className="h-10 w-10 cursor-pointer"
+              className="h-10 w-12 cursor-pointer"
             />
           </Link>
 
@@ -176,9 +176,15 @@ const NavBar = () => {
               </div>
             </div>
           </div>
-          // Not signed in
         ) : (
+          // Not signed in
           <div className="flex">
+            <button
+              className="mr-2 text-gray-600 md:hidden"
+              onClick={() => setIsSearchBarVisible(!isSearchBarVisible)}
+            >
+              <FaSearch className="text-xl text-gray-500" />
+            </button>
             <Link href="/signin">
               <button className="button-secondary hidden md:block">
                 Log in

@@ -48,12 +48,12 @@ const Comments = ({
     <div className="comments-section md:p-10">
       <div className="top-bar text-md flex items-center justify-between">
         {/* Number of comments */}
-        <h1 className="text-2xl font-bold">
+        <h1 className="text-xl font-bold sm:text-2xl">
           Top comments ({comments?.length ?? 0})
         </h1>
         <button
           onClick={handleAddComment}
-          className="button-secondary border-2 border-gray-300"
+          className="button-secondary border-2 border-gray-300 font-semibold"
         >
           Add comment
         </button>

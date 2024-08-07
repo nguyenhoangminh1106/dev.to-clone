@@ -90,8 +90,8 @@ const PostSideBar = () => {
         </div>
 
         {/* More Posts */}
-        <div className="mb-4 rounded-lg bg-white p-2 shadow-md">
-          <h3 className="mb-4 ml-1 text-lg font-semibold">
+        <div className="mb-4 rounded-lg bg-white px-4 py-2 shadow-md">
+          <h3 className="mb-2 ml-1 text-lg font-semibold">
             More from <span className="text-indigo-700">{user?.name}</span>
           </h3>
           <PostList

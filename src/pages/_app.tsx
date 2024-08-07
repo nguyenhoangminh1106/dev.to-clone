@@ -16,7 +16,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <Head>
-        <title>Dev</title>
+        <title>Dev Community</title>
 
         <meta
           name="description"

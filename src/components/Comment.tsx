@@ -44,15 +44,17 @@ const CommentComponent = ({
 
         {/* Author info */}
         <div
-          className={`ml-3 w-full rounded-lg ${isFilled ? "bg-gray-100" : "border border-gray-200"} p-2`}
+          className={`ml-3 w-full rounded-lg ${isFilled ? "bg-gray-100" : "border border-gray-100"} p-2`}
         >
           <div className="flex items-center space-x-2">
-            <p className="font-semibold">{comment.author.name ?? "Unknown"}</p>
+            <p className="px-1 font-semibold hover:bg-gray-100">
+              {comment.author.name ?? "Unknown"}
+            </p>
             <p className="text-sm text-gray-500">
               {new Date(comment.createdAt).toLocaleDateString("en-GB")}
             </p>
           </div>
-          <p className="mt-1">{comment.content}</p>
+          <p className="mt-1 text-sm">{comment.content}</p>
         </div>
       </div>
     </div>

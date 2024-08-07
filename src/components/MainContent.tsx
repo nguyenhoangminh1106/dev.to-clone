@@ -35,7 +35,7 @@ const MainContent = () => {
     <>
       {isLoading && <LoadingBar />}
       {isError && <p className="m-5 text-red-500">Error loading posts</p>}
-      <main className="mx-1 mt-4 flex-grow sm:mx-2 sm:mt-5">
+      <main className="mt-2 flex-grow md:mr-2 lg:mx-2">
         <div className="mb-4">
           {/* If not searching and already signed in */}
           {session?.user && !query && (
@@ -98,7 +98,7 @@ const MainContent = () => {
           {/* If not signed in */}
           {!query && (
             <>
-              <div className="mb-4 ml-2 flex items-center space-x-4">
+              <div className="mb-2 ml-2 flex items-center space-x-4">
                 <h2 className="rounded-lg p-2 text-lg font-bold text-black hover:bg-white hover:text-indigo-600">
                   Relevant
                 </h2>
@@ -192,7 +192,7 @@ const MainContent = () => {
 
           <div className="flex justify-center space-y-4">
             <PostList
-              showCommentLists={true}
+              showCommentLists={false}
               posts={posts ?? []}
               refetch={refetch}
               showHeaderLists={true}

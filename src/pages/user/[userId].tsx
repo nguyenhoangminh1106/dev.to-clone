@@ -27,14 +27,16 @@ const UserProfile = () => {
     <>
       {isLoading && <LoadingBar />}
       {isError && <p className="m-5 text-red-500">Error loading profile</p>}
-      <div className="mx-1 flex flex-col items-center space-y-64 bg-gray-100 sm:space-y-56 md:mx-10 lg:mx-20">
-        {user && <UserInfo user={user} />}
+      <div className="w-10xl h-10 bg-black sm:h-32"></div>
 
-        <div className="w-full md:w-3/4">
+      <div className="flex flex-col items-center sm:-mt-12 lg:mx-24">
+        <div className="w-full">{user && <UserInfo user={user} />}</div>
+
+        <div className="w-full lg:w-3/4">
           {" "}
           {/* Statistics */}
-          <div className="sm:flex sm:space-x-4">
-            <div className="mt-2 h-1/2 w-full rounded-lg bg-white p-4 sm:w-1/3">
+          <div className="md:flex md:space-x-4">
+            <div className="mt-2 h-1/2 w-full rounded-lg bg-white p-4 md:w-1/3">
               <div className="mb-4 flex items-center">
                 <FaRegFileAlt className="mr-3 text-gray-500" size={24} />
                 <span className="text-gray-700">
@@ -54,7 +56,7 @@ const UserProfile = () => {
             </div>
 
             {/* List of posts from the user */}
-            <div className="w-full sm:w-2/3">
+            <div className="w-full lg:w-2/3">
               <PostList
                 showCommentLists={false}
                 posts={user?.posts ?? []}

@@ -121,12 +121,12 @@ const Post = ({
   return (
     <div className="relative my-2">
       <div
-        className={`rounded-lg border-b border-b-gray-200 bg-white ${showHeader ? "p-4" : "py-4"} `}
+        className={`border-b border-b-gray-100 bg-white ${showHeader ? "rounded-lg p-4 pr-8" : "pb-4 pt-2"} `}
       >
         {showHeader && (
           <div>
             {/* Author info */}
-            <div className="mb-4 flex items-center">
+            <div className="mb-2 flex items-center">
               <Link href={`/user/${user?.id}`}>
                 <Image
                   src={user?.image ?? defaultProfileImage}
@@ -137,15 +137,20 @@ const Post = ({
                 />
               </Link>
               <div className="ml-3">
-                <p className="font-semibold">{user?.name ?? "Unknown"}</p>
+                <p className="rounded-lg px-1 font-semibold hover:bg-gray-100">
+                  {user?.name ?? "Unknown"}
+                </p>
                 <p className="text-sm text-gray-500">
-                  {new Date(post.createdAt).toLocaleDateString("en-GB")}
+                  {new Date(post.createdAt).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                  })}
                 </p>
               </div>
             </div>
 
             {/* Drop-down menu */}
-            <div className="absolute right-0 top-0 mx-6 my-4">
+            <div className="absolute right-0 top-0 mx-8 my-4">
               <button
                 onClick={() => toggleDropdown(post.id)}
                 className="text-gray-600 hover:text-gray-800"
@@ -196,13 +201,13 @@ const Post = ({
         {/* Post details */}
 
         <h1
-          className={` ${showHeader ? "mt-2 text-xl font-bold sm:mx-12 sm:text-2xl" : "text-md text-gray-700"} hover:text-indigo-700`}
+          className={` ${showHeader ? "text-xl font-bold sm:mx-10 sm:text-2xl" : "text-md text-gray-700"} hover:text-indigo-700`}
         >
           <Link href={`/post/${post.id}`}>{post.title}</Link>
         </h1>
 
         <p
-          className={`mt-2 ${showHeader ? "sm:mx-12" : "text-sm"} text-gray-500`}
+          className={` ${showHeader ? "mt-2 sm:mx-10" : "mt-1 text-sm"} text-gray-500`}
         >
           {post.description}
         </p>
@@ -212,16 +217,16 @@ const Post = ({
             <div className="flex items-center space-x-1">
               <Link
                 href={`/post/${post.id}`}
-                className="flex items-center space-x-1 rounded-lg text-red-600 hover:bg-gray-100 sm:mx-10 sm:p-2"
+                className="flex items-center space-x-1 rounded-lg text-red-600 hover:bg-gray-100 sm:mx-8 sm:p-2"
               >
                 <FaFire />
-                <span className="hidden lg:block">
+                <span className="hidden sm:block">
                   {post?.reactions
                     ? post?.reactions.reduce((acc, num) => acc + num, 0)
                     : 0}{" "}
                   reactions
                 </span>
-                <span className="block lg:hidden">
+                <span className="block sm:hidden">
                   {post?.reactions
                     ? post?.reactions.reduce((acc, num) => acc + num, 0)
                     : 0}
@@ -237,14 +242,14 @@ const Post = ({
                     <span className="hidden lg:block">
                       {comments?.length} comments
                     </span>
-                    <span className="block lg:hidden">{comments?.length}</span>
+                    <span className="block md:hidden">{comments?.length}</span>
                   </>
                 ) : (
-                  <span className="hidden lg:block">Add a comment</span>
+                  <span className="hidden md:block">Add a comment</span>
                 )}
               </Link>
             </div>
-            <div className="flex items-center space-x-5 text-gray-500">
+            <div className="flex items-center space-x-5 text-xs text-gray-500">
               <div>6 min read </div>
               <div>
                 <span className="text-gray-400">
@@ -272,7 +277,7 @@ const Post = ({
 
             {comments && comments?.length > 0 && (
               <Link href={`/post/${post.id}`}>
-                <p className="mx-6 mt-8 font-semibold text-gray-500">
+                <p className="mx-9 mt-8 font-semibold text-gray-500">
                   View all {comments?.length} comments
                 </p>
               </Link>

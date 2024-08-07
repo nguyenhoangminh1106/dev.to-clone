@@ -5,14 +5,15 @@ import Image from "next/image";
 
 /**
  * SETTING PAGE
- * @returns 
- * 
+ * @returns
+ *
  */
 const Settings = () => {
   const { data: session } = useSession();
   const [bio, setBio] = useState("");
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImageName, setProfileImageName] = useState("No file chosen");
+  
 
   const { data: user, refetch } = api.user.getUserById.useQuery({
     userId: session?.user.id ?? "",
@@ -76,7 +77,7 @@ const Settings = () => {
   return (
     <div className="flex flex-col justify-center space-y-5">
       {/* Update form */}
-      <div className="w-full rounded-lg bg-white p-6 shadow-lg">
+      <div className="w-full rounded-lg bg-white p-6">
         <h1 className="mb-6 text-2xl font-bold">User</h1>
         <div className="mb-6">
           <div className="mb-4">
@@ -108,7 +109,7 @@ const Settings = () => {
               alt="Profile"
               width={50}
               height={50}
-              className="h-10 w-10 rounded-full"
+              className="h-12 w-12 rounded-full"
             />
             <div className="ml-4">
               <input
@@ -129,7 +130,7 @@ const Settings = () => {
         </div>
       </div>
 
-      <div className="w-full rounded-lg bg-white p-6 shadow-lg">
+      <div className="w-full rounded-lg bg-white p-6">
         <h1 className="mb-6 text-2xl font-bold">Basic</h1>
         <div className="mb-6">
           <div className="mb-4">
