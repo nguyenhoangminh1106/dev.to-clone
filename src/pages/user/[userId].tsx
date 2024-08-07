@@ -27,10 +27,10 @@ const UserProfile = () => {
     <>
       {isLoading && <LoadingBar />}
       {isError && <p className="m-5 text-red-500">Error loading profile</p>}
-      <div className="flex flex-col items-center space-y-28 bg-gray-100 sm:mx-10 lg:mx-20">
+      <div className="mx-1 flex flex-col items-center space-y-64 bg-gray-100 sm:space-y-56 md:mx-10 lg:mx-20">
         {user && <UserInfo user={user} />}
 
-        <div className="w-full pt-28 md:w-3/4">
+        <div className="w-full md:w-3/4">
           {" "}
           {/* Statistics */}
           <div className="sm:flex sm:space-x-4">

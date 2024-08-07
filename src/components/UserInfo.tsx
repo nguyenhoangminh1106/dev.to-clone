@@ -17,7 +17,7 @@ export default function UserInfo({ user }: { user: User }) {
     <div className="relative w-full">
       <div className="h-36 bg-black"></div>
       <div className="absolute left-1/2 top-10 w-full -translate-x-1/2 transform md:w-3/4">
-        <div className="relative mt-10 rounded-lg bg-white p-6 pb-14 shadow-lg">
+        <div className="relative mt-10 rounded-lg bg-white p-6 pb-14">
           <div className="absolute left-6 top-0 transform sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/3">
             <Image
               src={user?.image ?? defaultProfileImage}
@@ -46,20 +46,20 @@ export default function UserInfo({ user }: { user: User }) {
             </div>
           )}
 
-          <div>
+          <div className="">
             <div className="mt-16 sm:text-center">
               <h1 className="text-3xl font-bold">{user?.name}</h1>
               <p className="pt-5 text-lg text-black">
                 {user?.bio ?? "404 bio not found"}
               </p>
             </div>
-            <div className="mt-8 flex items-center justify-center space-x-4 text-gray-700">
+            <div className="mt-8 flex flex-col justify-center text-gray-700 sm:flex-row sm:items-center sm:space-x-4">
               <div className="flex items-center pr-5">
                 <FaBirthdayCake className="mr-2 text-gray-500" />
                 <span>Joined on Jul 30, 2024</span>
               </div>
 
-              <div className="flex items-center pl-5 text-gray-500 hover:text-indigo-700">
+              <div className="flex items-center text-gray-500 hover:text-indigo-700 sm:pl-5">
                 <FaExternalLinkAlt className="mr-2 text-gray-500" />
                 <div>https://github.com/example</div>
                 <div className="flex items-center">

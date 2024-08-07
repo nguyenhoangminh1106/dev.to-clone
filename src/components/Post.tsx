@@ -119,7 +119,7 @@ const Post = ({
   };
 
   return (
-    <div className="relative mx-1 my-2">
+    <div className="relative my-2">
       <div
         className={`rounded-lg border-b border-b-gray-200 bg-white ${showHeader ? "p-4" : "py-4"} `}
       >

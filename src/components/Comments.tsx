@@ -45,7 +45,7 @@ const Comments = ({
   };
 
   return (
-    <div className="comments-section p-10">
+    <div className="comments-section md:p-10">
       <div className="top-bar text-md flex items-center justify-between">
         {/* Number of comments */}
         <h1 className="text-2xl font-bold">

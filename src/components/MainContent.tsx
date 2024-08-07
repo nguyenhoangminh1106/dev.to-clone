@@ -35,11 +35,11 @@ const MainContent = () => {
     <>
       {isLoading && <LoadingBar />}
       {isError && <p className="m-5 text-red-500">Error loading posts</p>}
-      <main className="mt-4 flex-grow sm:mx-2 sm:mt-7">
+      <main className="mx-1 mt-4 flex-grow sm:mx-2 sm:mt-5">
         <div className="mb-4">
           {/* If not searching and already signed in */}
           {session?.user && !query && (
-            <div className="mx-1 mb-4 hidden rounded-lg bg-indigo-600 px-24 py-10 shadow-md lg:block">
+            <div className="mb-4 hidden rounded-lg bg-indigo-600 px-24 py-10 shadow-md lg:block">
               <div className="flex items-start justify-between">
                 <Image
                   src="/images/dev.png"
@@ -110,7 +110,7 @@ const MainContent = () => {
                 </p>
               </div>
 
-              <div className="mx-1 rounded-lg bg-white p-6 shadow-md sm:mx-1">
+              <div className="rounded-lg bg-white p-6 shadow-md">
                 <p className="mb-4">👋 DEV Challenges</p>
                 <div className="mx-1 sm:mx-10">
                   <h1 className="mb-2 text-2xl font-semibold">

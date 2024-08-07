@@ -127,7 +127,7 @@ const PostContent = () => {
               />
             </div>
           )}
-          <div className="px-16 py-4">
+          <div className="px-3 py-4 sm:px-8 md:px-16">
             <div className="relative mb-4 flex items-center justify-between">
               <div className="flex items-center">
                 <Link href={`/user/${createdBy?.id}`}>
