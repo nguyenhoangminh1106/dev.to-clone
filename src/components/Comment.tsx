@@ -51,7 +51,10 @@ const CommentComponent = ({
               {comment.author.name ?? "Unknown"}
             </p>
             <p className="text-sm text-gray-500">
-              {new Date(comment.createdAt).toLocaleDateString("en-GB")}
+              {new Date(comment.createdAt).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+              })}
             </p>
           </div>
           <p className="mt-1 text-sm">{comment.content}</p>
