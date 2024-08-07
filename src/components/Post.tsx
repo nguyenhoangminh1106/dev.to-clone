@@ -277,7 +277,7 @@ const Post = ({
 
             {comments && comments?.length > 0 && (
               <Link href={`/post/${post.id}`}>
-                <p className="mx-9 mt-8 font-semibold text-gray-500">
+                <p className="mx-9 mb-2 mt-5 text-sm font-semibold">
                   View all {comments?.length} comments
                 </p>
               </Link>

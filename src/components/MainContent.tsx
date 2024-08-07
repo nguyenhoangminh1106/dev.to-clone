@@ -192,7 +192,7 @@ const MainContent = () => {
 
           <div className="flex justify-center space-y-4">
             <PostList
-              showCommentLists={false}
+              showCommentLists={true}
               posts={posts ?? []}
               refetch={refetch}
               showHeaderLists={true}
