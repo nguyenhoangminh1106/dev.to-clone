@@ -133,7 +133,7 @@ const Post = ({
                   alt="Profile Image"
                   width={40}
                   height={40}
-                  className="h-10 w-10 rounded-full"
+                  className="h-8 w-8 rounded-full"
                 />
               </Link>
               <div className="ml-3">
@@ -196,12 +196,14 @@ const Post = ({
         {/* Post details */}
 
         <h1
-          className={` ${showHeader ? "mx-12 mt-2 text-2xl font-bold" : "text-md text-gray-700"} hover:text-indigo-700`}
+          className={` ${showHeader ? "mt-2 text-xl font-bold sm:mx-12 sm:text-2xl" : "text-md text-gray-700"} hover:text-indigo-700`}
         >
           <Link href={`/post/${post.id}`}>{post.title}</Link>
         </h1>
 
-        <p className={`mt-2 ${showHeader ? "mx-12" : "text-sm"} text-gray-500`}>
+        <p
+          className={`mt-2 ${showHeader ? "sm:mx-12" : "text-sm"} text-gray-500`}
+        >
           {post.description}
         </p>
 
@@ -210,7 +212,7 @@ const Post = ({
             <div className="flex items-center space-x-1">
               <Link
                 href={`/post/${post.id}`}
-                className="mx-10 flex items-center space-x-1 rounded-lg p-2 text-red-600 hover:bg-gray-100"
+                className="flex items-center space-x-1 rounded-lg text-red-600 hover:bg-gray-100 sm:mx-10 sm:p-2"
               >
                 <FaFire />
                 <span className="hidden lg:block">

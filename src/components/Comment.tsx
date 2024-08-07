@@ -29,7 +29,7 @@ const CommentComponent = ({
   isFilled: boolean;
 }) => {
   return (
-    <div className="comment-item mt-8">
+    <div className="comment-item mt-4">
       <div className="flex items-center">
         {/* Author image */}
         <Link href={`/user/${comment.author.id}`}>
@@ -38,7 +38,7 @@ const CommentComponent = ({
             alt="Avatar"
             width={40}
             height={40}
-            className="h-8 w-8 rounded-full"
+            className="h-6 w-6 rounded-full"
           />
         </Link>
 

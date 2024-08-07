@@ -167,11 +167,11 @@ const PostContent = () => {
               initialReactions={reactions ?? [0, 0, 0, 0, 0]}
             />
 
-            <h1 className="mb-4 text-5xl font-bold">{title}</h1>
+            <h1 className="mb-4 text-3xl font-bold sm:text-5xl">{title}</h1>
             <div className="mb-4 flex items-center">
               <div className="flex space-x-2 text-gray-500">{description}</div>
             </div>
-            <div className="prose my-12 max-w-full text-xl text-black">
+            <div className="prose my-12 max-w-full text-lg text-black sm:text-xl">
               <ReactMarkdown>{body}</ReactMarkdown>
             </div>
           </div>
