@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import PostList from "./PostList";
 import { api } from "~/utils/api";
-import LoadingBar from "./LoadingBar";
 
 /**
  * RIGHT SIDE BAR IN THE HOME PAGE
@@ -11,17 +10,15 @@ import LoadingBar from "./LoadingBar";
 const RightSideBar = () => {
   const {
     data: posts,
-    isLoading,
     isError,
     refetch,
   } = api.post.getPublishedPosts.useQuery({ filter: "comment", count: 8 });
 
   return (
     <>
-      {isLoading && <LoadingBar />}
       {isError && <p className="m-5 text-red-500">Error loading posts</p>}
 
-      <div className="mt-5 rounded-lg bg-white p-4 shadow-md">
+      <div className="mt-5 rounded-md bg-white p-4">
         <h2 className="text-xl font-bold">Active discussions</h2>
         <PostList
           showCommentLists={false}
@@ -60,7 +57,7 @@ const RightSideBar = () => {
 
         <p>Have a great week ❤️</p>
       </div>
-      <div className="mt-3 rounded-lg bg-white p-4 shadow-md">
+      <div className="mt-3 rounded-md bg-white p-4">
         <h2 className="text-xl font-bold">#discuss</h2>
         <p className="mb-4 text-sm text-gray-600">
           Discussion threads targeting the whole community
@@ -116,7 +113,7 @@ const RightSideBar = () => {
           </li>
         </ul>
       </div>
-      <div className="mt-3 rounded-lg bg-white p-4 shadow-md">
+      <div className="mt-3 rounded-md bg-white p-4">
         <div>
           <h2 className="mb-4 text-xl font-bold">About Me</h2>
           <Image

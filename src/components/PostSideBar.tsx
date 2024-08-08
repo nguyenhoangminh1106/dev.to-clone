@@ -5,7 +5,6 @@ import { api } from "~/utils/api";
 import type { ParsedUrlQuery } from "querystring";
 import PostList from "./PostList";
 import Link from "next/link";
-import LoadingBar from "./LoadingBar";
 
 /**
  * SIDE BAR IN THE POST DETAILS PAGE
@@ -33,21 +32,18 @@ const PostSideBar = () => {
   const authorId = data?.createdBy.id ?? "";
 
   // Fetch user profile data
-  const {
-    data: user,
-    isLoading,
-    isError,
-  } = api.user.getUserById.useQuery({ userId: authorId });
+  const { data: user, isError } = api.user.getUserById.useQuery({
+    userId: authorId,
+  });
 
   return (
     <>
-      {isLoading && <LoadingBar />}
       {isError && <p className="m-5 text-red-500">Error loading profile</p>}
 
       <div className="w-full">
         {/* Author Info */}
-        <div className="mb-4 rounded-lg bg-white p-1 shadow-md">
-          <div className="h-8 rounded-lg bg-black"></div>
+        <div className="mb-4 rounded-md bg-white p-1">
+          <div className="h-8 rounded-md bg-black"></div>
           <div className="relative flex items-center">
             <Link href={`/user/${user?.id}`}>
               <Image
@@ -90,7 +86,7 @@ const PostSideBar = () => {
         </div>
 
         {/* More Posts */}
-        <div className="mb-4 rounded-lg bg-white px-4 py-2 shadow-md">
+        <div className="mb-4 rounded-md bg-white px-4 py-2">
           <h3 className="mb-2 ml-1 text-lg font-semibold">
             More from <span className="text-indigo-700">{user?.name}</span>
           </h3>

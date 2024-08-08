@@ -39,7 +39,7 @@ const Reactions = ({
       {reactions.map((count, index) => (
         <div
           key={index}
-          className="flex cursor-pointer items-center space-x-1 rounded-lg p-1 text-lg hover:bg-gray-100"
+          className="flex cursor-pointer items-center space-x-1 rounded-md p-1 text-lg hover:bg-gray-100"
           onClick={() => handleReactionClick(index)}
         >
           <span>{emojis[index]}</span>

@@ -4,6 +4,9 @@ import { type AppType } from "next/app";
 import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
 import Head from "next/head";
+import LoadingBar from "react-top-loading-bar";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 import { api } from "~/utils/api";
 
@@ -13,6 +16,21 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+  const [progress, setProgress] = useState(0);
+  const router = useRouter();
+
+  useEffect(() => {
+    // START VALUE - WHEN LOADING WILL START
+    router.events.on("routeChangeStart", () => {
+      setProgress(40);
+    });
+
+    // COMPLETE VALUE - WHEN LOADING IS FINISHED
+    router.events.on("routeChangeComplete", () => {
+      setProgress(100);
+    });
+  }, []);
+
   return (
     <SessionProvider session={session}>
       <Head>
@@ -33,6 +51,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <div>
           <div className="flex min-h-screen justify-center bg-gray-100">
             <div className="w-full max-w-10xl">
+              <LoadingBar
+                color="rgb(67 56 202)"
+                progress={progress}
+                waitingTime={500}
+                onLoaderFinished={() => {
+                  setProgress(0);
+                }}
+              />
               <Component {...pageProps} />
             </div>
           </div>

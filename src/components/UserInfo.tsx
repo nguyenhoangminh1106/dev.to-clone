@@ -16,14 +16,14 @@ export default function UserInfo({ user }: { user: User }) {
   return (
     <div className="flex w-full justify-center">
       <div className="w-full transform lg:top-10 lg:w-3/4">
-        <div className="relative rounded-lg bg-white p-6 pb-12">
+        <div className="relative rounded-md bg-white p-6 pb-12">
           <div className="absolute left-6 top-0 transform md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/3">
             <Image
               src={user?.image ?? defaultProfileImage}
               alt="Profile Picture"
               width={500}
               height={500}
-              className="relative -top-8 h-16 w-16 rounded-full border-4 border-black shadow-lg md:h-32 md:w-32 md:border-8"
+              className="relative -top-8 h-16 w-16 rounded-full border-4 border-black md:h-32 md:w-32 md:border-8"
             />
           </div>
           {session?.user?.id === user?.id ? (

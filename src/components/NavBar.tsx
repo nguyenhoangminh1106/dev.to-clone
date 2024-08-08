@@ -98,7 +98,7 @@ const NavBar = () => {
               placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-2/3 rounded-lg border p-2 pl-10 transition duration-200 hover:outline-none hover:ring-2 hover:ring-indigo-700"
+              className="w-2/3 rounded-md border p-2 pl-10 transition duration-200 hover:outline-none hover:ring-2 hover:ring-indigo-700"
             />
 
             <FaSearch className="absolute left-3 top-2.5 text-xl text-gray-500" />
@@ -138,7 +138,7 @@ const NavBar = () => {
 
                 {/* Drop down menu */}
                 {isDropdownOpen && (
-                  <div className="absolute right-0 w-48 rounded-lg bg-white p-4 shadow-md transition duration-200 ease-in-out">
+                  <div className="absolute right-0 w-48 rounded-md bg-white p-4 transition duration-200 ease-in-out">
                     <Link
                       href={`/user/${session.user.id}`}
                       className="block truncate border-b-2 border-b-gray-100 px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -200,7 +200,7 @@ const NavBar = () => {
       {/* Search bar in small screen */}
       <div
         ref={searchBarRef}
-        className={`absolute left-0 block w-full bg-white px-5 py-2 shadow-md transition-all duration-300 ease-in-out md:hidden ${
+        className={`absolute left-0 block w-full bg-white px-5 py-2 transition-all duration-300 ease-in-out md:hidden ${
           isSearchBarVisible ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
@@ -210,7 +210,7 @@ const NavBar = () => {
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-lg border p-2 pl-10 text-gray-100 transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700"
+            className="w-full rounded-md border p-2 pl-10 text-gray-100 transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-700"
           />
           <button type="submit" className="hidden"></button>
         </form>
@@ -224,9 +224,9 @@ const NavBar = () => {
           </div>
         )}
         <div
-          className={`fixed inset-y-0 left-0 z-50 transform bg-white shadow-lg transition-transform duration-100 ${
+          className={`fixed inset-y-0 left-0 z-50 transform bg-white transition-transform duration-100 ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } md:relative md:w-64 md:translate-x-0 md:shadow-none`}
+          } md:relative md:w-64 md:translate-x-0`}
           style={{ width: "66.6667%" }} // 2/3 of the screen
         >
           <div className="flex items-center justify-between border-b p-4">

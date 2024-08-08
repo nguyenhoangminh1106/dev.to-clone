@@ -121,7 +121,7 @@ const Post = ({
   return (
     <div className="relative my-2">
       <div
-        className={`border-b border-b-gray-100 bg-white ${showHeader ? "rounded-lg p-4 pr-8" : "pb-4 pt-2"} `}
+        className={`border-b border-b-gray-100 bg-white ${showHeader ? "rounded-md p-4 pr-8" : "pb-4 pt-2"} `}
       >
         {showHeader && (
           <div>
@@ -137,7 +137,7 @@ const Post = ({
                 />
               </Link>
               <div className="ml-3">
-                <p className="rounded-lg px-1 font-semibold hover:bg-gray-100">
+                <p className="rounded-md px-1 font-semibold hover:bg-gray-100">
                   {user?.name ?? "Unknown"}
                 </p>
                 <p className="text-sm text-gray-500">
@@ -160,7 +160,7 @@ const Post = ({
               {activePostMenu === post.id && (
                 <div
                   ref={dropdownRef}
-                  className="absolute right-0 z-10 mt-2 w-48 rounded-md border border-gray-300 bg-white shadow-lg"
+                  className="absolute right-0 z-10 mt-2 w-48 rounded-md border border-gray-300 bg-white"
                 >
                   {session?.user?.id === post.createdById && (
                     <>
@@ -217,7 +217,7 @@ const Post = ({
             <div className="flex items-center space-x-1">
               <Link
                 href={`/post/${post.id}`}
-                className="flex items-center space-x-1 rounded-lg text-red-600 hover:bg-gray-100 sm:mx-8 sm:p-2"
+                className="flex items-center space-x-1 rounded-md text-red-600 hover:bg-gray-100 sm:mx-8 sm:p-2"
               >
                 <FaFire />
                 <span className="hidden sm:block">
@@ -234,7 +234,7 @@ const Post = ({
               </Link>
               <Link
                 href={`/post/${post.id}`}
-                className="flex items-center space-x-1 rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+                className="flex items-center space-x-1 rounded-md p-2 text-gray-500 hover:bg-gray-100"
               >
                 <FaRegComment></FaRegComment>
                 {comments && comments?.length > 0 ? (

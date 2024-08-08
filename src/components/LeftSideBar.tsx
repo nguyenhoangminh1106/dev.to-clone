@@ -23,7 +23,6 @@ import { BiCodeBlock } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
-import LoadingBar from "./LoadingBar";
 
 /**
  * LEFT-SIDE BAR ON THE HOME PAGE
@@ -33,15 +32,14 @@ const LeftSideBar = () => {
   const { data: session } = useSession();
 
   // Get number of users, posts, comments
-  const { data, isLoading, isError } = api.utils.getStats.useQuery();
+  const { data, isError } = api.utils.getStats.useQuery();
 
   return (
     <>
-      {isLoading && <LoadingBar />}
       {isError && <p className="m-5 text-red-500">Error loading tatistics</p>}
 
-      <div className="mt-5 rounded-lg">
-        <div className="mb-4 rounded-lg bg-gray-100 bg-white p-4">
+      <div className="mt-5 rounded-md">
+        <div className="mb-4 rounded-md bg-gray-100 bg-white p-4">
           <h2 className="text-xl font-bold">
             DEV Community is a community of {data?.totalUsers} amazing
             developers
@@ -52,7 +50,7 @@ const LeftSideBar = () => {
           </p>
           {/* If signed in, display statistic */}
           {session?.user && (
-            <div className="button-secondary decoration-none shadow-lg">
+            <div className="button-secondary decoration-none">
               <h2 className="mb-4 text-lg font-bold">Right Now !!!</h2>
               <div>
                 <p>Total Users: {data?.totalUsers}</p>

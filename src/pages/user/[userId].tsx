@@ -5,7 +5,6 @@ import type { ParsedUrlQuery } from "querystring";
 import PostList from "~/components/PostList";
 import { FaHashtag, FaRegComment, FaRegFileAlt } from "react-icons/fa";
 import UserInfo from "~/components/UserInfo";
-import LoadingBar from "~/components/LoadingBar";
 
 /**
  * DISPLAY USER INFO, USER'S POSTS
@@ -18,14 +17,12 @@ const UserProfile = () => {
   // Fetch user profile data
   const {
     data: user,
-    isLoading,
     isError,
     refetch,
   } = api.user.getUserById.useQuery({ userId });
 
   return (
     <>
-      {isLoading && <LoadingBar />}
       {isError && <p className="m-5 text-red-500">Error loading profile</p>}
       <div className="w-10xl h-10 bg-black sm:h-32"></div>
 
@@ -36,7 +33,7 @@ const UserProfile = () => {
           {" "}
           {/* Statistics */}
           <div className="md:flex md:space-x-4">
-            <div className="mt-2 h-1/2 w-full rounded-lg bg-white p-4 md:w-1/3">
+            <div className="mt-2 h-1/2 w-full rounded-md bg-white p-4 md:w-1/3">
               <div className="mb-4 flex items-center">
                 <FaRegFileAlt className="mr-3 text-gray-500" size={24} />
                 <span className="text-gray-700">

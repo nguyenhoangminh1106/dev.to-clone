@@ -7,7 +7,6 @@ import { FiChevronRight } from "react-icons/fi";
 
 import type { ParsedUrlQuery } from "querystring";
 import Link from "next/link";
-import LoadingBar from "./LoadingBar";
 
 /**
  * THE MIDDLE COLUMN OF THE WEBPAGE
@@ -26,20 +25,18 @@ const MainContent = () => {
   // Add post to database
   const {
     data: posts,
-    isLoading,
     isError,
     refetch,
   } = api.post.getPublishedPosts.useQuery({ query });
 
   return (
     <>
-      {isLoading && <LoadingBar />}
       {isError && <p className="m-5 text-red-500">Error loading posts</p>}
       <main className="mt-2 flex-grow md:mr-2 lg:mx-2">
         <div className="my-5">
           {/* If not searching and already signed in */}
           {session?.user && !query && (
-            <div className="mb-4 hidden rounded-lg bg-indigo-600 px-24 py-10 shadow-md lg:block">
+            <div className="mb-4 hidden rounded-md bg-indigo-600 px-24 py-10 lg:block">
               <div className="flex items-start justify-between">
                 <Image
                   src="/images/dev.png"
@@ -58,7 +55,7 @@ const MainContent = () => {
                 Suggested things you can do
               </p>
               <ul className="mt-4 space-y-3 text-white">
-                <li className="flex cursor-pointer items-center justify-between rounded-lg bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700">
+                <li className="flex cursor-pointer items-center justify-between rounded-md bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700">
                   <span className="flex items-center space-x-2">
                     <span role="img" aria-label="smiley">
                       😊
@@ -69,7 +66,7 @@ const MainContent = () => {
                 </li>
                 <Link
                   href="/createPost"
-                  className="flex cursor-pointer items-center justify-between rounded-lg bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700"
+                  className="flex cursor-pointer items-center justify-between rounded-md bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700"
                 >
                   <span className="flex items-center space-x-2">
                     <span role="img" aria-label="write">
@@ -81,7 +78,7 @@ const MainContent = () => {
                 </Link>
                 <Link
                   href="/setting"
-                  className="flex cursor-pointer items-center justify-between rounded-lg bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700"
+                  className="flex cursor-pointer items-center justify-between rounded-md bg-indigo-50/50 p-3 text-sm font-semibold hover:bg-indigo-700"
                 >
                   <span className="flex items-center space-x-2">
                     <span role="img" aria-label="customize">
@@ -99,18 +96,18 @@ const MainContent = () => {
           {!query && (
             <>
               <div className="mb-2 ml-2 flex items-center space-x-4">
-                <h2 className="rounded-lg p-2 text-lg font-bold text-black hover:bg-white hover:text-indigo-600">
+                <h2 className="rounded-md p-2 text-lg font-bold text-black hover:bg-white hover:text-indigo-600">
                   Relevant
                 </h2>
-                <p className="cursor-pointer rounded-lg p-2 text-gray-500 hover:bg-white hover:text-black hover:text-indigo-600">
+                <p className="cursor-pointer rounded-md p-2 text-gray-500 hover:bg-white hover:text-black hover:text-indigo-600">
                   Latest
                 </p>
-                <p className="cursor-pointer rounded-lg p-2 text-gray-500 hover:bg-white hover:text-black hover:text-indigo-600">
+                <p className="cursor-pointer rounded-md p-2 text-gray-500 hover:bg-white hover:text-black hover:text-indigo-600">
                   Top
                 </p>
               </div>
 
-              <div className="rounded-lg bg-white p-6 shadow-md">
+              <div className="rounded-md bg-white p-6">
                 <p className="mb-4">👋 DEV Challenges</p>
                 <div className="mx-1 sm:mx-10">
                   <h1 className="mb-2 text-2xl font-semibold">
@@ -121,7 +118,7 @@ const MainContent = () => {
                   </h2>
 
                   <div className="mb-4">
-                    <div className="rounded-md border border-gray-300 bg-white p-4 shadow-md">
+                    <div className="rounded-md border border-gray-300 bg-white p-4">
                       <div className="mb-2 flex items-center">
                         <Image
                           src={websiteLogo}
@@ -151,7 +148,7 @@ const MainContent = () => {
                     The Stellar Challenge with 50k in prizes is still live!
                   </h2>
                   <div className="mb-4">
-                    <div className="rounded-md border border-gray-300 bg-white p-4 shadow-md">
+                    <div className="rounded-md border border-gray-300 bg-white p-4">
                       <div className="mb-2 flex items-center">
                         <Image
                           src={websiteLogo}
@@ -161,7 +158,7 @@ const MainContent = () => {
                           className="mr-3 h-10 w-10"
                         />
                         <div>
-                          <h3 className="text-lg font-semibold">
+                          <h3 className="text-lg font-bold">
                             Join Us For The First Community Smart Contract
                             Challenge With $50,000 In Prizes!
                           </h3>

@@ -44,7 +44,7 @@ const CommentComponent = ({
 
         {/* Author info */}
         <div
-          className={`ml-3 w-full rounded-lg ${isFilled ? "bg-gray-100" : "border border-gray-100"} p-2`}
+          className={`ml-3 w-full rounded-md ${isFilled ? "bg-gray-100" : "border border-gray-100"} p-2`}
         >
           <div className="flex items-center space-x-2">
             <p className="px-1 font-semibold hover:bg-gray-100">

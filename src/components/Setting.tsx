@@ -13,7 +13,6 @@ const Settings = () => {
   const [bio, setBio] = useState("");
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImageName, setProfileImageName] = useState("No file chosen");
-  
 
   const { data: user, refetch } = api.user.getUserById.useQuery({
     userId: session?.user.id ?? "",
@@ -77,7 +76,7 @@ const Settings = () => {
   return (
     <div className="flex flex-col justify-center space-y-5">
       {/* Update form */}
-      <div className="w-full rounded-lg bg-white p-6">
+      <div className="w-full rounded-md bg-white p-6">
         <h1 className="mb-6 text-2xl font-bold">User</h1>
         <div className="mb-6">
           <div className="mb-4">
@@ -130,7 +129,7 @@ const Settings = () => {
         </div>
       </div>
 
-      <div className="w-full rounded-lg bg-white p-6">
+      <div className="w-full rounded-md bg-white p-6">
         <h1 className="mb-6 text-2xl font-bold">Basic</h1>
         <div className="mb-6">
           <div className="mb-4">
@@ -167,7 +166,7 @@ const Settings = () => {
           />
         </div>
       </div>
-      <div className="flex w-full flex-col items-center space-x-2 rounded-lg bg-white p-5">
+      <div className="flex w-full flex-col items-center space-x-2 rounded-md bg-white p-5">
         <button
           onClick={handleUpdateProfile}
           className="button-primary-filled w-full"

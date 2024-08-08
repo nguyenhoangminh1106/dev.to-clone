@@ -35,14 +35,14 @@ const SignUp = () => {
       <div className="w-full max-w-sm space-y-4">
         <button
           onClick={handleSignUpGitHub}
-          className="flex w-full items-center justify-center rounded-lg bg-black px-4 py-2 text-white"
+          className="flex w-full items-center justify-center rounded-md bg-black px-4 py-2 text-white"
         >
           <i className="fab fa-github mr-2"></i>
           Sign up with GitHub
         </button>
         <button
           onClick={handleSignUpGoogle}
-          className="flex w-full items-center justify-center rounded-lg bg-red-500 px-4 py-2 text-white"
+          className="flex w-full items-center justify-center rounded-md bg-red-500 px-4 py-2 text-white"
         >
           <i className="fab fa-google mr-2"></i>
           Sign up with Google

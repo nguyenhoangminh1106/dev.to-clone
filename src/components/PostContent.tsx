@@ -115,9 +115,9 @@ const PostContent = () => {
       {/* Main Post Area */}
       <div className="flex w-full flex-wrap">
         <span>{editError && <p style={{ color: "red" }}>{editError}</p>}</span>
-        <div className="mx-auto w-full rounded-lg bg-white shadow-md">
+        <div className="mx-auto w-full rounded-md bg-white">
           {coverImage && (
-            <div className="relative mb-4 h-64 w-full overflow-hidden rounded-lg sm:h-80">
+            <div className="relative mb-4 h-64 w-full overflow-hidden rounded-md sm:h-80">
               <Image
                 src={coverImage}
                 alt="Cover Image"
@@ -182,7 +182,7 @@ const PostContent = () => {
         {/* Comments Section */}
         <div
           id="comment"
-          className="w-full rounded-lg border-t border-t-gray-100 bg-white p-4 shadow-md"
+          className="w-full rounded-md border-t border-t-gray-100 bg-white p-4"
         >
           <Comments postId={numericPostId} isListFilled={false} />
           <div className="mt-5 flex justify-center space-x-10 sm:my-5">

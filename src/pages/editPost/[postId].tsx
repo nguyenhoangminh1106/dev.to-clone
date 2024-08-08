@@ -140,7 +140,7 @@ const EditPost = () => {
   return (
     <div className="mx-1 flex lg:ml-32 lg:mr-24">
       {/* Update form */}
-      <div className="my-12 w-full bg-white px-1 py-8 shadow-2xl transition duration-300 hover:bg-slate-50 sm:w-8/12 sm:px-8">
+      <div className="my-12 w-full bg-white px-1 py-8 transition duration-300 hover:bg-slate-50 sm:w-8/12 sm:px-8">
         <div className="mb-4">
           <input
             type="file"
@@ -162,7 +162,7 @@ const EditPost = () => {
               alt="New cover"
               width={500}
               height={300}
-              className="mx-auto my-6 rounded-lg object-cover"
+              className="mx-auto my-6 rounded-md object-cover"
             />
           )}
         </div>
@@ -199,7 +199,7 @@ const EditPost = () => {
             value={body}
             renderHTML={(text) => mdParser.render(text)}
             onChange={handleEditorChange}
-            className="h-40 min-h-screen w-full rounded-lg border p-2 focus:outline-none"
+            className="h-40 min-h-screen w-full rounded-md border p-2 focus:outline-none"
           />
         </div>
         <div className="flex items-center space-x-2">
@@ -215,7 +215,7 @@ const EditPost = () => {
 
       {/* Right side area of the page */}
       <div className="hidden w-4/12 px-1 py-36 sm:block">
-        <div className="rounded-lg p-6">
+        <div className="rounded-md p-6">
           <h2 className="mb-4 text-lg font-bold">Writing a Great Post Title</h2>
           <ul className="list-inside list-disc text-gray-500">
             <li>
