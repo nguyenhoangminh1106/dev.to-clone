@@ -1,5 +1,8 @@
 # Create T3 App (Lyra Trial)
 
+- Developing a blogging platform with features such as user OAuth, blog post-CRUD operations, and profile management.
+- Implementing a responsive UI, integrating AWS S3 for image storage, and deploying with Vercel and GitHub.
+
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
 ## What's next? How do I make an app with this?
