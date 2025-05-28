@@ -42,8 +42,11 @@ pipeline {
 
     stage('Security - Snyk') {
       steps {
-        bat 'npm install -g snyk'
-        bat 'snyk test --all-projects'
+        bat '''
+          npm install -g snyk
+          set PATH=%APPDATA%\\npm;%PATH%
+          snyk test --all-projects
+        '''
       }
     }
 
