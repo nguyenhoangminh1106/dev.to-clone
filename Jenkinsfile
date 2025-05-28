@@ -2,8 +2,8 @@ pipeline {
   agent any
 
   environment {
-    SONAR_TOKEN = credentials('sonar-token')
-    SNYK_TOKEN = credentials('snyk-token')
+    SONAR_TOKEN = credentials('SONAR_TOKEN')
+    SNYK_TOKEN = credentials('SNYK_TOKEN')
   }
 
   stages {
@@ -13,9 +13,14 @@ pipeline {
       }
     }
 
-    stage('Build') {
+    stage('Install Dependencies') {
       steps {
         sh 'npm install'
+      }
+    }
+
+    stage('Build') {
+      steps {
         sh 'npm run build'
       }
     }
@@ -38,6 +43,7 @@ pipeline {
       steps {
         sh '''
           npm install -g snyk
+          snyk auth $SNYK_TOKEN
           snyk test --all-projects --severity-threshold=medium
         '''
       }
