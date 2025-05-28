@@ -7,12 +7,6 @@ pipeline {
   }
 
   stages {
-    stage('Checkout') {
-      steps {
-        git 'https://github.com/nguyenhoangminh1106/dev.to-clone.git'
-      }
-    }
-
     stage('Install Dependencies') {
       steps {
         sh 'npm install'
