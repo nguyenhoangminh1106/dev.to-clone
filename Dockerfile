@@ -4,10 +4,8 @@
 FROM node:18-alpine AS deps
 WORKDIR /app
 
-# Copy package files and the prisma folder for prisma generate
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
-
 RUN npm ci
 
 # -----------------------------
@@ -16,14 +14,27 @@ RUN npm ci
 FROM node:18-alpine AS builder
 WORKDIR /app
 
-# Copy dependencies and prisma folder from deps
+# Accept env vars as build args
+ARG DATABASE_URL
+ARG NEXTAUTH_SECRET
+ARG NEXTAUTH_URL
+ARG GITHUB_CLIENT_ID
+ARG GITHUB_CLIENT_SECRET
+ARG GOOGLE_CLIENT_ID
+ARG GOOGLE_CLIENT_SECRET
+
+# Make them available at build time
+ENV DATABASE_URL=$DATABASE_URL
+ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
+ENV NEXTAUTH_URL=$NEXTAUTH_URL
+ENV GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID
+ENV GITHUB_CLIENT_SECRET=$GITHUB_CLIENT_SECRET
+ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/prisma ./prisma
-
-# Copy the rest of the application source code
 COPY . .
-
-# Build the Next.js app
 RUN npm run build
 
 # -----------------------------
@@ -33,7 +44,6 @@ FROM node:18-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Copy production dependencies, static assets, and prisma folder
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
