@@ -58,7 +58,9 @@ pipeline {
         bat '''
           docker stop devto-app || echo "Not running"
           docker rm devto-app || echo "No container"
+    
           docker build -t devto-clone .
+    
           docker run -d --name devto-app -p 3000:3000 ^
             -e DATABASE_URL=%DATABASE_URL% ^
             -e NEXTAUTH_SECRET=%NEXTAUTH_SECRET% ^
@@ -68,7 +70,6 @@ pipeline {
             -e GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% ^
             -e GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET% ^
             devto-clone
-          docker ps -a
         '''
       }
     }
