@@ -2,8 +2,18 @@ pipeline {
   agent any
 
   environment {
+    // Tokens
     SONAR_TOKEN = credentials('SONAR_TOKEN')
     SNYK_TOKEN = credentials('SNYK_TOKEN')
+
+    // Environment variables for build (linked to Jenkins credentials)
+    DATABASE_URL = credentials('7.4D-DATABASE_URL')
+    NEXTAUTH_SECRET = credentials('7.4D-NEXTAUTH_SECRET')
+    NEXTAUTH_URL = credentials('7.4D-NEXTAUTH_URL')
+    GITHUB_CLIENT_ID = credentials('7.4D-GITHUB_CLIENT_ID')
+    GITHUB_CLIENT_SECRET = credentials('7.4D-GITHUB_CLIENT_SECRET')
+    GOOGLE_CLIENT_ID = credentials('7.4D-GOOGLE_CLIENT_ID')
+    GOOGLE_CLIENT_SECRET = credentials('7.4D-GOOGLE_CLIENT_SECRET')
   }
 
   stages {
