@@ -1,15 +1,15 @@
-# Install dependencies and generate Prisma client
+# Base image
 FROM node:18-alpine AS deps
 
 WORKDIR /app
 
-# Copy only package files for caching
+# Install dependencies
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
 
 RUN npm ci
 
-# Build the application
+# Build app
 FROM node:18-alpine AS builder
 
 WORKDIR /app
@@ -18,12 +18,28 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/prisma ./prisma
 COPY . .
 
-# Set environment variables (for build-time usage)
+# Inject build-time environment variables
+ARG DATABASE_URL
+ARG NEXTAUTH_SECRET
+ARG NEXTAUTH_URL
+ARG GITHUB_CLIENT_ID
+ARG GITHUB_CLIENT_SECRET
+ARG GOOGLE_CLIENT_ID
+ARG GOOGLE_CLIENT_SECRET
+
+ENV DATABASE_URL=$DATABASE_URL
+ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
+ENV NEXTAUTH_URL=$NEXTAUTH_URL
+ENV GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID
+ENV GITHUB_CLIENT_SECRET=$GITHUB_CLIENT_SECRET
+ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+
 ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN npm run build
 
-# Create production image
+# Final runtime image
 FROM node:18-alpine AS runner
 
 WORKDIR /app
