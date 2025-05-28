@@ -1,27 +1,34 @@
-# Install dependencies only
+# -----------------------------
+# 1. Dependencies Install Phase
+# -----------------------------
 FROM node:18-alpine AS deps
 WORKDIR /app
+
+# Copy lock files first to optimize cache
 COPY package.json package-lock.json ./
+COPY prisma ./prisma   # Required for prisma generate (postinstall)
 RUN npm ci
 
-# Build phase
+# -----------------------------
+# 2. Build Phase
+# -----------------------------
 FROM node:18-alpine AS builder
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/prisma ./prisma
 COPY . .
-
-# ADD THIS LINE to ensure prisma/schema.prisma exists
-RUN if [ -f prisma/schema.prisma ]; then echo "✅ schema.prisma found"; else echo "❌ schema.prisma MISSING"; fi
 
 RUN npm run build
 
-# Production runner
+# -----------------------------
+# 3. Production Runtime
+# -----------------------------
 FROM node:18-alpine AS runner
 WORKDIR /app
-
 ENV NODE_ENV=production
 
+# Copy only required output
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
