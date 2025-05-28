@@ -35,11 +35,7 @@ pipeline {
     stage('Code Quality - SonarCloud') {
       steps {
         bat 'npm install -g sonar-scanner'
-        bat '"%APPDATA%\\npm\\sonar-scanner.bat" ^
-          -Dsonar.projectKey=devto-clone ^
-          -Dsonar.organization=your_org ^
-          -Dsonar.host.url=https://sonarcloud.io ^
-          -Dsonar.login=%SONAR_TOKEN%'
+        bat 'sonar-scanner -Dsonar.login=%SONAR_TOKEN%'
       }
     }
 
@@ -53,7 +49,7 @@ pipeline {
 
     stage('Deploy - Docker') {
       steps {
-        bat '''
+        bat """
           docker stop devto-app || echo "Not running"
           docker rm devto-app || echo "No container"
           docker build -t devto-clone .
@@ -66,7 +62,7 @@ pipeline {
             -e GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% ^
             -e GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET% ^
             devto-clone
-        '''
+        """
       }
     }
   }
