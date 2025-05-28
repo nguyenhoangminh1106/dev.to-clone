@@ -34,22 +34,25 @@ pipeline {
 
     stage('Code Quality - SonarCloud') {
       steps {
-        bat 'npm install -g sonar-scanner'
-        bat """
+        bat '''
+          npm install -g sonar-scanner
+          set PATH=%APPDATA%\\npm;%PATH%
           sonar-scanner ^
             -Dsonar.projectKey=devto-clone ^
             -Dsonar.organization=your_org ^
             -Dsonar.host.url=https://sonarcloud.io ^
             -Dsonar.login=%SONAR_TOKEN%
-        """
+        '''
       }
     }
 
     stage('Security - Snyk') {
       steps {
-        bat 'npm install -g snyk'
-        bat 'snyk auth %SNYK_TOKEN%'
-        bat 'snyk test --all-projects'
+        bat '''
+          npm install -g snyk
+          set PATH=%APPDATA%\\npm;%PATH%
+          snyk test --all-projects
+        '''
       }
     }
 
