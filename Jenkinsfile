@@ -28,8 +28,9 @@ pipeline {
 
     stage('Code Quality - SonarCloud') {
       steps {
-        bat 'npm install -g sonar-scanner'
         bat '''
+          npm install -g sonar-scanner
+          set PATH=%APPDATA%\\npm;%PATH%
           sonar-scanner ^
             -Dsonar.projectKey=devto-clone ^
             -Dsonar.organization=your_org ^
