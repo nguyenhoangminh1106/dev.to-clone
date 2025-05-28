@@ -2,11 +2,8 @@ pipeline {
   agent any
 
   environment {
-    // Tokens
     SONAR_TOKEN = credentials('SONAR_TOKEN')
     SNYK_TOKEN = credentials('SNYK_TOKEN')
-
-    // Build environment variables from Jenkins credentials
     DATABASE_URL = credentials('7.4D-DATABASE_URL')
     NEXTAUTH_SECRET = credentials('7.4D-NEXTAUTH_SECRET')
     NEXTAUTH_URL = credentials('7.4D-NEXTAUTH_URL')
@@ -31,25 +28,21 @@ pipeline {
 
     stage('Code Quality - SonarCloud') {
       steps {
+        bat 'npm install -g sonar-scanner'
         bat '''
-          npm install -g sonar-scanner
           sonar-scanner ^
-            -Dsonar.projectKey=your_project_key ^
+            -Dsonar.projectKey=devto-clone ^
             -Dsonar.organization=your_org ^
-            -Dsonar.token=%SONAR_TOKEN% ^
-            -Dsonar.sources=. ^
-            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.host.url=https://sonarcloud.io ^
+            -Dsonar.login=%SONAR_TOKEN%
         '''
       }
     }
 
     stage('Security - Snyk') {
       steps {
-        bat '''
-          npm install -g snyk
-          snyk auth %SNYK_TOKEN%
-          snyk test --all-projects --severity-threshold=medium
-        '''
+        bat 'npm install -g snyk'
+        bat 'snyk test --all-projects'
       }
     }
 
@@ -58,9 +51,9 @@ pipeline {
         bat '''
           docker stop devto-app || echo "Not running"
           docker rm devto-app || echo "No container"
-    
+
           docker build -t devto-clone .
-    
+
           docker run -d --name devto-app -p 3000:3000 ^
             -e DATABASE_URL=%DATABASE_URL% ^
             -e NEXTAUTH_SECRET=%NEXTAUTH_SECRET% ^
