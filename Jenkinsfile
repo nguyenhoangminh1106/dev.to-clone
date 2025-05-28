@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git 'https://github.com/your-username/devto-clone.git'
+        git 'https://github.com/nguyenhoangminh1106/dev.to-clone.git'
       }
     }
 
