@@ -6,7 +6,7 @@ pipeline {
     SONAR_TOKEN = credentials('SONAR_TOKEN')
     SNYK_TOKEN = credentials('SNYK_TOKEN')
 
-    // Environment variables for build (linked to Jenkins credentials)
+    // Build environment variables from Jenkins credentials
     DATABASE_URL = credentials('7.4D-DATABASE_URL')
     NEXTAUTH_SECRET = credentials('7.4D-NEXTAUTH_SECRET')
     NEXTAUTH_URL = credentials('7.4D-NEXTAUTH_URL')
@@ -49,6 +49,25 @@ pipeline {
           npm install -g snyk
           snyk auth %SNYK_TOKEN%
           snyk test --all-projects --severity-threshold=medium
+        '''
+      }
+    }
+
+    stage('Deploy - Docker') {
+      steps {
+        bat '''
+          docker build -t devto-clone .
+          docker stop devto-app || echo "Not running"
+          docker rm devto-app || echo "No container"
+          docker run -d --name devto-app -p 3000:3000 ^
+            -e DATABASE_URL=%DATABASE_URL% ^
+            -e NEXTAUTH_SECRET=%NEXTAUTH_SECRET% ^
+            -e NEXTAUTH_URL=%NEXTAUTH_URL% ^
+            -e GITHUB_CLIENT_ID=%GITHUB_CLIENT_ID% ^
+            -e GITHUB_CLIENT_SECRET=%GITHUB_CLIENT_SECRET% ^
+            -e GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% ^
+            -e GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET% ^
+            devto-clone
         '''
       }
     }
