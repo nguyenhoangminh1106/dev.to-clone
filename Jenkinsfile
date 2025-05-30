@@ -59,7 +59,7 @@ pipeline {
     stage('Deploy - Docker Compose') {
       steps {
         bat '''
-          echo DATABASE_URL=%DATABASE_URL% > .env
+          echo DATABASE_URL=postgresql://user:password@db:5432/devto > .env
           echo NEXTAUTH_SECRET=%NEXTAUTH_SECRET% >> .env
           echo NEXTAUTH_URL=%NEXTAUTH_URL% >> .env
           echo GITHUB_CLIENT_ID=%GITHUB_CLIENT_ID% >> .env
