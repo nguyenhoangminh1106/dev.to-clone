@@ -59,14 +59,14 @@ pipeline {
     stage('Deploy - Docker Compose') {
       steps {
         bat '''
-          echo DATABASE_URL=postgresql://user:password@db:5432/devto > .env
+          echo DATABASE_URL=%DATABASE_URL% > .env
           echo NEXTAUTH_SECRET=%NEXTAUTH_SECRET% >> .env
           echo NEXTAUTH_URL=%NEXTAUTH_URL% >> .env
           echo GITHUB_CLIENT_ID=%GITHUB_CLIENT_ID% >> .env
           echo GITHUB_CLIENT_SECRET=%GITHUB_CLIENT_SECRET% >> .env
           echo GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% >> .env
           echo GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET% >> .env
-    
+
           docker-compose down || echo "Clean up"
           docker-compose build ^
             --build-arg DATABASE_URL=%DATABASE_URL% ^
@@ -76,8 +76,10 @@ pipeline {
             --build-arg GITHUB_CLIENT_SECRET=%GITHUB_CLIENT_SECRET% ^
             --build-arg GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% ^
             --build-arg GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET%
-    
+
           docker-compose up -d
+
+          docker-compose exec web npx prisma db push
         '''
       }
     }
