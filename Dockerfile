@@ -1,5 +1,5 @@
 # Base image
-FROM node:18-alpine AS deps
+FROM node:18-slim AS base
 WORKDIR /app
 
 # Install dependencies
