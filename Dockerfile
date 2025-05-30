@@ -1,7 +1,10 @@
 # Base image
-FROM node:18-alpine AS deps
+FROM node:18-bullseye-slim AS deps
 
 WORKDIR /app
+
+# Install OpenSSL and other dependencies
+RUN apt-get update && apt-get install -y openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 
 # Install dependencies
 COPY package.json package-lock.json ./
@@ -10,10 +13,11 @@ COPY prisma ./prisma
 RUN npm ci
 
 # Build app
-FROM node:18-alpine AS builder
+FROM node:18-bullseye-slim AS builder
 
 WORKDIR /app
 
+# Copy node_modules and prisma from deps
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/prisma ./prisma
 COPY . .
@@ -40,12 +44,15 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 # Final runtime image
-FROM node:18-alpine AS runner
+FROM node:18-bullseye-slim AS runner
 
 WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
