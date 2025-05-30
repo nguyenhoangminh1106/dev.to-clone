@@ -36,10 +36,10 @@ pipeline {
       steps {
         bat '''
           npm install -g sonar-scanner
-          set PATH=%APPDATA%\\npm;%PATH%
           sonar-scanner ^
             -Dsonar.projectKey=devto-clone ^
-            -Dsonar.organization=your_org ^
+            -Dsonar.organization=your-org ^
+            -Dsonar.sources=. ^
             -Dsonar.host.url=https://sonarcloud.io ^
             -Dsonar.login=%SONAR_TOKEN%
         '''
@@ -50,8 +50,8 @@ pipeline {
       steps {
         bat '''
           npm install -g snyk
-          set PATH=%APPDATA%\\npm;%PATH%
-          snyk test --all-projects
+          snyk auth %SNYK_TOKEN%
+          snyk test
         '''
       }
     }
@@ -66,29 +66,36 @@ pipeline {
           echo GITHUB_CLIENT_SECRET=%GITHUB_CLIENT_SECRET% >> .env
           echo GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% >> .env
           echo GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET% >> .env
-    
+
           docker-compose down || echo "Clean up"
-          docker-compose build ^
-            --build-arg DATABASE_URL=%DATABASE_URL% ^
-            --build-arg NEXTAUTH_SECRET=%NEXTAUTH_SECRET% ^
-            --build-arg NEXTAUTH_URL=%NEXTAUTH_URL% ^
-            --build-arg GITHUB_CLIENT_ID=%GITHUB_CLIENT_ID% ^
-            --build-arg GITHUB_CLIENT_SECRET=%GITHUB_CLIENT_SECRET% ^
-            --build-arg GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% ^
-            --build-arg GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET%
-    
+          docker-compose build --build-arg DATABASE_URL=%DATABASE_URL% ^
+                               --build-arg NEXTAUTH_SECRET=%NEXTAUTH_SECRET% ^
+                               --build-arg NEXTAUTH_URL=%NEXTAUTH_URL% ^
+                               --build-arg GITHUB_CLIENT_ID=%GITHUB_CLIENT_ID% ^
+                               --build-arg GITHUB_CLIENT_SECRET=%GITHUB_CLIENT_SECRET% ^
+                               --build-arg GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% ^
+                               --build-arg GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET%
+
           docker-compose up -d
-    
-          REM wait for db to be ready
-          for /L %%i in (1,1,30) do (
-            docker-compose exec db pg_isready -U postgres -h localhost -p 5432 && goto ready
-            echo Waiting for db... %%i
+        '''
+      }
+    }
+
+    stage('Wait for DB Ready') {
+      steps {
+        bat '''
+          FOR /L %%i IN (1,1,30) DO (
+            docker-compose exec db pg_isready -U postgres -h db -p 5432 && EXIT /B 0
+            ECHO Waiting for db... %%i
             timeout /t 2 >nul
           )
-          :ready
-    
-          docker-compose exec web npx prisma db push
         '''
+      }
+    }
+
+    stage('Migrate DB') {
+      steps {
+        bat 'docker-compose exec web npx prisma db push'
       }
     }
   }
