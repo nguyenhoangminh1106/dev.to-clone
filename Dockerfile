@@ -1,5 +1,5 @@
 # Install deps with OpenSSL support
-FROM node:18-alpine AS deps
+FROM node:20-alpine3.20 AS deps
 # install openssl
 RUN apk update && apk upgrade
 RUN apk add --no-cache openssl
@@ -9,7 +9,7 @@ COPY prisma ./prisma
 RUN npm ci
 
 # Build app
-FROM node:18-alpine AS build
+FROM node:20-alpine3.20 AS build
 # install openssl
 RUN apk update && apk upgrade
 RUN apk add --no-cache openssl
