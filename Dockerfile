@@ -39,7 +39,7 @@ RUN npx prisma generate
 RUN npm run build
 
 # Final runtime image
-FROM node:18-alpine AS runner
+FROM node:20-alpine3.20 AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=build /app/public ./public
