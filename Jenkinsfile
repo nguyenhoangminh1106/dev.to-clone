@@ -4,7 +4,9 @@ pipeline {
   environment {
     SONAR_TOKEN = credentials('SONAR_TOKEN')
     SNYK_TOKEN = credentials('SNYK_TOKEN')
-    DATABASE_URL = credentials('7.4D-DATABASE_URL')
+    # Default to dev
+    DATABASE_URL = credentials('7.4D-DEV_DATABASE_URL')
+
     NEXTAUTH_SECRET = credentials('7.4D-NEXTAUTH_SECRET')
     NEXTAUTH_URL = credentials('7.4D-NEXTAUTH_URL')
     GITHUB_CLIENT_ID = credentials('7.4D-GITHUB_CLIENT_ID')
@@ -70,6 +72,7 @@ pipeline {
             --build-arg GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% ^
             --build-arg GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET% ^
             .
+
           docker run -d --name devto-app -p 3000:3000 ^
             -e DATABASE_URL=%DATABASE_URL% ^
             -e NEXTAUTH_SECRET=%NEXTAUTH_SECRET% ^
