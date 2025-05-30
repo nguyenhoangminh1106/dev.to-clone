@@ -1,62 +1,89 @@
-# -------- Base Image --------
-FROM node:18-alpine AS base
+pipeline {
+  agent any
 
-# Install OpenSSL for Prisma
-RUN apk add --no-cache openssl
+  environment {
+    SONAR_TOKEN = credentials('SONAR_TOKEN')
+    SNYK_TOKEN = credentials('SNYK_TOKEN')
+    # Default to dev
+    DATABASE_URL = credentials('7.4D-DEV_DATABASE_URL')
 
-# -------- Stage 1: Dependencies --------
-FROM base AS deps
+    NEXTAUTH_SECRET = credentials('7.4D-NEXTAUTH_SECRET')
+    NEXTAUTH_URL = credentials('7.4D-NEXTAUTH_URL')
+    GITHUB_CLIENT_ID = credentials('7.4D-GITHUB_CLIENT_ID')
+    GITHUB_CLIENT_SECRET = credentials('7.4D-GITHUB_CLIENT_SECRET')
+    GOOGLE_CLIENT_ID = credentials('7.4D-GOOGLE_CLIENT_ID')
+    GOOGLE_CLIENT_SECRET = credentials('7.4D-GOOGLE_CLIENT_SECRET')
+  }
 
-WORKDIR /app
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
 
-COPY package.json package-lock.json ./
-COPY prisma ./prisma
-RUN npm ci
+    stage('Install Dependencies') {
+      steps {
+        bat 'npm install'
+      }
+    }
 
-# -------- Stage 2: Build --------
-FROM base AS build
+    stage('Build') {
+      steps {
+        bat 'npm run build'
+      }
+    }
 
-WORKDIR /app
+    stage('Code Quality - SonarCloud') {
+      steps {
+        bat '''
+          npm install -g sonar-scanner
+          set PATH=%APPDATA%\\npm;%PATH%
+          sonar-scanner ^
+            -Dsonar.projectKey=devto-clone ^
+            -Dsonar.organization=your_org ^
+            -Dsonar.host.url=https://sonarcloud.io ^
+            -Dsonar.login=%SONAR_TOKEN%
+        '''
+      }
+    }
 
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/package.json ./package.json
-COPY --from=deps /app/package-lock.json ./package-lock.json
-COPY --from=deps /app/prisma ./prisma
-COPY . .
+    stage('Security - Snyk') {
+      steps {
+        bat '''
+          npm install -g snyk
+          set PATH=%APPDATA%\\npm;%PATH%
+          snyk test --all-projects
+        '''
+      }
+    }
 
-ARG DATABASE_URL
-ARG NEXTAUTH_SECRET
-ARG NEXTAUTH_URL
-ARG GITHUB_CLIENT_ID
-ARG GITHUB_CLIENT_SECRET
-ARG GOOGLE_CLIENT_ID
-ARG GOOGLE_CLIENT_SECRET
+    stage('Deploy - Docker') {
+      steps {
+        bat """
+          docker stop devto-app || echo "Not running"
+          docker rm devto-app || echo "No container"
+          docker build -t devto-clone ^
+            --build-arg DATABASE_URL=%DATABASE_URL% ^
+            --build-arg NEXTAUTH_SECRET=%NEXTAUTH_SECRET% ^
+            --build-arg NEXTAUTH_URL=%NEXTAUTH_URL% ^
+            --build-arg GITHUB_CLIENT_ID=%GITHUB_CLIENT_ID% ^
+            --build-arg GITHUB_CLIENT_SECRET=%GITHUB_CLIENT_SECRET% ^
+            --build-arg GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% ^
+            --build-arg GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET% ^
+            .
 
-ENV DATABASE_URL=$DATABASE_URL
-ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
-ENV NEXTAUTH_URL=$NEXTAUTH_URL
-ENV GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID
-ENV GITHUB_CLIENT_SECRET=$GITHUB_CLIENT_SECRET
-ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
-ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
-
-RUN npx prisma generate
-RUN npm run build
-
-# -------- Final Image --------
-FROM base AS runner
-
-WORKDIR /app
-
-ENV NODE_ENV=production
-ENV PORT=3000
-
-COPY --from=build /app/public ./public
-COPY --from=build /app/.next ./.next
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/package.json ./package.json
-COPY --from=build /app/prisma ./prisma
-
-EXPOSE 3000
-
-CMD ["npm", "start"]
+          docker run -d --name devto-app -p 3000:3000 ^
+            -e DATABASE_URL=%DATABASE_URL% ^
+            -e NEXTAUTH_SECRET=%NEXTAUTH_SECRET% ^
+            -e NEXTAUTH_URL=%NEXTAUTH_URL% ^
+            -e GITHUB_CLIENT_ID=%GITHUB_CLIENT_ID% ^
+            -e GITHUB_CLIENT_SECRET=%GITHUB_CLIENT_SECRET% ^
+            -e GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% ^
+            -e GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET% ^
+            devto-clone
+        """
+      }
+    }
+  }
+}
