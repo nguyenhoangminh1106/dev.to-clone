@@ -60,9 +60,19 @@ pipeline {
 
     stage('Deploy - Docker Compose') {
       steps {
-        bat 'docker-compose down || echo "Clean up"'
-        bat 'docker-compose build'
-        bat 'docker-compose up -d'
+        bat """
+          echo DATABASE_URL=%DATABASE_URL% > .env
+          echo NEXTAUTH_SECRET=%NEXTAUTH_SECRET% >> .env
+          echo NEXTAUTH_URL=%NEXTAUTH_URL% >> .env
+          echo GITHUB_CLIENT_ID=%GITHUB_CLIENT_ID% >> .env
+          echo GITHUB_CLIENT_SECRET=%GITHUB_CLIENT_SECRET% >> .env
+          echo GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% >> .env
+          echo GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET% >> .env
+    
+          docker-compose down || echo "Clean up"
+          docker-compose build
+          docker-compose up -d
+        """
         bat 'docker-compose exec web npx prisma db push'
       }
     }
