@@ -10,6 +10,7 @@ FROM base AS deps
 WORKDIR /app
 
 COPY package.json package-lock.json ./
+COPY prisma ./prisma
 RUN npm ci
 
 # -------- Stage 2: Build --------
@@ -18,6 +19,9 @@ FROM base AS build
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/package.json ./package.json
+COPY --from=deps /app/package-lock.json ./package-lock.json
+COPY --from=deps /app/prisma ./prisma
 COPY . .
 
 ARG DATABASE_URL
