@@ -1,22 +1,32 @@
-# Base dependencies layer
+# -------------------------
+# 1. Dependencies Stage
+# -------------------------
 FROM node:18-alpine AS deps
 
 WORKDIR /app
+
+# Add OpenSSL 1.1 support
+RUN apk add --no-cache openssl1.1-compat
 
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
 
 RUN npm ci
 
-# Builder layer
+# -------------------------
+# 2. Build Stage
+# -------------------------
 FROM node:18-alpine AS builder
 
 WORKDIR /app
+
+RUN apk add --no-cache openssl1.1-compat
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/prisma ./prisma
 COPY . .
 
+# Build-time env vars
 ARG DATABASE_URL
 ARG NEXTAUTH_SECRET
 ARG NEXTAUTH_URL
@@ -35,12 +45,18 @@ ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# Generate Prisma client and build
+RUN npx prisma generate
 RUN npm run build
 
-# Runtime layer
+# -------------------------
+# 3. Runtime Stage
+# -------------------------
 FROM node:18-alpine AS runner
 
 WORKDIR /app
+
+RUN apk add --no-cache openssl1.1-compat
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -51,9 +67,6 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/prisma ./prisma
 
-# Install only for runtime
-RUN npm install prisma --save-dev
-
 EXPOSE 3000
 
-CMD npx prisma migrate deploy && npm start
+CMD ["npm", "start"]
