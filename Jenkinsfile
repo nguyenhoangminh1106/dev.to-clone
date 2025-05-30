@@ -4,9 +4,7 @@ pipeline {
   environment {
     SONAR_TOKEN = credentials('SONAR_TOKEN')
     SNYK_TOKEN = credentials('SNYK_TOKEN')
-
-    DATABASE_URL = 'postgresql://user:password@db:5432/devto'
-
+    DATABASE_URL = credentials('7.4D-DEV_DATABASE_URL')
     NEXTAUTH_SECRET = credentials('7.4D-NEXTAUTH_SECRET')
     NEXTAUTH_URL = credentials('7.4D-NEXTAUTH_URL')
     GITHUB_CLIENT_ID = credentials('7.4D-GITHUB_CLIENT_ID')
@@ -36,7 +34,7 @@ pipeline {
 
     stage('Code Quality - SonarCloud') {
       steps {
-        bat """
+        bat '''
           npm install -g sonar-scanner
           set PATH=%APPDATA%\\npm;%PATH%
           sonar-scanner ^
@@ -44,17 +42,17 @@ pipeline {
             -Dsonar.organization=your_org ^
             -Dsonar.host.url=https://sonarcloud.io ^
             -Dsonar.login=%SONAR_TOKEN%
-        """
+        '''
       }
     }
 
     stage('Security - Snyk') {
       steps {
-        bat """
+        bat '''
           npm install -g snyk
           set PATH=%APPDATA%\\npm;%PATH%
           snyk test --all-projects
-        """
+        '''
       }
     }
 
@@ -68,7 +66,7 @@ pipeline {
           echo GITHUB_CLIENT_SECRET=%GITHUB_CLIENT_SECRET% >> .env
           echo GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% >> .env
           echo GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET% >> .env
-    
+
           docker-compose down || echo "Clean up"
           docker-compose build
           docker-compose up -d
