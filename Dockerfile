@@ -1,7 +1,7 @@
 # Install deps with OpenSSL support
 FROM node:18-alpine AS deps
 WORKDIR /app
-RUN apk add --no-cache openssl1.1 bash
+RUN apk add --no-cache openssl bash
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
 RUN npm ci
