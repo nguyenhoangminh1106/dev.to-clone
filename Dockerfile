@@ -19,7 +19,6 @@ COPY --from=deps /app/package-lock.json ./package-lock.json
 COPY --from=deps /app/prisma ./prisma
 COPY . .
 
-# Accept build-time environment variables
 ARG DATABASE_URL
 ARG NEXTAUTH_SECRET
 ARG NEXTAUTH_URL
@@ -28,7 +27,6 @@ ARG GITHUB_CLIENT_SECRET
 ARG GOOGLE_CLIENT_ID
 ARG GOOGLE_CLIENT_SECRET
 
-# Set them as runtime env too during build
 ENV DATABASE_URL=${DATABASE_URL}
 ENV NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
 ENV NEXTAUTH_URL=${NEXTAUTH_URL}
@@ -52,7 +50,7 @@ COPY --from=build /app/.next ./.next
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/prisma ./prisma
-COPY --from=build /app/src ./src  # ✅ Needed for Next.js routing
+COPY --from=build /app/src ./src  # ✅ REQUIRED
 
 EXPOSE 3000
 CMD ["npm", "start"]
