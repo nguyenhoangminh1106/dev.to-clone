@@ -1,7 +1,8 @@
-# -------- Base for installing openssl --------
+# -------- Base Image --------
 FROM node:18-alpine AS base
 
-RUN apk add --no-cache openssl1.1
+# Install OpenSSL for Prisma
+RUN apk add --no-cache openssl
 
 # -------- Stage 1: Dependencies --------
 FROM base AS deps
@@ -9,20 +10,16 @@ FROM base AS deps
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-COPY prisma ./prisma
-
 RUN npm ci
 
 # -------- Stage 2: Build --------
-FROM base AS builder
+FROM base AS build
 
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/prisma ./prisma
 COPY . .
 
-# Inject build-time environment variables
 ARG DATABASE_URL
 ARG NEXTAUTH_SECRET
 ARG NEXTAUTH_URL
@@ -39,23 +36,22 @@ ENV GITHUB_CLIENT_SECRET=$GITHUB_CLIENT_SECRET
 ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
 ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
 
-ENV NEXT_TELEMETRY_DISABLED=1
-
+RUN npx prisma generate
 RUN npm run build
 
-# -------- Final Stage: Runtime --------
+# -------- Final Image --------
 FROM base AS runner
 
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3000
 
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/prisma ./prisma
+COPY --from=build /app/public ./public
+COPY --from=build /app/.next ./.next
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package.json ./package.json
+COPY --from=build /app/prisma ./prisma
 
 EXPOSE 3000
 
