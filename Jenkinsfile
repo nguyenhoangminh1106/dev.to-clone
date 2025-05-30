@@ -58,7 +58,7 @@ pipeline {
 
     stage('Deploy - Docker Compose') {
       steps {
-        bat """
+        bat '''
           echo DATABASE_URL=%DATABASE_URL% > .env
           echo NEXTAUTH_SECRET=%NEXTAUTH_SECRET% >> .env
           echo NEXTAUTH_URL=%NEXTAUTH_URL% >> .env
@@ -66,12 +66,19 @@ pipeline {
           echo GITHUB_CLIENT_SECRET=%GITHUB_CLIENT_SECRET% >> .env
           echo GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% >> .env
           echo GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET% >> .env
-
+    
           docker-compose down || echo "Clean up"
-          docker-compose build
+          docker-compose build ^
+            --build-arg DATABASE_URL=%DATABASE_URL% ^
+            --build-arg NEXTAUTH_SECRET=%NEXTAUTH_SECRET% ^
+            --build-arg NEXTAUTH_URL=%NEXTAUTH_URL% ^
+            --build-arg GITHUB_CLIENT_ID=%GITHUB_CLIENT_ID% ^
+            --build-arg GITHUB_CLIENT_SECRET=%GITHUB_CLIENT_SECRET% ^
+            --build-arg GOOGLE_CLIENT_ID=%GOOGLE_CLIENT_ID% ^
+            --build-arg GOOGLE_CLIENT_SECRET=%GOOGLE_CLIENT_SECRET%
+    
           docker-compose up -d
-        """
-        bat 'docker-compose exec web npx prisma db push'
+        '''
       }
     }
   }
