@@ -40,6 +40,9 @@ RUN npm run build
 
 # Final runtime image
 FROM node:20-alpine3.20 AS runner
+# install openssl
+RUN apk update && apk upgrade
+RUN apk add --no-cache openssl
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=build /app/public ./public
