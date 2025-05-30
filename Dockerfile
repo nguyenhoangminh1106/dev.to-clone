@@ -1,16 +1,14 @@
-# Base image
-FROM node:18-slim AS base
+# Install deps with OpenSSL support
+FROM node:18-alpine AS deps
 WORKDIR /app
-
-# Install dependencies
+RUN apk add --no-cache openssl1.1 bash
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
 RUN npm ci
 
-# Builder image
+# Build app
 FROM node:18-alpine AS build
 WORKDIR /app
-
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/prisma ./prisma
 COPY . .
@@ -38,9 +36,7 @@ RUN npm run build
 # Final runtime image
 FROM node:18-alpine AS runner
 WORKDIR /app
-
 ENV NODE_ENV=production
-
 COPY --from=build /app/public ./public
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/node_modules ./node_modules
