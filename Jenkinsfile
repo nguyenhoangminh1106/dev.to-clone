@@ -4,9 +4,7 @@ pipeline {
   environment {
     SONAR_TOKEN = credentials('SONAR_TOKEN')
     SNYK_TOKEN = credentials('SNYK_TOKEN')
-    # Default to dev
-    DATABASE_URL = credentials('7.4D-DEV_DATABASE_URL')
-
+    DATABASE_URL = credentials('7.4D-DATABASE_URL')
     NEXTAUTH_SECRET = credentials('7.4D-NEXTAUTH_SECRET')
     NEXTAUTH_URL = credentials('7.4D-NEXTAUTH_URL')
     GITHUB_CLIENT_ID = credentials('7.4D-GITHUB_CLIENT_ID')
