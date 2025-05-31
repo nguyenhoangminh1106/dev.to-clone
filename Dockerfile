@@ -1,19 +1,19 @@
-# Install deps with OpenSSL support
+# Install dependencies with OpenSSL support
 FROM node:20-alpine3.20 AS deps
-# install openssl
-RUN apk update && apk upgrade
-RUN apk add --no-cache openssl
+
+RUN apk update && apk upgrade && apk add --no-cache openssl
 WORKDIR /app
+
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
 RUN npm ci
 
 # Build app
 FROM node:20-alpine3.20 AS build
-# install openssl
-RUN apk update && apk upgrade
-RUN apk add --no-cache openssl
+
+RUN apk update && apk upgrade && apk add --no-cache openssl
 WORKDIR /app
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/prisma ./prisma
 COPY . .
@@ -38,19 +38,15 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN npx prisma generate
 RUN npm run build
 
-# Final runtime image
+# Final runtime image (standalone output)
 FROM node:20-alpine3.20 AS runner
-# install openssl
-RUN apk update && apk upgrade
-RUN apk add --no-cache openssl
+
+RUN apk update && apk upgrade && apk add --no-cache openssl
 WORKDIR /app
 ENV NODE_ENV=production
-COPY --from=build /app/public ./public
-COPY --from=build /app/.next ./.next
-COPY --from=build /app/.next/static ./.next/static
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/package.json ./package.json
-COPY --from=build /app/prisma ./prisma
-COPY --from=build /app/src ./src
 
-CMD ["node_modules/.bin/next", "start"]
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/public ./public
+COPY --from=build /app/.next/static ./.next/static
+
+CMD ["node", "server.js"]
