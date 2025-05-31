@@ -36,12 +36,7 @@ pipeline {
       steps {
         bat '''
           npm install -g sonar-scanner
-          sonar-scanner ^
-            -Dsonar.projectKey=devto-clone ^
-            -Dsonar.organization=your-org ^
-            -Dsonar.sources=. ^
-            -Dsonar.host.url=https://sonarcloud.io ^
-            -Dsonar.login=%SONAR_TOKEN%
+          sonar-scanner -Dsonar.login=%SONAR_TOKEN%
         '''
       }
     }
