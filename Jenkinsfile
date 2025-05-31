@@ -19,15 +19,21 @@ pipeline {
       }
     }
 
-    stage('Install Dependencies') {
-      steps {
-        bat 'npm install'
-      }
-    }
+    // stage('Install Dependencies') {
+    //   steps {
+    //     bat 'npm install'
+    //   }
+    // }
 
-    stage('Build') {
+    // stage('Build') {
+    //   steps {
+    //     bat 'npm run build'
+    //   }
+    // }
+
+    stage('Test') {
       steps {
-        bat 'npm run build'
+        bat 'npm run test'
       }
     }
 
@@ -42,16 +48,16 @@ pipeline {
     //   }
     // }
 
-    stage('Security - Snyk') {
-      steps {
-        snykSecurity(
-          snykInstallation: 'Snyk',
-          snykTokenId: 'SNYK_TOKEN',
-          failOnIssues: false,
-          additionalArguments: '--all-projects'
-        )
-      }
-    }
+    // stage('Security - Snyk') {
+    //   steps {
+    //     snykSecurity(
+    //       snykInstallation: 'Snyk',
+    //       snykTokenId: 'SNYK_TOKEN',
+    //       failOnIssues: false,
+    //       additionalArguments: '--all-projects'
+    //     )
+    //   }
+    // }
 
     stage('Deploy - Docker Compose') {
       steps {
