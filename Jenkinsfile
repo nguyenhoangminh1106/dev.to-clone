@@ -45,11 +45,13 @@ pipeline {
 
     stage('Security - Snyk') {
       steps {
-        bat '''
-          npm install -g snyk
-          snyk auth %SNYK_TOKEN%
-          snyk test
-        '''
+        withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
+          bat '''
+            npm install -g snyk
+            snyk auth %SNYK_TOKEN%
+            snyk test
+          '''
+        }
       }
     }
 
