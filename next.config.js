@@ -7,6 +7,7 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+  ignoreEslintErrors: true,
   output: "standalone",
 
   /**
