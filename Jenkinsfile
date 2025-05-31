@@ -32,26 +32,23 @@ pipeline {
       }
     }
 
-    stage('Code Quality - SonarCloud') {
-      environment {
-        scannerHome = tool 'SonarScanner';
-      }
-      steps {
-        withSonarQubeEnv(credentialsId: 'SONAR_TOKEN', installationName: 'SonarCloud') {
-          bat "${scannerHome}\\bin\\sonar-scanner.bat"
-        }
-      }
-    }
+    // stage('Code Quality - SonarCloud') {
+    //   environment {
+    //     scannerHome = tool 'SonarScanner';
+    //   }
+    //   steps {
+    //     withSonarQubeEnv(credentialsId: 'SONAR_TOKEN', installationName: 'SonarCloud') {
+    //       bat "${scannerHome}\\bin\\sonar-scanner.bat"
+    //     }
+    //   }
+    // }
 
     stage('Security - Snyk') {
       steps {
-        withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
-          bat '''
-            npm install -g snyk
-            snyk auth %SNYK_TOKEN%
-            snyk test
-          '''
-        }
+        snykSecurity(
+          snykInstallation: 'Synk',           
+          snykTokenId: 'SNYK_TOKEN',              
+        )
       }
     }
 
