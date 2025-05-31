@@ -1,17 +1,19 @@
-# Install dependencies with OpenSSL support
+# Install dependencies with OpenSSL and sharp
 FROM node:20-alpine3.20 AS deps
 
-RUN apk update && apk upgrade && apk add --no-cache openssl
+RUN apk update && apk upgrade && apk add --no-cache openssl libc6-compat libvips
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
-RUN npm ci
+
+RUN npm ci --omit=dev
+RUN npm install sharp --omit=dev
 
 # Build app
 FROM node:20-alpine3.20 AS build
 
-RUN apk update && apk upgrade && apk add --no-cache openssl
+RUN apk update && apk upgrade && apk add --no-cache openssl libc6-compat libvips
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
@@ -41,9 +43,11 @@ RUN npm run build
 # Final runtime image (standalone output)
 FROM node:20-alpine3.20 AS runner
 
-RUN apk update && apk upgrade && apk add --no-cache openssl
+RUN apk update && apk upgrade && apk add --no-cache openssl libc6-compat libvips
 WORKDIR /app
+
 ENV NODE_ENV=production
+ENV PRISMA_ENABLE_TRACING=false
 
 COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/public ./public
