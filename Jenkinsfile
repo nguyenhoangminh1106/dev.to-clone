@@ -6,7 +6,7 @@ pipeline {
     SNYK_TOKEN = credentials('SNYK_TOKEN')
     DATABASE_URL = credentials('7.4D-DEV_DATABASE_URL')
     NEXTAUTH_SECRET = credentials('7.4D-NEXTAUTH_SECRET')
-    NEXTAUTH_URL = credentials('7.4D-NEXTAUTH_URL')
+    NEXTAUTH_URL = credentials('7.4D-DEV_NEXTAUTH_URL')
     GITHUB_CLIENT_ID = credentials('7.4D-GITHUB_CLIENT_ID')
     GITHUB_CLIENT_SECRET = credentials('7.4D-GITHUB_CLIENT_SECRET')
     GOOGLE_CLIENT_ID = credentials('7.4D-GOOGLE_CLIENT_ID')
