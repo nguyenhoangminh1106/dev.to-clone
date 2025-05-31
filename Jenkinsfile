@@ -101,5 +101,19 @@ pipeline {
         bat 'docker-compose exec web npx prisma db push'
       }
     }
+
+    stage('Release - Promote to Production') {
+      steps {
+        bat '''
+          echo "Tagging release..."
+          git config user.name "Jenkins"
+          git config user.email "jenkins@example.com"
+          git tag -a v1.0.%BUILD_NUMBER% -m "Production release"
+          git push origin v1.0.%BUILD_NUMBER%
+    
+          echo "Release completed for build #%BUILD_NUMBER%"
+        '''
+      }
+    }
   }
 }
