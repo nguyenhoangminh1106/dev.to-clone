@@ -33,7 +33,7 @@ pipeline {
 
     stage('Test') {
       steps {
-        bat 'npx jest'
+        bat 'npm jest'
       }
     }
 
