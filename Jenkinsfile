@@ -33,11 +33,13 @@ pipeline {
     }
 
     stage('Code Quality - SonarCloud') {
+      environment {
+        scannerHome = tool 'SonarScanner';
+      }
       steps {
-        bat '''
-          npm install -g sonar-scanner
-          sonar-scanner -Dsonar.login=%SONAR_TOKEN%
-        '''
+        withSonarQubeEnv(credentialsId: 'SONAR_TOKEN', installationName: 'SonarCloud') {
+          bat "${scannerHome}\\bin\\sonar-scanner.bat"
+        }
       }
     }
 
