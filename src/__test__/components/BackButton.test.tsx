@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, fireEvent } from "@testing-library/react";
 import { useRouter } from "next/router";
-import BackButton from "../components/BackButton";
+import BackButton from "../../components/BackButton";
 
 // Mock the next/router
 jest.mock("next/router", () => ({

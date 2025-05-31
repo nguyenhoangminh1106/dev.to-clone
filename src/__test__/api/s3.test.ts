@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { createTRPCContext } from "~/server/api/trpc";
 import { appRouter } from "~/server/api/root";
-import { S3 } from "aws-sdk";
+import { S3, Request, AWSError } from "aws-sdk";
 
 // Mock AWS S3
 vi.mock("aws-sdk", () => ({
@@ -9,7 +9,19 @@ vi.mock("aws-sdk", () => ({
     getSignedUrlPromise: vi.fn(),
     deleteObject: vi.fn().mockReturnValue({
       promise: vi.fn(),
-    }),
+      abort: vi.fn(),
+      createReadStream: vi.fn(),
+      eachPage: vi.fn(),
+      isPageable: vi.fn(),
+      send: vi.fn(),
+      on: vi.fn(),
+      once: vi.fn(),
+      removeListener: vi.fn(),
+      removeAllListeners: vi.fn(),
+      onAsync: vi.fn(),
+      startTime: new Date(),
+      httpRequest: {} as any,
+    } as unknown as Request<any, AWSError>),
   })),
 }));
 
@@ -80,9 +92,22 @@ describe("S3 Router", () => {
 
     it("deletes image successfully", async () => {
       const mockS3 = new S3();
-      vi.mocked(mockS3.deleteObject).mockReturnValue({
+      const mockRequest = {
         promise: vi.fn().mockResolvedValue({}),
-      });
+        abort: vi.fn(),
+        createReadStream: vi.fn(),
+        eachPage: vi.fn(),
+        isPageable: vi.fn(),
+        send: vi.fn(),
+        on: vi.fn(),
+        once: vi.fn(),
+        removeListener: vi.fn(),
+        removeAllListeners: vi.fn(),
+        onAsync: vi.fn(),
+        startTime: new Date(),
+        httpRequest: {} as any,
+      } as unknown as AWS.Request<AWS.S3.DeleteObjectOutput, AWS.AWSError>;
+      vi.mocked(mockS3.deleteObject).mockReturnValue(mockRequest);
 
       const result = await caller.s3.deleteImage({ imageUrl: mockImageUrl });
 
@@ -113,9 +138,22 @@ describe("S3 Router", () => {
 
     it("handles S3 deletion error", async () => {
       const mockS3 = new S3();
-      vi.mocked(mockS3.deleteObject).mockReturnValue({
+      const mockRequest = {
         promise: vi.fn().mockRejectedValue(new Error("S3 deletion failed")),
-      });
+        abort: vi.fn(),
+        createReadStream: vi.fn(),
+        eachPage: vi.fn(),
+        isPageable: vi.fn(),
+        send: vi.fn(),
+        on: vi.fn(),
+        once: vi.fn(),
+        removeListener: vi.fn(),
+        removeAllListeners: vi.fn(),
+        onAsync: vi.fn(),
+        startTime: new Date(),
+        httpRequest: {} as any,
+      } as unknown as AWS.Request<AWS.S3.DeleteObjectOutput, AWS.AWSError>;
+      vi.mocked(mockS3.deleteObject).mockReturnValue(mockRequest);
 
       const result = await caller.s3.deleteImage({ imageUrl: mockImageUrl });
 
